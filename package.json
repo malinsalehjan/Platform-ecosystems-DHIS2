@@ -8,12 +8,28 @@
     "build": "d2-app-scripts build",
     "start": "d2-app-scripts start",
     "test": "d2-app-scripts test",
-    "deploy": "d2-app-scripts deploy"
+    "deploy": "d2-app-scripts deploy",
+    "lint": "eslint src/**/*.js",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "@dhis2/cli-app-scripts": "^10.3.10"
+    "@dhis2/cli-app-scripts": "^10.3.10",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.0.1",
+    "prettier": "^3.0.3"
   },
   "dependencies": {
     "@dhis2/app-runtime": "^3.9.4"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
