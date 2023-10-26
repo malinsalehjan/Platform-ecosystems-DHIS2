@@ -1,0 +1,18 @@
+.searchField {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchField > svg {
+  position: absolute;
+  right: 1em;
+}
+
+.searchField > button:hover {
+  background: none;
+}
+
+.searchField div {
+  width: 100%;
+}

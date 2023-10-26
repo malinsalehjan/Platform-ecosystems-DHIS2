@@ -1,0 +1,16 @@
+.tableColumnHead {
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.tableColumnHead > span {
+  position: relative;
+}
+
+.tableColumnHead svg {
+  position: absolute;
+  right: -1em;
+}

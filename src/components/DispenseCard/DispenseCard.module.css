@@ -1,0 +1,27 @@
+.container {
+  display: flex !important;
+  flex-direction: column;
+  gap: 1em;
+  position: relative;
+  flex: 1;
+
+  padding: 1em;
+}
+
+.container > span {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.container > fieldset input {
+  margin-bottom: 1em;
+}
+
+.closeButton {
+  position: absolute !important;
+  top: 1em;
+  right: 1em;
+
+  border: none !important;
+  background: none !important;
+}
