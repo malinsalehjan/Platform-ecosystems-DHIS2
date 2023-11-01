@@ -25,3 +25,47 @@
   border: none !important;
   background: none !important;
 }
+
+.quantityInput {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.quantityInput > span {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  line-height: 40px;
+  font-size: 14px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.quantityInput input {
+  color: transparent;
+}
+
+.maxQuantity {
+  color: #cacaca;
+}
+
+.date {
+  font-size: 14px;
+  line-height: 19px;
+  color: rgb(33, 41, 52);
+  margin-bottom: 1em;
+}
+
+.date button {
+  border: none;
+  background: none;
+  color: #cacaca;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.date button:hover {
+  color: #727272;
+}

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
-import { CircularLoader, InputField } from '@dhis2/ui';
+import { CircularLoader } from '@dhis2/ui';
 import classes from './InventoryPage.module.css';
-import { Search } from '../../resources/icons/icons';
 import DispenseCard from '../../components/DispenseCard/DispenseCard';
 import CommodityTable from '../../components/CommodityTable/CommodityTable';
-import { daysUntilDelivery } from '../../utility/daysUntilDelivery';
+import { daysUntilDelivery } from '../../utility/dateUtility';
 
 export default function InventoryPage() {
   const [selectedCommodity, setSelectedCommodity] = useState(null);
 
-  const { error, loading } = useDHIS2();
+  const { error, loading, commodities } = useDHIS2();
+
+  useEffect(() => {
+    setSelectedCommodity(
+      commodities.find((commodity) => commodity.id === selectedCommodity?.id),
+    );
+  }, [commodities]);
 
   return loading ? (
-    <CircularLoader />
+    <div className={classes.loadingContainer}>
+      <CircularLoader />
+    </div>
   ) : error ? (
     <span>An error has occured ...</span>
   ) : (

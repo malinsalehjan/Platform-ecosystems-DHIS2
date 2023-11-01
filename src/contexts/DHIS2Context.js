@@ -1,76 +1,91 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
-import { useDataQuery } from '@dhis2/app-runtime';
-import { TransactionType, SortDirection, SortType } from '../types';
-import { commodityQuery } from '../queries';
+import { useDataQuery, useDataMutation } from '@dhis2/app-runtime';
+import { SortDirection, SortType } from '../types';
+import commodityQuery from '../queries/commodityQuery';
+import dispenseMutation from '../mutations/dispenseMutation';
+import { useAlert } from '../contexts/AlertContext';
+import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
+import { getCurrentDate, getTimeStamp } from '../utility/dateUtility';
+import currentUserQuery from '../queries/currentUserQuery';
+import { formatCommodities } from '../utility/commodityUtility';
 
 const DHIS2Context = createContext();
 
 // DHIS2Provider provides the DHIS2 context to all components inside of it
 export const DHIS2Provider = ({ children }) => {
   const [keyword, setKeyword] = useState('');
-  const [transactions, setTransactions] = useState([]);
+  const [commodities, setCommodities] = useState([]);
   const [sortedBy, setSortedBy] = useState({
     type: SortType.NAME,
     direction: SortDirection.ASCENDING,
   });
 
-  const { error, loading, data } = useDataQuery(commodityQuery);
+  const { addAlert } = useAlert();
 
+  const { error, loading, data, refetch } = useDataQuery(commodityQuery);
+  const { data: userData } = useDataQuery(currentUserQuery);
+
+  const [dispense] = useDataMutation(dispenseMutation);
+  const [updateTransactions] = useDataMutation(updateTransactionsMutation);
+
+  // When data is received, format it and update commodities accordingly
   useEffect(() => {
     if (data) {
-      // Extract the list of commodity details from the data
-      const commodities = data.dataSet.dataSetElements.map((commodity) => {
-        return {
-          ...commodity.dataElement,
-          displayName: commodity.dataElement.displayName.split('-')[1].trim(),
-        };
-      });
-
-      // Extract the list of commodities to be displayed
-      const endTransactions = data.dataValueSets.dataValues
-
-        // Filter out anything that is not an end balance entry
-        .filter((dataValue) => {
-          return dataValue.categoryOptionCombo === TransactionType.END_BALANCE;
-        })
-
-        // Format the data for easier use
-        .map((dataValue) => {
-          const commodity = commodities.find(
-            (commodity) => commodity.id === dataValue.dataElement,
-          );
-
-          return {
-            id: commodity.id,
-            name: commodity.displayName,
-            quantity: dataValue.value,
-          };
-        })
-
-        // Apply keyword filtering from search field
-        .filter((commodity) => {
-          return commodity.name.toLowerCase().includes(keyword.toLowerCase());
-        })
-
-        // Sort list based on the selected sort type and direction
-        .sort((a, b) => {
-          let result = 0;
-          if (sortedBy.type === SortType.NAME) {
-            result = a.name.localeCompare(b.name);
-          } else if (sortedBy.type === SortType.QUANTITY) {
-            result = a.quantity - b.quantity;
-          }
-
-          if (sortedBy.direction === SortDirection.DESCENDING) {
-            result *= -1;
-          }
-
-          return result;
-        });
-
-      setTransactions(endTransactions);
+      const commodities = formatCommodities(data, keyword, sortedBy);
+      setCommodities(commodities);
     }
   }, [keyword, sortedBy, loading, data]);
+
+  async function dispenseCommodity(
+    commodityId,
+    amount,
+    recipient,
+    date = getCurrentDate(),
+  ) {
+    const commodity = commodities.find(
+      (commodity) => commodity.id === commodityId,
+    );
+
+    // Calculate what the new quantity and consumed amount should be
+    const newQuantity = parseInt(commodity.quantity) - amount;
+    const newConsumedAmount = parseInt(commodity.consumption) + amount;
+
+    try {
+      const response = await dispense({
+        elementId: commodityId,
+        newQuantity,
+        newConsumedAmount,
+      });
+
+      console.log(response);
+
+      // Update the Datastore with the updated transactions list
+      await updateTransactions({
+        transactions: [
+          ...data.transactions.transactions,
+          {
+            commodityId: commodity.id,
+            commodity: commodity.name,
+            amount: amount,
+            dispensedBy: userData?.me?.displayName ?? 'Unknown',
+            dispensedTo: recipient,
+            date: date,
+            time: getTimeStamp(),
+          },
+        ],
+      });
+
+      if (response.status === 'OK') {
+        addAlert('Dispensed commodity successfully', 'success');
+        refetch();
+      } else {
+        addAlert('Failed to dispense commodity', 'critical');
+      }
+    } catch (error) {
+      console.error(error);
+      addAlert('Failed to dispense commodity', 'critical');
+    }
+  }
 
   // Set what type (e.g. name, quantity) to sort the commodities by
   function sortBy(type) {
@@ -84,20 +99,18 @@ export const DHIS2Provider = ({ children }) => {
     setSortedBy({ type, direction });
   }
 
-  function searchForCommodity(keyword) {
-    setKeyword(keyword);
-  }
-
   return (
     <DHIS2Context.Provider
       // Values to be passed to the components that uses the useDHIS2 hook or the DHIS2Context
       value={{
         error,
         loading,
-        commodities: transactions,
+        commodities,
         sortBy,
         sortedBy,
-        searchForCommodity,
+        searchForCommodity: setKeyword,
+        dispenseCommodity,
+        refetch,
       }}
     >
       {children}

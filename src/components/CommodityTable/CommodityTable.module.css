@@ -12,3 +12,7 @@
   justify-content: end;
   align-items: center;
 }
+
+.selectedRow {
+  background-color: #e6f7ff !important;
+}

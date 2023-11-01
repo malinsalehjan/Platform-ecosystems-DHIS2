@@ -1,7 +1,7 @@
-export const TransactionType = {
+export const DataElementType = {
   END_BALANCE: 'rQLFnNXXIL0',
-  CONSUMPTION: '',
-  TO_BE_ORDERED: '',
+  CONSUMPTION: 'J2Qf1jtZuj8',
+  TO_BE_ORDERED: 'KPP63zJPkOu',
 };
 
 export const SortType = {

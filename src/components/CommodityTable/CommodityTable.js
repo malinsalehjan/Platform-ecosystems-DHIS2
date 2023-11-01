@@ -9,6 +9,7 @@ import {
   TableCell,
   Button,
 } from '@dhis2/ui';
+
 import { RefreshIcon } from '../../resources/icons/icons';
 import classes from './CommodityTable.module.css';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
@@ -19,7 +20,7 @@ export default function CommodityTable({
   selectedCommodity,
   setSelectedCommodity,
 }) {
-  const { commodities } = useDHIS2();
+  const { commodities, refetch } = useDHIS2();
 
   function handleClickDispense(id) {
     setSelectedCommodity(commodities.find((commodity) => commodity.id === id));
@@ -37,7 +38,7 @@ export default function CommodityTable({
               <SortableTableCellHead name="name" />
               <SortableTableCellHead name="quantity" />
               <TableCellHead className={classes.rowAction}>
-                <Button small>
+                <Button small onClick={refetch}>
                   <RefreshIcon />
                 </Button>
               </TableCellHead>
@@ -45,14 +46,24 @@ export default function CommodityTable({
           </TableHead>
           <TableBody>
             {commodities.map((commodity) => (
-              <TableRow key={commodity.id}>
+              <TableRow
+                className={
+                  commodity.id === selectedCommodity?.id
+                    ? classes.selectedRow
+                    : undefined
+                }
+                key={commodity.id}
+              >
                 <TableCell>{commodity.name}</TableCell>
                 <TableCell>{commodity.quantity}</TableCell>
                 <TableCell className={classes.rowAction}>
                   <Button
                     small
                     onClick={() => handleClickDispense(commodity.id)}
-                    disabled={commodity === selectedCommodity}
+                    disabled={
+                      commodity === selectedCommodity ||
+                      commodity.quantity === '0'
+                    }
                   >
                     Dispense
                   </Button>
