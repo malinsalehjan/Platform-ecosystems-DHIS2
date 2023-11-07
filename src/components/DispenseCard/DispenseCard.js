@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, InputField, FieldGroup } from '@dhis2/ui';
+import { NoticeBox, Card, Button, InputField, FieldGroup } from '@dhis2/ui';
 import Cross from '../../resources/icons/Cross';
 import classes from './DispenseCard.module.css';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import { getCurrentDate } from '../../utility/dateUtility';
+import { generateWarningMessage } from '../../utility/quantityWarningUtility';
 
 export default function DispenseCard({
   selectedCommodity,
@@ -13,6 +14,7 @@ export default function DispenseCard({
   const [date, setDate] = useState(getCurrentDate());
   const [wantsToChangeDate, setWantsToChangeDate] = useState(false);
   const [recipient, setRecipient] = useState('');
+  const [warning, setWarning] = useState('');
 
   const { dispenseCommodity } = useDHIS2();
 
@@ -45,9 +47,17 @@ export default function DispenseCard({
     setSelectedCommodity(null);
   }
 
+  // When selected commodity changes, reset card so that information does not carry over
   useEffect(() => {
     resetCard();
   }, [selectedCommodity]);
+
+  // When quantity changes, generate warning message if necessary
+  useEffect(() => {
+    setWarning(
+      generateWarningMessage(parseInt(quantity.value), selectedCommodity),
+    );
+  }, [quantity]);
 
   return (
     <Card className={classes.container}>
@@ -96,9 +106,18 @@ export default function DispenseCard({
             </button>
           </div>
         )}
-        <Button primary onClick={handleDispense}>
-          Dispense
-        </Button>
+        {warning !== '' ? (
+          <div>
+            <NoticeBox warning>{warning}</NoticeBox>
+            <Button className={classes.warningButton} onClick={handleDispense}>
+              I understand, dispense anyways
+            </Button>
+          </div>
+        ) : (
+          <Button primary onClick={handleDispense}>
+            Dispense
+          </Button>
+        )}
       </FieldGroup>
     </Card>
   );

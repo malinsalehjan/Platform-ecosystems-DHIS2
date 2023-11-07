@@ -17,6 +17,11 @@ export const getCurrentPeriod = () => {
   return `${year}${month < 10 ? `0${month}` : month}`;
 };
 
+export const getCurrentYear = () => {
+  const date = new Date();
+  return date.getFullYear();
+};
+
 export const daysUntilDelivery = () => {
   const dayOfDelivery = 14;
 

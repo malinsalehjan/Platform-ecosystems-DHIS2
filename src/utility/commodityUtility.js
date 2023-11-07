@@ -1,4 +1,5 @@
 import { SortType, SortDirection } from '../types';
+import { DataElementType } from '../types';
 
 export function formatCommodities(
   data,
@@ -29,6 +30,26 @@ export function formatCommodities(
             };
           });
 
+        // Map the consumption history to each commodity
+        const relatedConsumptionHistory =
+          data.consumptionHistory.dataValues.filter((dataValue) => {
+            return (
+              dataValue.dataElement === commodity.id &&
+              dataValue.categoryOptionCombo === DataElementType.CONSUMPTION
+            );
+          });
+
+        // Calculate the average daily consumption
+        const totalMonthlyConsumption = relatedConsumptionHistory.reduce(
+          (sum, month) => {
+            return sum + parseInt(month.value);
+          },
+          0,
+        );
+        const averageMonthlyConsumption =
+          totalMonthlyConsumption / relatedConsumptionHistory.length;
+        const averageDailyConsumption = averageMonthlyConsumption / 30;
+
         return {
           id: commodity.id,
           name: commodity.displayName,
@@ -36,6 +57,8 @@ export function formatCommodities(
           consumption: relatedDataValues[0].value,
           quantity: relatedDataValues[1].value,
           toBeOrdered: relatedDataValues[2].value,
+          averageDailyConsumption,
+          desiredBufferSize: 5, // This could be set by the manager or based on historical data in the future
         };
       })
 

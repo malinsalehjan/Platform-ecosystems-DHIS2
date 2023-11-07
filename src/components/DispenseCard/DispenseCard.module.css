@@ -26,6 +26,13 @@
   background: none !important;
 }
 
+.warningButton {
+  background: linear-gradient(#e56408 0%, #bb460d 100%) #e56408 !important;
+  border: 1px solid #bb460d !important;
+  color: white !important;
+  margin-top: 1em;
+}
+
 .quantityInput {
   position: relative;
 

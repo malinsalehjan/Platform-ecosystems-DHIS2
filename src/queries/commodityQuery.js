@@ -1,10 +1,21 @@
+import { getCurrentPeriod, getCurrentYear } from '../utility/dateUtility';
+
 export default {
+  consumptionHistory: {
+    resource: 'dataValueSets',
+    params: {
+      orgUnit: 'yMCshbaVExv',
+      dataSet: 'ULowA8V3ucd',
+      startDate: 2022,
+      endDate: parseInt(getCurrentYear()) + 1,
+    },
+  },
   commodityDataElements: {
     resource: 'dataValueSets',
     params: {
       orgUnit: 'yMCshbaVExv',
       dataSet: 'ULowA8V3ucd',
-      period: '202310',
+      period: getCurrentPeriod(),
     },
   },
   commodityDetails: {

@@ -57,8 +57,6 @@ export const DHIS2Provider = ({ children }) => {
         newConsumedAmount,
       });
 
-      console.log(response);
-
       // Update the Datastore with the updated transactions list
       await updateTransactions({
         transactions: [
