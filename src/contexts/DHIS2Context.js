@@ -5,7 +5,6 @@ import commodityQuery from '../queries/commodityQuery';
 import dispenseMutation from '../mutations/dispenseMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
-import { getCurrentDate, getTimeStamp } from '../utility/dateUtility';
 import currentUserQuery from '../queries/currentUserQuery';
 import { formatCommodities } from '../utility/commodityUtility';
 
@@ -36,12 +35,7 @@ export const DHIS2Provider = ({ children }) => {
     }
   }, [keyword, sortedBy, loading, data]);
 
-  async function dispenseCommodity(
-    commodityId,
-    amount,
-    recipient,
-    date = getCurrentDate(),
-  ) {
+  async function dispenseCommodity(commodityId, amount, recipient, date) {
     const commodity = commodities.find(
       (commodity) => commodity.id === commodityId,
     );
@@ -68,7 +62,6 @@ export const DHIS2Provider = ({ children }) => {
             dispensedBy: userData?.me?.displayName ?? 'Unknown',
             dispensedTo: recipient,
             date: date,
-            time: getTimeStamp(),
           },
         ],
       });

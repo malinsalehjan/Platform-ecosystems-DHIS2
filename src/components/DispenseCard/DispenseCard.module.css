@@ -58,14 +58,14 @@
   color: #cacaca;
 }
 
-.date {
+.dateTime {
   font-size: 14px;
   line-height: 19px;
   color: rgb(33, 41, 52);
   margin-bottom: 1em;
 }
 
-.date button {
+.dateTime button{
   border: none;
   background: none;
   color: #cacaca;
@@ -73,6 +73,6 @@
   cursor: pointer;
 }
 
-.date button:hover {
+.dateTime button:hover {
   color: #727272;
 }

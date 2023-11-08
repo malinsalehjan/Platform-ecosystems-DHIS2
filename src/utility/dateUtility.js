@@ -47,3 +47,9 @@ export const getTimeStamp = () => {
     getMinutes < 10 ? `0${getMinutes}` : getMinutes
   }`;
 };
+
+export const getCurrentDateTime = () => {
+  const currentDate = getCurrentDate();
+  const currentTime = getTimeStamp();
+  return `${currentDate} ${currentTime}`;
+};

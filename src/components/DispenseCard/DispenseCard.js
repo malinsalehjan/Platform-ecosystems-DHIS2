@@ -3,18 +3,23 @@ import { NoticeBox, Card, Button, InputField, FieldGroup } from '@dhis2/ui';
 import Cross from '../../resources/icons/Cross';
 import classes from './DispenseCard.module.css';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
-import { getCurrentDate } from '../../utility/dateUtility';
 import { generateWarningMessage } from '../../utility/quantityWarningUtility';
+import { useAlert } from '../../contexts/AlertContext';
+import { getCurrentDateTime } from '../../utility/dateUtility';
 
 export default function DispenseCard({
   selectedCommodity,
   setSelectedCommodity,
 }) {
+  const { addAlert } = useAlert();
   const [quantity, setQuantity] = useState({ value: '1', name: '' });
-  const [date, setDate] = useState(getCurrentDate());
-  const [wantsToChangeDate, setWantsToChangeDate] = useState(false);
+  const [dateTime, setDateTime] = useState(getCurrentDateTime());
+  const [wantsToChangeDateTime, setWantsToChangeDateTime] = useState(false);
   const [recipient, setRecipient] = useState('');
   const [warning, setWarning] = useState('');
+
+  const selectedDateTime = new Date(dateTime);
+  const currentDateTime = new Date(getCurrentDateTime());
 
   const { dispenseCommodity } = useDHIS2();
 
@@ -28,19 +33,23 @@ export default function DispenseCard({
 
   function resetCard() {
     setQuantity({ value: '1', name: '' });
-    setDate(getCurrentDate());
+    setDateTime(getCurrentDateTime());
     setRecipient('');
-    setWantsToChangeDate(false);
+    setWantsToChangeDateTime(false);
   }
 
   function handleDispense() {
-    dispenseCommodity(
-      selectedCommodity.id,
-      parseInt(quantity.value),
-      recipient,
-      date,
-    );
-    resetCard();
+    if (selectedDateTime > currentDateTime) {
+      addAlert('Unable to dispense commodities in the future.', 'critical');
+    } else {
+      dispenseCommodity(
+        selectedCommodity.id,
+        parseInt(quantity.value),
+        recipient,
+        dateTime,
+      );
+      resetCard();
+    }
   }
 
   function closeCard() {
@@ -90,19 +99,19 @@ export default function DispenseCard({
           value={recipient}
           onChange={(recipient) => setRecipient(recipient.value)}
         />
-        {wantsToChangeDate ? (
+        {wantsToChangeDateTime ? (
           <InputField
-            type="date"
-            label="Date"
-            value={date}
-            onChange={(date) => setDate(date.value)}
+            type="datetime-local"
+            label="Date and time"
+            value={dateTime}
+            onChange={(date) => setDateTime(date.value)}
           />
         ) : (
-          <div className={classes.date}>
-            <label>Date of dispensation: </label>
-            <span>{date}</span>
-            <button onClick={() => setWantsToChangeDate(true)}>
-              change date
+          <div className={classes.dateTime}>
+            <label>Time of dispensation: </label>
+            <span>{dateTime.split(' ').join(', ')}</span>
+            <button onClick={() => setWantsToChangeDateTime(true)}>
+              change
             </button>
           </div>
         )}
