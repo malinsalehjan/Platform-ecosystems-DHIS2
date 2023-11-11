@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  min-height: 20vh;
+  display: block;
+}
+
+.container, .screenContainer, .screen {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.screenContainer {
+  display: flex;
+  width: 90%;
+  height: 90vh; 
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.screen {
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+}

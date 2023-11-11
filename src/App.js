@@ -4,6 +4,8 @@ import InventoryPage from './pages/InventoryPage/InventoryPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
 import Navigation from './components/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
+import TrainingPage from './pages/TrainingPage/TrainingPage';
+
 
 const App = () => {
   const [activePage, setActivePage] = useState('Inventory');
@@ -13,21 +15,22 @@ const App = () => {
   }
 
   return (
-    <AlertProvider>
-      <div className={classes.container}>
-        <div className={classes.left}>
-          <Navigation
-            activePage={activePage}
-            activePageHandler={activePageHandler}
-          />
-        </div>
-        <div className={classes.right}>
-          <DHIS2Provider>
-            <InventoryPage />
-          </DHIS2Provider>
-        </div>
+    <div className={classes.container}>
+      <AlertProvider>
+      <div className={classes.left}>
+        <Navigation
+          activePage={activePage}
+          activePageHandler={activePageHandler}
+        />
       </div>
-    </AlertProvider>
+      <div className={classes.right}>
+        <DHIS2Provider>
+          {activePage === 'Inventory' && <InventoryPage />}
+          {activePage === 'TrainingPage' && <TrainingPage />}
+        </DHIS2Provider>
+      </div>
+      </AlertProvider>
+    </div>
   );
 };
 
