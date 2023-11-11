@@ -29,6 +29,7 @@ export const DHIS2Provider = ({ children }) => {
 
   // When data is received, format it and update commodities accordingly
   useEffect(() => {
+    console.log("hello");
     if (data) {
       const commodities = formatCommodities(data, keyword, sortedBy);
       setCommodities(commodities);
