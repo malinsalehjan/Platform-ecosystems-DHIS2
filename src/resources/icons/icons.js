@@ -3,5 +3,8 @@ import RefreshIcon from './Refresh.js';
 import SearchIcon from './Search.js';
 import SortDownIcon from './SortDown.js';
 import SortUpIcon from './SortUp.js';
+import ArrowRight from './ArrowRight.js';
+import ArrowLeft from './ArrowLeft.js';
 
-export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon };
+
+export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, ArrowRight, ArrowLeft };
