@@ -16,6 +16,7 @@ export default function TrainingPage() {
   ) : error ? (
     <span>An error has occurred ...</span>
   ) : (
+    
     <div className={classes.container}>
       <h2>Training mode</h2>
       <h3>Modules</h3>
