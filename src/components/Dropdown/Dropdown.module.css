@@ -5,7 +5,6 @@
 .dropdown {
   margin-bottom: 1vw;
   border-radius: 5px;
-
 }
 
 .dropdownHeader {
@@ -15,6 +14,8 @@
   color: #4A5768;
   font-weight: bold;
   border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .dropdownContent {
@@ -24,7 +25,7 @@
   position: relative;
   width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  padding: 10px;
+  padding: 1.5vw;
   z-index: 1;
   border-radius: 5px;
 }

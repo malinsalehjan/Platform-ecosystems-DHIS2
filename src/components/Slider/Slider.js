@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './Slider.module.css';
 import ProgressBar from './ProgressBar/ProgressBar';
 import { ArrowLeft, ArrowRight } from '../../resources/icons/icons';
@@ -6,34 +6,40 @@ import { ArrowLeft, ArrowRight } from '../../resources/icons/icons';
 const Slider = ({ onLastSlide, sliderData }) => {
   const [current, setCurrent] = useState(0);
 
-  const nextSlide = () => {
-    if (current !== (sliderData?.length - 1)) {
-      setCurrent(current + 1);
-    } else {
+  useEffect(() => {
+    if (current === sliderData?.length - 1) {
       onLastSlide(true);
+    } else {
+      onLastSlide(false);
     }
+  }, [current, onLastSlide, sliderData]);
+
+  const nextSlide = () => {
+    setCurrent((prevCurrent) => {
+      return prevCurrent !== sliderData?.length - 1 ? prevCurrent + 1 : prevCurrent;
+    });
   };
 
   const prevSlide = () => {
-    setCurrent(current === 0 ? sliderData?.length - 1 : current - 1);
-    onLastSlide(false);
+    setCurrent((prevCurrent) => {
+      return prevCurrent === 0 ? sliderData?.length - 1 : prevCurrent - 1;
+    });
   };
-
-  console.log('sliderData:', sliderData);
-  console.log('current:', current);
 
   return (
     <div className={classes.slider}>
       <div className={classes.slide}>
         <ArrowLeft
-          className={classes['left-arrow']}
+          className={classes.arrowLeft}
           onClick={current === 0 ? null : prevSlide}
         />
         <img src={sliderData?.[current]?.image} alt="images" />
-        <ArrowRight
-          className={classes['right-arrow']}
-          onClick={nextSlide}
-        />
+        {current !== sliderData?.length - 1 && (
+          <ArrowRight
+            className={classes.arrowRight}
+            onClick={nextSlide}
+          />
+        )}
       </div>
       <ProgressBar currentSlide={current} totalSlides={sliderData?.length} />
     </div>

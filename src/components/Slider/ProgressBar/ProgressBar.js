@@ -10,7 +10,6 @@ const ProgressBar = ({ currentSlide, totalSlides }) => {
     <div className={classes["bar-wrapper"]}>
       <div className={classes["progress-text"]}>{progressText}</div>
       <div className={classes.bar}>
-        {/* Progress Bar */}
         <div className={classes["progress-bar"]} style={{ width: progress + "%" }}></div>
       </div>
       <div className={classes["progress-text"]}>{percentageText}</div>

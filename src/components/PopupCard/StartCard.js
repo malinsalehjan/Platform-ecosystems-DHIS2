@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@dhis2/ui';
-import styles from './StartCard.module.css'; 
+import styles from './PopupCard.module.css'; 
 import CrossIcon from '../../resources/icons/Cross'; 
 
 const StartCard = ({ onStartTour, onClose }) => {

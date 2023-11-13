@@ -5,7 +5,7 @@ import TrainingPage from './pages/TrainingPage/TrainingPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
 import Navigation from './components/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
-import StartCard from './components/StartCard/StartCard'; 
+import StartCard from './components/PopupCard/StartCard'; 
 
 const App = () => {
   const [activePage, setActivePage] = useState('Inventory');

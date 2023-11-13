@@ -5,6 +5,7 @@ import SortDownIcon from './SortDown.js';
 import SortUpIcon from './SortUp.js';
 import ArrowRight from './ArrowRight.js';
 import ArrowLeft from './ArrowLeft.js';
+import ChevronDown from './ChevronDown.js';
 
 
-export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, ArrowRight, ArrowLeft };
+export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, ArrowRight, ArrowLeft, ChevronDown };
