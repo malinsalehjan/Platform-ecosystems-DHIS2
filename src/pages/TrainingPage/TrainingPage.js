@@ -7,7 +7,9 @@ import Dropdown from '../../components/Dropdown/Dropdown';
 
 export default function TrainingPage({ currentModule }) {
   const { loading, error } = useDHIS2();
-  // ... other state initialization ...
+  const [onLastSlide1, setOnLastSlide1] = useState(false);
+  const [onLastSlide2, setOnLastSlide2] = useState(false);
+  const [onLastSlide3, setOnLastSlide3] = useState(false);
 
   // State to control which dropdown is open
   const [openModule, setOpenModule] = useState(null);
@@ -17,10 +19,6 @@ export default function TrainingPage({ currentModule }) {
     setOpenModule(currentModule);
   }, [currentModule]);
 
-  // Helper function to toggle the dropdown
-  const toggleDropdown = (moduleNumber) => {
-    setOpenModule(openModule === moduleNumber ? null : moduleNumber);
-  };
   return loading ? (
     <CircularLoader />
   ) : error ? (
