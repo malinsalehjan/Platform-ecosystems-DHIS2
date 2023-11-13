@@ -7,7 +7,7 @@ const StartCard = ({ onStartTour, onClose }) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardContent}>
-        <Button className={styles.startButton} onClick={onStartTour}>START A QUICK TOUR</Button>
+        <Button className={styles.startButton} onClick={onClose}>START A QUICK TOUR</Button>
         <Button className={styles.exitButton} onClick={onClose}>
           <CrossIcon />
         </Button>   
