@@ -8,12 +8,14 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 35%;
+    height:40%;
   }
   
   .cardContent {
     position: middle;
-    margin: 3vw;
-    padding: 2.5vw;
+    margin: 5vw;
+    padding: 2vw;
   }
   
   .startButton {

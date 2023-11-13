@@ -23,10 +23,7 @@
     max-height: 100%; 
   }
   
-  .arrowLeft,
-  .arrowRight {
-    font-size: 2rem;
-    color: #0d47a1;
+  .arrowLeft, .arrowRight {
     position: absolute;
     z-index: 1;
     top: 50%;
@@ -34,11 +31,11 @@
   }
   
   .arrowLeft{
-    left: 10px;
+    left: 1vw;
   }
   
   .arrowRight {
-    right: 10px;
+    right: 1vw;
   }
   
   .arrowLeft:active,
@@ -46,6 +43,3 @@
     color: #00897b;
   }
   
-  .arrowLeft.lastSlide {
-    color: gray;
-  }
