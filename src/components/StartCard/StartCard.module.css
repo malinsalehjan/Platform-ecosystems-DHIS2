@@ -8,8 +8,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 30%;
-    height: 30%;
   }
   
   .cardContent {
@@ -19,23 +17,13 @@
   }
   
   .startButton {
-    background-color: #397AD1;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1vw;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    background-color: #397AD1 !important;
+    color: white !important;
   }
   
   .startButton:hover {
-    background-color: #0056b3;
+    background-color: #0056b3 !important;
   }
-
 
   .exitButton {
     position: absolute !important;
@@ -44,5 +32,5 @@
     cursor: pointer;
     border: none !important;
     background: none !important;
-    
   }
+

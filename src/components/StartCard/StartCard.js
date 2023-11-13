@@ -1,13 +1,16 @@
 import React from 'react';
+import { Button } from '@dhis2/ui';
 import styles from './StartCard.module.css'; 
-import Cross from '../../resources/icons/Cross';
+import CrossIcon from '../../resources/icons/Cross'; 
 
-const StartCard = ({ onStartModules,onClose }) => {
+const StartCard = ({ onStartTour, onClose }) => {
   return (
     <div className={styles.card}>
       <div className={styles.cardContent}>
-        <button className={styles.startButton}onClick={onStartModules}>START A QUICK TOUR</button>
-        <button className={styles.exitButton} onClick={onClose}><Cross /></button>
+        <Button className={styles.startButton} onClick={onStartTour}>START A QUICK TOUR</Button>
+        <Button className={styles.exitButton} onClick={onClose}>
+          <CrossIcon />
+        </Button>   
       </div>
     </div>
   );

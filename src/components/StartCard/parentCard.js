@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import StartCard from './components/StartCard';
-import TrainingPage from './TrainingPage'; 
+import TrainingPage from './TrainingPage';
 
-const ParentComponent = () => {
+const ParentCard = () => {
   const [isTrainingMode, setIsTrainingMode] = useState(false);
+  const [showStartCard, setShowStartCard] = useState(true);
 
-  const startTrainingMode = () => {
+  const startTraining = () => {
     setIsTrainingMode(true);
+    setShowStartCard(false);
+  };
+
+  const closeStartCard = () => {
+    setShowStartCard(false);
   };
 
   return (
     <div>
-      {!isTrainingMode ? <StartCard onStartModules={startTrainingMode} /> : <TrainingPage />}
+      {showStartCard && !isTrainingMode && (
+        <StartCard onStartTour={startTraining} onClose={closeStartCard} />
+      )}
     </div>
   );
 };
-
-export default ParentComponent;

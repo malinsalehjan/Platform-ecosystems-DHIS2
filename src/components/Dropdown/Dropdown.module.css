@@ -1,12 +1,14 @@
+.completed {
+  background-color: #c8e6c9;
+}
+
 .dropdown {
-  position: relative;
-  margin-bottom: 20px;
-  width: 100%;
+  margin-bottom: 1vw;
 }
 
 .dropdownHeader {
   cursor: pointer;
-  padding: 10px;
+  padding: 1.5vw;
   background-color: #E6E4E4;
   color: #4A5768;
   font-weight: bold;
@@ -16,18 +18,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: relative;
   width: 100%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  background-color: #E6E4E4;
   padding: 10px;
   z-index: 1;
 }
 
-.lastSlide .dropdownHeader {
-  background-color: #c8e6c9;
-}
-
-.lastSlide .dropdownContent {
-  background-color: #c8e6c9;
+.completed .dropdownHeader {
+  background-color: inherit; 
 }

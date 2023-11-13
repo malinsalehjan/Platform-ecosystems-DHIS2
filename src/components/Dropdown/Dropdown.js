@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Dropdown.module.css';
 
-const Dropdown = ({ title, children, onLastSlide }) => {
+const Dropdown = ({ title, children, moduleId }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  
+  const localStorageKey = `dropdownCompleted_${moduleId}`;
+
+  useEffect(() => {
+
+    const completedStatus = localStorage.getItem(localStorageKey);
+    setIsCompleted(completedStatus === 'true');
+  }, [localStorageKey]);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
+
+
+    if (!isCompleted && isDropdownOpen) {
+      setIsCompleted(true);
+      localStorage.setItem(localStorageKey, 'true');
+    }
   };
 
-  const dropdownClasses = classNames(styles.dropdown, { [styles.lastSlide]: onLastSlide && isDropdownOpen });
+  const dropdownClasses = classNames(styles.dropdown, {
+    [styles.completed]: isCompleted, 
+  });
 
   return (
     <div className={dropdownClasses}>
@@ -24,6 +42,5 @@ const Dropdown = ({ title, children, onLastSlide }) => {
     </div>
   );
 };
-
 
 export default Dropdown;
