@@ -3,29 +3,36 @@ import { CircularLoader } from '@dhis2/ui';
 import classes from './TrainingPage.module.css';
 import Slider from "../../components/Slider/Slider";
 import Dropdown from '../../components/Dropdown/Dropdown';
-import sliderData from '../../components/Slider/SliderData/SliderData';
 import LastCard from '../../components/PopupCard/LastCard';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
+import Module from './Module.json'; 
+
 
 export default function TrainingPage() {
   const { loading, error } = useDHIS2();
-  const [onLastSlide1, setOnLastSlide1] = useState(false);
-  const [onLastSlide2, setOnLastSlide2] = useState(false);
-  const [onLastSlide3, setOnLastSlide3] = useState(false);
+
+  const initialOnLastSlide = [];
+  for (let i = 0; i < Module.length; i++) {
+      const isCompleted = localStorage.getItem(`moduleCompleted_module${i + 1}`) === 'true';
+      initialOnLastSlide.push(isCompleted);
+  }
+
+  const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
 
-  // Check localStorage to see if the modules were completed earlier
-  useEffect(() => {
-    const module1Completed = localStorage.getItem('moduleCompleted_module1') === 'true';
-    const module2Completed = localStorage.getItem('moduleCompleted_module2') === 'true';
-    const module3Completed = localStorage.getItem('moduleCompleted_module3') === 'true';
 
-    setOnLastSlide1(module1Completed);
-    setOnLastSlide2(module2Completed);
-    setOnLastSlide3(module3Completed);
-  }, []);
+  //Updating state of completion
+  const handleSetOnLastSlide = (index) => {
+    if (!onLastSlide[index]) {
+      const updatedOnLastSlide = [...onLastSlide];
 
-  const allModulesOnLastSlide = onLastSlide1 && onLastSlide2 && onLastSlide3;
+      updatedOnLastSlide[index] = true;
+      setOnLastSlide(updatedOnLastSlide);
+    }
+};
+
+  //Use .every to check if all elements are True
+  const allModulesOnLastSlide = onLastSlide.every(status => status);
 
   const handleTryTestingMode = () => {
     // Implementation for navigating to testing mode
@@ -47,38 +54,18 @@ export default function TrainingPage() {
       Any changes made in the training mode is not stored permanently. 
       </p>
       <h3>Modules</h3>
-      <div className={classes.dropdown1}>
-        <Dropdown moduleId="module1" title="01 Dispensing a commodity" onLastSlide={onLastSlide1}>
-          <div className={classes.screenContainer}>
-            <div className={classes.screen}>
-              <Slider onLastSlide={setOnLastSlide1} sliderData={sliderData.dropdown1} />
-              {onLastSlide1}
-            </div>
+      {Module.map((module, index) => (
+          <div key={module.moduleId} className={classes[`dropdown${index + 1}`]}>
+            <Dropdown moduleId={module.moduleId} title={module.title} onLastSlide={onLastSlide[index]}>
+              <div className={classes.screenContainer}>
+                <div className={classes.screen}>
+                  <Slider onLastSlide={(value) => handleSetOnLastSlide(index, value)} sliderData={module.sliderData} />
+                  {onLastSlide[index]}
+                </div>
+              </div>
+            </Dropdown>
           </div>
-        </Dropdown>
-      </div>
-
-      <div className={classes.dropdown2}>
-        <Dropdown moduleId="module2" title="02 Refill a commodity" onLastSlide={onLastSlide2}>
-          <div className={classes.screenContainer}>
-            <div className={classes.screen}>
-              <Slider onLastSlide={setOnLastSlide2} sliderData={sliderData.dropdown2} />
-              {onLastSlide2}
-            </div>
-          </div>
-        </Dropdown>
-      </div>
-
-      <div className={classes.dropdown3}>
-        <Dropdown moduleId="module3" title="03 Search in History" onLastSlide={onLastSlide3}>
-          <div className={classes.screenContainer}>
-            <div className={classes.screen}>
-              <Slider onLastSlide={setOnLastSlide3} sliderData={sliderData.dropdown3} />
-              {onLastSlide3}
-            </div>
-          </div>
-        </Dropdown>
-      </div>
+        ))}
 
       {allModulesOnLastSlide && !lastCardDisplayed && (
         <LastCard tryTestingMode={handleTryTestingMode} onClose={handleCloseLastCard} />
