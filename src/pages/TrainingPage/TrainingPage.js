@@ -42,6 +42,10 @@ export default function TrainingPage() {
   ) : (
     <div className={classes.container}>
       <h2>Training mode</h2>
+      <p>Welcome to The Training Mode!
+      Users can use this application to test the flow of the application and get more tips and guidance on how to use it. <br></br>
+      Any changes made in the training mode is not stored permanently. 
+      </p>
       <h3>Modules</h3>
       <div className={classes.dropdown1}>
         <Dropdown moduleId="module1" title="01 Dispensing a commodity" onLastSlide={onLastSlide1}>

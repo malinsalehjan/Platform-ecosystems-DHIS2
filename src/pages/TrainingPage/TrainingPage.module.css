@@ -31,3 +31,9 @@
   display: flex;
   flex-direction: column;
 }
+
+p {
+  font-size: 1.2vw;
+  line-height: 1.5;
+  font-weight:400;
+}

@@ -5,24 +5,12 @@ import TrainingPage from './pages/TrainingPage/TrainingPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
 import Navigation from './components/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
-import StartCard from './components/PopupCard/StartCard'; 
 
 const App = () => {
-  const [activePage, setActivePage] = useState('Inventory');
-  const [showStartCard, setShowStartCard] = useState(false); // State to control StartCard visibility
+  const [activePage, setActivePage] = useState('Inventory'); 
 
   function activePageHandler(page) {
     setActivePage(page);
-    // Show the StartCard when the TrainingPage menu item is clicked
-    if (page === 'TrainingPage') {
-      setShowStartCard(true);
-    } else {
-      setShowStartCard(false); // Hide the StartCard when other menu items are clicked
-    }
-  }
-
-  function closeStartCard() {
-    setShowStartCard(false);
   }
 
   return (
@@ -36,9 +24,8 @@ const App = () => {
         </div>
         <div className={classes.right}>
           <DHIS2Provider>
-            {showStartCard && <StartCard onClose={closeStartCard} />}
             {activePage === 'Inventory' && <InventoryPage />}
-            {!showStartCard && activePage === 'TrainingPage' && <TrainingPage />}
+            {activePage === 'TrainingPage' && <TrainingPage />}
           </DHIS2Provider>
         </div>
       </AlertProvider>
