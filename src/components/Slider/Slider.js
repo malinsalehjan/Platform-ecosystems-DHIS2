@@ -29,10 +29,13 @@ const Slider = ({ onLastSlide, sliderData }) => {
   return (
     <div className={classes.slider}>
       <div className={classes.slide}>
-        <ArrowLeft
-          className={classes.arrowLeft}
-          onClick={current === 0 ? null : prevSlide}
-        />
+
+      {current !== 0 && (
+          <ArrowLeft
+            className={classes.arrowLeft}
+            onClick={prevSlide}
+          />
+        )}
         <img src={sliderData?.[current]?.image} alt="images" />
         {current !== sliderData?.length - 1 && (
           <ArrowRight
@@ -41,6 +44,7 @@ const Slider = ({ onLastSlide, sliderData }) => {
           />
         )}
       </div>
+      
       <ProgressBar currentSlide={current} totalSlides={sliderData?.length} />
     </div>
   );
