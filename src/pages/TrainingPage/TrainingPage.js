@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useDHIS2 } from '../../contexts/DHIS2Context';
+import React, { useState, useEffect } from 'react';
 import { CircularLoader } from '@dhis2/ui';
 import classes from './TrainingPage.module.css';
 import Slider from "../../components/Slider/Slider";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import sliderData from '../../components/Slider/SliderData/SliderData';
 import LastCard from '../../components/PopupCard/LastCard';
+import { useDHIS2 } from '../../contexts/DHIS2Context';
 
 export default function TrainingPage() {
   const { loading, error } = useDHIS2();
@@ -13,6 +13,17 @@ export default function TrainingPage() {
   const [onLastSlide2, setOnLastSlide2] = useState(false);
   const [onLastSlide3, setOnLastSlide3] = useState(false);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
+
+  // Check localStorage to see if the modules were completed earlier
+  useEffect(() => {
+    const module1Completed = localStorage.getItem('moduleCompleted_module1') === 'true';
+    const module2Completed = localStorage.getItem('moduleCompleted_module2') === 'true';
+    const module3Completed = localStorage.getItem('moduleCompleted_module3') === 'true';
+
+    setOnLastSlide1(module1Completed);
+    setOnLastSlide2(module2Completed);
+    setOnLastSlide3(module3Completed);
+  }, []);
 
   const allModulesOnLastSlide = onLastSlide1 && onLastSlide2 && onLastSlide3;
 
