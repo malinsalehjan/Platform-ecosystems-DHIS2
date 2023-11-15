@@ -76,3 +76,36 @@
 .dateTime button:hover {
   color: #727272;
 }
+
+.editRecipients {
+  text-align: right;
+}
+
+.editRecipients button{
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.removeRecipient button{
+  border: none;
+  background: none;
+  color: #cacaca;
+  cursor: pointer;
+}
+
+.recipientChip{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recipientField {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.remove{
+  margin-left: 5px;
+  cursor: pointer; 
+}
