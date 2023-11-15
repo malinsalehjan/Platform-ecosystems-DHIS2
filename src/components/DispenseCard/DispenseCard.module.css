@@ -81,20 +81,20 @@
   text-align: right;
 }
 
-.editRecipients button{
+.editRecipients button {
   border: none;
   background: none;
   cursor: pointer;
 }
 
-.removeRecipient button{
+.removeRecipient button {
   border: none;
   background: none;
   color: #cacaca;
   cursor: pointer;
 }
 
-.recipientChip{
+.recipientChip {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,7 +105,7 @@
   overflow: auto;
 }
 
-.remove{
+.remove {
   margin-left: 5px;
   cursor: pointer; 
 }
