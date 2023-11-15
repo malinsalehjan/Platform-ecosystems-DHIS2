@@ -10,11 +10,6 @@ export default function Navigation(props) {
         onClick={() => props.activePageHandler('Inventory')}
       />
       <MenuItem
-        label="Training mode"
-        active={props.activePage === 'TrainingPage'}
-        onClick={() => props.activePageHandler('TrainingPage')}
-      />
-      <MenuItem
         label="Refill"
         active={props.activePage === 'Refill'}
         onClick={() => props.activePageHandler('Refill')}
@@ -23,6 +18,12 @@ export default function Navigation(props) {
         label="History"
         active={props.activePage === 'History'}
         onClick={() => props.activePageHandler('History')}
+      />
+
+      <MenuItem
+        label="Training mode"
+        active={props.activePage === 'TrainingPage'}
+        onClick={() => props.activePageHandler('TrainingPage')}
       />
     </Menu>
   );

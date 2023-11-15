@@ -6,16 +6,11 @@ import dispenseMutation from '../mutations/dispenseMutation';
 import refillMutation from '../mutations/refillMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
-import {
-  getCurrentDate,
-  getCurrentDateTime,
-  getTimeStamp,
-} from '../utility/dateUtility';
+import {getCurrentDateTime} from '../utility/dateUtility';
 import updateRecipientsMutation from '../mutations/updateRecipientsMutation';
 import currentUserQuery from '../queries/currentUserQuery';
 import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
-import { v4 as uuid } from 'uuid';
 import { v4 as uuid } from 'uuid';
 
 const DHIS2Context = createContext();
@@ -37,7 +32,6 @@ export const DHIS2Provider = ({ children }) => {
     useDataQuery(recipientsQuery);
 
   const [dispense] = useDataMutation(dispenseMutation);
-  const [refill] = useDataMutation(refillMutation);
   const [refill] = useDataMutation(refillMutation);
   const [updateTransactions] = useDataMutation(updateTransactionsMutation);
   const [updateRecipients] = useDataMutation(updateRecipientsMutation);
@@ -89,18 +83,6 @@ export const DHIS2Provider = ({ children }) => {
           ...data.transactions.transactions,
         ],
       });
-
-      if (!checkIfRecipientExist(recipient)) {
-        // Update the Datastore with the updated recipients list
-        await updateRecipients({
-          recipients: [
-            ...recipientsData?.Recipients.recipients,
-            {
-              recipient: recipient,
-            },
-          ],
-        });
-      }
 
       if (!checkIfRecipientExist(recipient)) {
         // Update the Datastore with the updated recipients list
