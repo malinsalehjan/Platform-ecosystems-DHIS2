@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import {
   Input,
   TableCell,
@@ -41,11 +41,12 @@ export default function RefillItem({
             </FlyoutMenu>
           }
         >
-          {item.commodity?.name ?? 'Select Commodity'}
+          {item.commodity?.name ?? "Select Commodity"}
         </DropdownButton>
       </TableCell>
       <TableCell>{item?.commodity?.quantity ?? ''}</TableCell>
       <TableCell>
+    
         <InputField
           type="number"
           min="1"
@@ -59,17 +60,17 @@ export default function RefillItem({
       </TableCell>
       <TableCell>
         {item?.commodity?.quantity && item?.quantity
-          ? parseInt(item.commodity.quantity) + parseInt(item.quantity)
-          : ''}
+          ? parseInt(item.commodity.quantity) + parseInt(item.quantity) : ""}
       </TableCell>
       <TableCell>
         <Button
-          small
-          icon={<IconCross24 />}
-          onClick={() => deleteItem(index)}
-          className={mayDeleteFirstItem ? undefined : classes.hidden}
-        />
+            small
+            icon={<IconCross24 />}
+            onClick={() => deleteItem(index)}
+            className={mayDeleteFirstItem ? undefined : classes.hidden}
+          />
       </TableCell>
+      
     </TableRow>
   );
 }

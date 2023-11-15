@@ -24,7 +24,7 @@ export default function RefillPage() {
     { commodity: null, quantity: 0 },
   ]);
   const [loadingArtificially, setLoadingArtificially] = useState(false);
-  const [refillButtonState, setRefillButtonState] = useState(false);
+  const [refillButtonState, setRefillButtonState] = useState(false)
   const { error, loading, commodities, refillCommodity } = useDHIS2();
 
   const addItem = () => {
@@ -35,7 +35,7 @@ export default function RefillPage() {
     let newItems = orderItems;
     newItems[index] = { commodity, quantity };
     setOrderItems([...newItems]);
-    setRefillButtonState(true);
+    setRefillButtonState(true)
   };
 
   const deleteItem = (index) => {
@@ -46,20 +46,19 @@ export default function RefillPage() {
 
   const clearItems = () => {
     setOrderItems([{ id: 0, commodity: null, quantity: 1 }]);
-    setRefillButtonState(false);
+    setRefillButtonState(false)
   };
 
   const handleRefill = () => {
     setLoadingArtificially(true);
-
+    
     for (const item of orderItems) {
-      if (item.commodity !== undefined && item.quantity !== 0) {
-        refillCommodity(
-          item.commodity.id,
-          parseInt(item.quantity),
-          getCurrentDate(),
-        );
-      }
+      if (item.commodity !== undefined && item.quantity !== 0){
+      refillCommodity(
+        item.commodity.id,
+        parseInt(item.quantity),
+        getCurrentDate(),
+      );}
     }
     clearItems();
     setTimeout(function () {
@@ -112,26 +111,25 @@ export default function RefillPage() {
           <Button small icon={<IconAdd24 />} onClick={addItem} />
         </Tooltip>
         <div>
-          {refillButtonState && (
-            <>
-              <Button
-                primary
-                large
-                loading={loadingArtificially}
-                onClick={() => handleRefill()}
-              >
-                Confirm Refill
-              </Button>
+          {refillButtonState && 
+          <>
+            <Button
+              primary
+              large
+              loading={loadingArtificially}
+              onClick={() => handleRefill()}
+            >
+              Confirm Refill
+            </Button>
 
-              <Button
-                onClick={() => clearItems()}
-                loading={loadingArtificially}
-                large
-              >
-                Cancel
-              </Button>
-            </>
-          )}
+            <Button
+              onClick={() => clearItems()}
+              loading={loadingArtificially}
+              large
+            >
+              Cancel
+            </Button> 
+          </>}
         </div>
       </div>
       {loadingArtificially && <h3>Refilling commodities, please wait ...</h3>}

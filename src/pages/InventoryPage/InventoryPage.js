@@ -4,7 +4,6 @@ import { CircularLoader } from '@dhis2/ui';
 import classes from './InventoryPage.module.css';
 import DispenseCard from '../../components/DispenseCard/DispenseCard';
 import CommodityTable from '../../components/CommodityTable/CommodityTable';
-import { daysUntilDelivery } from '../../utility/dateUtility';
 
 export default function InventoryPage() {
   const [selectedCommodity, setSelectedCommodity] = useState(null);
