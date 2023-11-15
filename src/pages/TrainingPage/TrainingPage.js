@@ -13,7 +13,7 @@ export default function TrainingPage() {
 
   const initialOnLastSlide = [];
   for (let i = 0; i < Module.length; i++) {
-      const isCompleted = localStorage.getItem(`moduleCompleted_module${i + 1}`) === 'true';
+      const isCompleted = sessionStorage.getItem(`moduleCompleted_module${i + 1}`) === 'true';
       initialOnLastSlide.push(isCompleted);
   }
 

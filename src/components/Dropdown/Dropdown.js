@@ -12,7 +12,7 @@ const Dropdown = ({ title, children, moduleId, onLastSlide }) => {
   useEffect(() => {
     
     if (onLastSlide) {
-      localStorage.setItem(localStorageKey, 'true');
+      sessionStorage.setItem(localStorageKey, 'true');
     }
     
   }, [onLastSlide, localStorageKey]);
@@ -22,7 +22,7 @@ const Dropdown = ({ title, children, moduleId, onLastSlide }) => {
   };
 
   const dropdownClasses = classNames(styles.dropdown, {
-    [styles.completed]: localStorage.getItem(localStorageKey) === 'true',
+    [styles.completed]: sessionStorage.getItem(localStorageKey) === 'true',
   });
 
   return (
