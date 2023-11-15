@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "@dhis2/app-runtime": "^3.9.4",
-    "react-circular-progressbar": "^2.1.0"
+    "react-circular-progressbar": "^2.1.0",
+    "uuid": "^9.0.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
