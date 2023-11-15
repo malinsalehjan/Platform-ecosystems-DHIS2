@@ -12,11 +12,6 @@ import RemovePerson from './RemovePerson.js';
 import ExpandLess from './ExpandLess.js';
 import ExpandMore from './ExpandMore.js';
 
-<<<<<<< HEAD
-export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, ArrowRight, ArrowLeft, ChevronDown };
-
-export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, Remove, RemovePerson };
-=======
 export {
   CrossIcon,
   RefreshIcon,
@@ -27,5 +22,7 @@ export {
   RemovePerson,
   ExpandLess,
   ExpandMore,
+  ArrowRight, 
+  ArrowLeft, 
+  ChevronDown 
 };
->>>>>>> f02ae22 (Feat/history log (#7))
