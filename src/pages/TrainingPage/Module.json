@@ -37,5 +37,17 @@
           "image": "./Images/History.jpg"
         }
       ]
-    }
+    },
+    {
+        "moduleId": "module4",
+        "title": "04 Using Testing Mode",
+        "sliderData": [
+          {
+            "image": "https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          },
+          {
+            "image": "./Images/Testingmode.jpg"
+          }
+        ]
+      }
   ]

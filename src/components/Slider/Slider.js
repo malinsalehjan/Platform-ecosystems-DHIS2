@@ -38,3 +38,5 @@ const Slider = ({ onLastSlide, sliderData }) => {
 };
 
 export default Slider;
+
+
