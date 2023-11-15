@@ -18,12 +18,12 @@
   padding: 2vw;
 }
 
-.startButton {
+.lastButton {
   background-color: #397AD1 !important;
   color: white !important;
 }
 
-.startButton:hover {
+.lastButton:hover {
   background-color: #0056b3 !important;
 }
 

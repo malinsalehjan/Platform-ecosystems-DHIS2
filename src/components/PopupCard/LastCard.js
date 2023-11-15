@@ -10,11 +10,11 @@ const LastCard = ({ tryTestingMode, onClose }) => {
   
         <div className={styles.card}>
           <div className={styles.cardContent}>
-            <Button className={styles.startButton} onClick={tryTestingMode}>
+            <Button className={styles.lastButton} onClick={tryTestingMode}>
               Try it out in the testing mode now!
             </Button>
 
-            <div className={styles.completedText}>3/3 sections completed</div>
+            <div className={styles.completedText}>4/4 sections completed</div>
             
             <Button className={styles.exitButton} onClick={onClose}>
               <CrossIcon />
