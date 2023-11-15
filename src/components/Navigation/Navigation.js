@@ -14,6 +14,11 @@ export default function Navigation(props) {
         active={props.activePage === 'Refill'}
         onClick={() => props.activePageHandler('Refill')}
       />
+      <MenuItem
+        label="History"
+        active={props.activePage === 'History'}
+        onClick={() => props.activePageHandler('History')}
+      />
     </Menu>
   );
 }

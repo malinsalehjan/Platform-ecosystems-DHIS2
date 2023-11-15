@@ -5,6 +5,17 @@ import SortDownIcon from './SortDown.js';
 import SortUpIcon from './SortUp.js';
 import Remove from './Remove';
 import RemovePerson from './RemovePerson.js';
+import ExpandLess from './ExpandLess.js';
+import ExpandMore from './ExpandMore.js';
 
-
-export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, Remove, RemovePerson };
+export {
+  CrossIcon,
+  RefreshIcon,
+  SearchIcon,
+  SortDownIcon,
+  SortUpIcon,
+  Remove,
+  RemovePerson,
+  ExpandLess,
+  ExpandMore,
+};

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import classes from './App.module.css';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
+import HistoryPage from './pages/HistoryPage/HistoryPage';
 import RefillPage from './pages/RefillPage/RefillPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
+import { DHIS2HistoryProvider } from './contexts/DHIS2HistoryContext';
 import Navigation from './components/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
 import { daysUntilDelivery } from './utility/dateUtility';
@@ -10,6 +12,7 @@ import { IconCalendar16 } from '@dhis2/ui';
 
 const App = () => {
   const [activePage, setActivePage] = useState('Inventory');
+  console.log(activePage);
 
   function activePageHandler(page) {
     setActivePage(page);
@@ -33,8 +36,11 @@ const App = () => {
             <span>Days until next delivery: {daysUntilDelivery()}</span>
           </div>
           <DHIS2Provider>
-            {activePage === 'Inventory' && <InventoryPage />}
-            {activePage === 'Refill' && <RefillPage />}
+            <DHIS2HistoryProvider>
+              {activePage === 'Inventory' && <InventoryPage />}
+              {activePage === 'Refill' && <RefillPage />}
+              {activePage === 'History' && <HistoryPage />}
+            </DHIS2HistoryProvider>
           </DHIS2Provider>
         </div>
       </div>

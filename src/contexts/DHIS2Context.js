@@ -32,7 +32,8 @@ export const DHIS2Provider = ({ children }) => {
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
-  const { data: recipientsData, refetch: refetchRecipients } = useDataQuery(recipientsQuery);
+  const { data: recipientsData, refetch: refetchRecipients } =
+    useDataQuery(recipientsQuery);
 
   const [dispense] = useDataMutation(dispenseMutation);
   const [refill] = useDataMutation(refillMutation);
@@ -47,8 +48,7 @@ export const DHIS2Provider = ({ children }) => {
     }
   }, [keyword, sortedBy, loading, data]);
 
-  function checkIfRecipientExist(recipient){
-
+  function checkIfRecipientExist(recipient) {
     for (const element of recipientsData?.Recipients.recipients) {
       if (element.recipient === recipient) {
         return true;
@@ -76,7 +76,6 @@ export const DHIS2Provider = ({ children }) => {
       // Update the Datastore with the updated transactions list
       await updateTransactions({
         transactions: [
-          ...data.transactions,
           {
             commodityId: commodity.id,
             commodity: commodity.name,
@@ -85,16 +84,17 @@ export const DHIS2Provider = ({ children }) => {
             dispensedTo: recipient,
             date: date,
           },
+          ...data.transactions.transactions,
         ],
       });
-      
-      if(!checkIfRecipientExist(recipient)){
+
+      if (!checkIfRecipientExist(recipient)) {
         // Update the Datastore with the updated recipients list
         await updateRecipients({
           recipients: [
             ...recipientsData?.Recipients.recipients,
             {
-              recipient: recipient 
+              recipient: recipient,
             },
           ],
         });
@@ -146,29 +146,32 @@ export const DHIS2Provider = ({ children }) => {
       addAlert(`Failed to refill ${commodity.name}`, 'critical');
     }
   }
-  
-  function findIndexToRemove(toBeRemoved){
-    const foundRecipient = recipientsData?.Recipients.recipients.find((element) => {
-      return element.recipient === toBeRemoved;
-    });
-  
+
+  function findIndexToRemove(toBeRemoved) {
+    const foundRecipient = recipientsData?.Recipients.recipients.find(
+      (element) => {
+        return element.recipient === toBeRemoved;
+      },
+    );
+
     if (foundRecipient) {
-      const indexToBeRemoved = recipientsData?.Recipients.recipients.indexOf(foundRecipient);
+      const indexToBeRemoved =
+        recipientsData?.Recipients.recipients.indexOf(foundRecipient);
       return indexToBeRemoved;
     }
 
     return -1;
   }
-  
-  async function deleteRecipient(toBeRemoved){    
-    const index = findIndexToRemove(toBeRemoved);
-    let newArray = recipientsData?.Recipients.recipients.slice(0, index).concat(recipientsData?.Recipients.recipients.slice(index + 1));
 
-    try{
+  async function deleteRecipient(toBeRemoved) {
+    const index = findIndexToRemove(toBeRemoved);
+    let newArray = recipientsData?.Recipients.recipients
+      .slice(0, index)
+      .concat(recipientsData?.Recipients.recipients.slice(index + 1));
+
+    try {
       const response = await updateRecipients({
-        recipients: [
-          ...newArray,
-        ],
+        recipients: [...newArray],
       });
 
       if (response.status === 'OK') {
@@ -177,7 +180,7 @@ export const DHIS2Provider = ({ children }) => {
       } else {
         addAlert('Failed to delete recipient', 'critical');
       }
-    }catch(error){
+    } catch (error) {
       addAlert('Failed to delete recipient', 'critical');
     }
   }
@@ -224,4 +227,3 @@ export const useDHIS2 = () => {
   }
   return context;
 };
-
