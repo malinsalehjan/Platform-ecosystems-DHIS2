@@ -7,5 +7,9 @@ import ArrowRight from './ArrowRight.js';
 import ArrowLeft from './ArrowLeft.js';
 import ChevronDown from './ChevronDown.js';
 
+import Remove from './Remove';
+import RemovePerson from './RemovePerson.js';
 
 export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, ArrowRight, ArrowLeft, ChevronDown };
+
+export { CrossIcon, RefreshIcon, SearchIcon, SortDownIcon, SortUpIcon, Remove, RemovePerson };

@@ -5,7 +5,9 @@ import commodityQuery from '../queries/commodityQuery';
 import dispenseMutation from '../mutations/dispenseMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
+import updateRecipientsMutation from '../mutations/updateRecipientsMutation';
 import currentUserQuery from '../queries/currentUserQuery';
+import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
 
 const DHIS2Context = createContext();
@@ -23,9 +25,11 @@ export const DHIS2Provider = ({ children }) => {
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
+  const { data: recipientsData, refetch: refetchRecipients } = useDataQuery(recipientsQuery);
 
   const [dispense] = useDataMutation(dispenseMutation);
   const [updateTransactions] = useDataMutation(updateTransactionsMutation);
+  const [updateRecipients] = useDataMutation(updateRecipientsMutation);
 
   // When data is received, format it and update commodities accordingly
   useEffect(() => {
@@ -34,6 +38,16 @@ export const DHIS2Provider = ({ children }) => {
       setCommodities(commodities);
     }
   }, [keyword, sortedBy, loading, data]);
+
+  function checkIfRecipientExist(recipient){
+
+    for (const element of recipientsData?.Recipients.recipients) {
+      if (element.recipient === recipient) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   async function dispenseCommodity(commodityId, amount, recipient, date) {
     const commodity = commodities.find(
@@ -65,16 +79,62 @@ export const DHIS2Provider = ({ children }) => {
           },
         ],
       });
+      
+      if(!checkIfRecipientExist(recipient)){
+        // Update the Datastore with the updated recipients list
+        await updateRecipients({
+          recipients: [
+            ...recipientsData?.Recipients.recipients,
+            {
+              recipient: recipient 
+            },
+          ],
+        });
+      }
 
       if (response.status === 'OK') {
         addAlert('Dispensed commodity successfully', 'success');
-        refetch();
+        refetchRecipients();
       } else {
         addAlert('Failed to dispense commodity', 'critical');
       }
     } catch (error) {
-      console.error(error);
       addAlert('Failed to dispense commodity', 'critical');
+    }
+  }
+
+  function findIndexToRemove(toBeRemoved){
+    const foundRecipient = recipientsData?.Recipients.recipients.find((element) => {
+      return element.recipient === toBeRemoved;
+    });
+  
+    if (foundRecipient) {
+      const indexToBeRemoved = recipientsData?.Recipients.recipients.indexOf(foundRecipient);
+      return indexToBeRemoved;
+    }
+
+    return -1;
+  }
+  
+  async function deleteRecipient(toBeRemoved){    
+    const index = findIndexToRemove(toBeRemoved);
+    let newArray = recipientsData?.Recipients.recipients.slice(0, index).concat(recipientsData?.Recipients.recipients.slice(index + 1));
+
+    try{
+      const response = await updateRecipients({
+        recipients: [
+          ...newArray,
+        ],
+      });
+
+      if (response.status === 'OK') {
+        addAlert('Deletet recipient', 'success');
+        refetch();
+      } else {
+        addAlert('Failed to delete recipient', 'critical');
+      }
+    }catch(error){
+      addAlert('Failed to delete recipient', 'critical');
     }
   }
 
@@ -102,6 +162,9 @@ export const DHIS2Provider = ({ children }) => {
         searchForCommodity: setKeyword,
         dispenseCommodity,
         refetch,
+        recipientsData,
+        deleteRecipient,
+        refetchRecipients,
       }}
     >
       {children}
