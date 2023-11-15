@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classes from './Slider.module.css';
-import ProgressBar from './ProgressBar/ProgressBar';
+import ProgressBar from '../ProgressBar/ProgressBar';
 import { ArrowLeft, ArrowRight } from '../../resources/icons/icons';
-import getImageSrc from './SliderData/SliderData';
+import getImageSrc from './ImageData/ImageData';
 
 const Slider = ({ onLastSlide, sliderData }) => {
   const [current, setCurrent] = useState(0);

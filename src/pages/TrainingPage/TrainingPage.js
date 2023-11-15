@@ -4,9 +4,10 @@ import classes from './TrainingPage.module.css';
 import Slider from "../../components/Slider/Slider";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import LastCard from '../../components/PopupCard/LastCard';
-import CircularProgressBar from '../../components/Slider/CircularProgressBar/CircularProgressBar';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
+import CircularProgressBar from '../../components/ProgressBar/CircularProgressBar/CircularProgressBar';
 import Module from './Module.json'; 
+
 
 export default function TrainingPage() {
   const { loading, error } = useDHIS2();
@@ -53,10 +54,13 @@ export default function TrainingPage() {
   ) : (
     <div className={classes.container}>
       <h2>Training mode</h2>
-      <p>Welcome to The Training Mode!
-      Users can use this application to test the flow of the application and get more tips and guidance on how to use it. <br></br>
-      Any changes made in the training mode is not stored permanently. 
-      </p>
+      <div className={classes.intro}>
+        <p>Welcome to The Training Mode! <br></br>
+        Users can use this application to test the flow of the application and get more tips and guidance on how to use it. <br></br>
+        Changes made in training mode won't be saved permanently, so feel free to explore without worry!
+        </p>
+        <CircularProgressBar progress={overallProgress} />
+      </div>
       <h3>Modules</h3>
       {Module.map((module, index) => (
           <div key={module.moduleId} className={classes[`dropdown${index + 1}`]}>
@@ -70,8 +74,6 @@ export default function TrainingPage() {
             </Dropdown>
           </div>
         ))}
-
-      <CircularProgressBar progress={overallProgress} />
 
       {allModulesOnLastSlide && !lastCardDisplayed && (
         <LastCard tryTestingMode={handleTryTestingMode} onClose={handleCloseLastCard} />

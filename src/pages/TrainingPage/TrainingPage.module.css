@@ -1,3 +1,7 @@
+.intro {
+  display: flex;
+  width: 95%;
+}
 .container {
   width: 100%;
   min-height: 20vh;
@@ -34,6 +38,6 @@
 
 p {
   font-size: 1.2vw;
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight:400;
 }
