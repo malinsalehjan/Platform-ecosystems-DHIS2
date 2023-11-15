@@ -4,9 +4,9 @@ import classes from './TrainingPage.module.css';
 import Slider from "../../components/Slider/Slider";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import LastCard from '../../components/PopupCard/LastCard';
+import CircularProgressBar from '../../components/Slider/CircularProgressBar/CircularProgressBar';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import Module from './Module.json'; 
-
 
 export default function TrainingPage() {
   const { loading, error } = useDHIS2();
@@ -19,6 +19,10 @@ export default function TrainingPage() {
 
   const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
+
+  const totalModules = Module.length;
+  const completedModules = onLastSlide.filter((status) => status).length;
+  const overallProgress = (completedModules / totalModules) * 100;
 
 
   //Updating state of completion
@@ -66,6 +70,8 @@ export default function TrainingPage() {
             </Dropdown>
           </div>
         ))}
+
+      <CircularProgressBar progress={overallProgress} />
 
       {allModulesOnLastSlide && !lastCardDisplayed && (
         <LastCard tryTestingMode={handleTryTestingMode} onClose={handleCloseLastCard} />
