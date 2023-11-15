@@ -13,3 +13,18 @@
   padding: 1em;
   background: #f0f0f0;
 }
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details > span {
+  position: relative;
+}
+
+.details svg {
+  position: relative;
+  top: 1px;
+}

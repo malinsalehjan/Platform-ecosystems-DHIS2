@@ -3,12 +3,19 @@ import { useDataQuery, useDataMutation } from '@dhis2/app-runtime';
 import { SortDirection, SortType } from '../types';
 import commodityQuery from '../queries/commodityQuery';
 import dispenseMutation from '../mutations/dispenseMutation';
+import refillMutation from '../mutations/refillMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
+import {
+  getCurrentDate,
+  getCurrentDateTime,
+  getTimeStamp,
+} from '../utility/dateUtility';
 import updateRecipientsMutation from '../mutations/updateRecipientsMutation';
 import currentUserQuery from '../queries/currentUserQuery';
 import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
+import { v4 as uuid } from 'uuid';
 
 const DHIS2Context = createContext();
 
@@ -28,6 +35,7 @@ export const DHIS2Provider = ({ children }) => {
   const { data: recipientsData, refetch: refetchRecipients } = useDataQuery(recipientsQuery);
 
   const [dispense] = useDataMutation(dispenseMutation);
+  const [refill] = useDataMutation(refillMutation);
   const [updateTransactions] = useDataMutation(updateTransactionsMutation);
   const [updateRecipients] = useDataMutation(updateRecipientsMutation);
 
@@ -68,7 +76,7 @@ export const DHIS2Provider = ({ children }) => {
       // Update the Datastore with the updated transactions list
       await updateTransactions({
         transactions: [
-          ...data.transactions.transactions,
+          ...data.transactions,
           {
             commodityId: commodity.id,
             commodity: commodity.name,
@@ -103,6 +111,42 @@ export const DHIS2Provider = ({ children }) => {
     }
   }
 
+  async function refillCommodity(commodityId, amount) {
+    const commodity = commodities.find(
+      (commodity) => commodity.id === commodityId,
+    );
+
+    // Calculate what the new quantity should be
+    const newQuantity = parseInt(commodity.quantity) + amount;
+
+    try {
+      await refill({
+        elementId: commodityId,
+        newQuantity,
+      });
+
+      // Update the Datastore with the updated transactions list
+      await updateTransactions({
+        transactions: [
+          ...data.transactions.transactions,
+          {
+            id: uuid(),
+            type: 'in',
+            commodityId: commodity.id,
+            commodity: commodity.name,
+            amount: amount,
+            datetime: getCurrentDateTime(),
+          },
+        ],
+      });
+
+      addAlert(`Succesfully refilled ${commodity.name}`, 'success');
+      refetch();
+    } catch (error) {
+      addAlert(`Failed to refill ${commodity.name}`, 'critical');
+    }
+  }
+  
   function findIndexToRemove(toBeRemoved){
     const foundRecipient = recipientsData?.Recipients.recipients.find((element) => {
       return element.recipient === toBeRemoved;
@@ -161,6 +205,7 @@ export const DHIS2Provider = ({ children }) => {
         sortedBy,
         searchForCommodity: setKeyword,
         dispenseCommodity,
+        refillCommodity,
         refetch,
         recipientsData,
         deleteRecipient,
@@ -171,7 +216,6 @@ export const DHIS2Provider = ({ children }) => {
     </DHIS2Context.Provider>
   );
 };
-
 // Simple custom hook to easily access the context from anywhere inside the DHIS2Provider
 export const useDHIS2 = () => {
   const context = useContext(DHIS2Context);
@@ -180,3 +224,4 @@ export const useDHIS2 = () => {
   }
   return context;
 };
+
