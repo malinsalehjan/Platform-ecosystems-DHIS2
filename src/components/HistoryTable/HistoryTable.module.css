@@ -1,0 +1,100 @@
+.dropdownButton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.negative {
+    color: red;
+  }
+  
+  .positive {
+    color: green;
+  }
+  
+  .searchField {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .searchField > svg {
+    position: absolute;
+    right: 1em;
+  }
+  
+  .searchField > button:hover {
+    background: none;
+  }
+  
+  .searchField div {
+    width: 100%;
+  }
+
+  .container {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    
+      flex: 2;
+      min-width: 0;
+}  
+  
+.searchField {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-bottom: 1em;
+  padding-right: 1em;
+  width: 100%;
+}
+
+.searchField > svg {
+  position: absolute;
+  right: 2em;
+}
+
+.searchField > button:hover {
+  background: none;
+}
+
+.searchField div {
+  width: 100%;
+}
+
+.pagination {
+  padding-bottom: 1em;
+  padding-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.columnSpacing {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alignContent{
+  display: flex; 
+  align-items: center;
+}
+
+.dropDown{
+  margin-left: auto;
+  padding-bottom: 1em;
+}
+
+.expand{
+  background-color: lightblue; 
+  margin: 2; 
+  padding: 4;
+  border-radius: 10px;  
+}
+
+.expandButton{
+  cursor: pointer;
+}
+
+.expandedText{
+  padding: 0.3em;
+}
