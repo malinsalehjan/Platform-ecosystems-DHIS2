@@ -22,7 +22,8 @@ export default function TrainingPage() {
 
   const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
-  const { isTrainingMode } = useTrainingMode();
+  const { isTrainingMode, setIsTrainingMode } = useTrainingMode();
+  
 
   const totalModules = Module.length;
   const completedModules = onLastSlide.filter((status) => status).length;
@@ -45,7 +46,8 @@ export default function TrainingPage() {
   const allModulesOnLastSlide = onLastSlide.every(status => status);
 
   const handleTryTestingMode = () => {
-    // Implementation for navigating to testing mode
+    setIsTrainingMode(true);
+    setLastCardDisplayed(true); 
   };
 
   const handleCloseLastCard = () => {
@@ -59,7 +61,7 @@ export default function TrainingPage() {
     <span>An error has occurred ...</span>
   ) : (
     <div className={classes.container} style={borderStyle}>
-      <TrainingModeSwitch />
+      <TrainingModeSwitch /> 
       <h2>Welcome to The Training Mode! </h2>
       <div className={classes.intro}>
         <p>
