@@ -7,6 +7,7 @@
   min-height: 20vh;
   display: block;
   position: relative;
+  box-sizing: border-box;
 }
 
 .container, .screenContainer, .screen {
@@ -14,6 +15,7 @@
   align-items: center;
   flex-direction: column;
   padding: 20px;
+  
 }
 
 .screenContainer {

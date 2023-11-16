@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { CircularLoader } from '@dhis2/ui';
 import classes from './TrainingPage.module.css';
 import Slider from "../../components/Slider/Slider";
@@ -6,7 +6,7 @@ import {TrainingModeSwitch} from "../../components/Switch/TrainingModeSwitch";
 import Dropdown from '../../components/Dropdown/Dropdown';
 import LastCard from '../../components/PopupCard/LastCard';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
-import { TrainingModeContext } from '../../contexts/TrainingModeContext'; 
+import { useTrainingMode } from '../../contexts/TrainingModeContext';
 import CircularProgressBar from '../../components/ProgressBar/CircularProgressBar/CircularProgressBar';
 import Module from './Module.json'; 
 
@@ -22,15 +22,14 @@ export default function TrainingPage() {
 
   const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
+  const { isTrainingMode } = useTrainingMode();
 
   const totalModules = Module.length;
   const completedModules = onLastSlide.filter((status) => status).length;
   const overallProgress = (completedModules / totalModules) * 100;
 
-  const { isTrainingMode } = useContext(TrainingModeContext);
 
-
-  const borderStyle = isTrainingMode ? { border: '8px solid #00695c' } : {};
+ const borderStyle = isTrainingMode ? { border: '8px solid #00695c' } : {};
 
 
   const handleSetOnLastSlide = (index) => {

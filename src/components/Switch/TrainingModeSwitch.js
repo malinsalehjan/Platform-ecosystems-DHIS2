@@ -12,7 +12,7 @@ export const TrainingModeSwitch = () => {
 
   return (
     <div className={classes.trainingSwitch} >
-      <span style={{ marginRight: '1vw' }}>Training mode</span>
+      <span style={{ marginRight: '1.5vw' }}>Training mode</span>
       <Switch 
         className={classes.customSwitch}
         checked={isTrainingMode} 
