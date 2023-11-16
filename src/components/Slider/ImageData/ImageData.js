@@ -1,26 +1,3 @@
-/*import Inventory from './Images/Inventory/Inventory1.jpg';
-import Refill from './Images/Refill/Refill1.jpg';
-import History from './Images/History/History1.jpg';
-import Testingmode from './Images/Testingmode/Testingmode1.jpg';
-
-const getImageSrc = imagePath => {
-  switch (imagePath) {
-    case './Images/Inventory/Inventory1.jpg':
-      return Inventory;
-    case './Images/Refill/Refill1.jpg':
-      return Refill;
-    case './Images/History/History1.jpg':
-      return History;
-    case './Images/Testingmode/Testingmode1.jpg':
-      return Testingmode;
-    default:
-      return imagePath; 
-  }
-};
-
-export default getImageSrc;*/
-
-
 import Inventory1 from './Images/Inventory/Inventory1.jpg';
 import Inventory2 from './Images/Inventory/Inventory2.jpg';
 import Inventory3 from './Images/Inventory/Inventory3.jpg';
