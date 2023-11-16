@@ -31,11 +31,11 @@
   }
   
   .arrowLeft{
-    left: 1vw;
+    left: -3vw;
   }
   
   .arrowRight {
-    right: 1vw;
+    right: -3vw;
   }
   
   .arrowLeft:active,

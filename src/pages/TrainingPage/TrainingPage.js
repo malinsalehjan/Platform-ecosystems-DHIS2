@@ -76,7 +76,7 @@ export default function TrainingPage() {
             <Dropdown moduleId={module.moduleId} title={module.title} onLastSlide={onLastSlide[index]}>
               <div className={classes.screenContainer}>
                 <div className={classes.screen}>
-                  <Slider onLastSlide={(value) => handleSetOnLastSlide(index, value)} sliderData={module.sliderData} />
+                  <Slider onLastSlide={(value) => handleSetOnLastSlide(index, value)} imageData={module.imageData} />
                   {onLastSlide[index]}
                 </div>
               </div>

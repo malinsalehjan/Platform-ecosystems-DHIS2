@@ -4,24 +4,24 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import { ArrowLeft, ArrowRight } from '../../resources/icons/icons';
 import getImageSrc from './ImageData/ImageData';
 
-const Slider = ({ onLastSlide, sliderData }) => {
+const Slider = ({ onLastSlide, imageData }) => {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (current === sliderData?.length - 1) {
+    if (current === imageData?.length - 1) {
       onLastSlide();
     }
-  }, [current, sliderData]);
+  }, [current, imageData]);
 
   const nextSlide = () => {
     setCurrent((prevCurrent) => {
-      return prevCurrent !== sliderData?.length - 1 ? prevCurrent + 1 : prevCurrent;
+      return prevCurrent !== imageData?.length - 1 ? prevCurrent + 1 : prevCurrent;
     });
   };
 
   const prevSlide = () => {
     setCurrent((prevCurrent) => {
-      return prevCurrent === 0 ? sliderData?.length - 1 : prevCurrent - 1;
+      return prevCurrent === 0 ? imageData?.length - 1 : prevCurrent - 1;
     });
   };
 
@@ -29,14 +29,12 @@ const Slider = ({ onLastSlide, sliderData }) => {
     <div className={classes.slider}>
       <div className={classes.slide}>
         {current !== 0 && <ArrowLeft className={classes.arrowLeft} onClick={prevSlide} />}
-        <img src={getImageSrc(sliderData?.[current]?.image)} alt="slide" />
-        {current !== sliderData?.length - 1 && <ArrowRight className={classes.arrowRight} onClick={nextSlide} />}
+        <img src={getImageSrc(imageData?.[current]?.image)} alt="slide" />
+        {current !== imageData?.length - 1 && <ArrowRight className={classes.arrowRight} onClick={nextSlide} />}
       </div>
-      <ProgressBar currentSlide={current} totalSlides={sliderData?.length} />
+      <ProgressBar currentSlide={current} totalSlides={imageData?.length} />
     </div>
   );
 };
 
 export default Slider;
-
-

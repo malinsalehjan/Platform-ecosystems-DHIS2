@@ -2,51 +2,81 @@
     {
       "moduleId": "module1",
       "title": "01 Dispensing a commodity",
-      "sliderData": [
+      "imageData": [
         {
-          "image":  "https://images.pexels.com/photos/3836292/pexels-photo-3836292.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          "image":  "./Images/Inventory/Inventory1.jpg"
         },
         {
-          "image": "https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          "image": "./Images/Inventory/Inventory2.jpg"
         },
         {
-          "image": "./Images/Inventory.jpg"
+          "image": "./Images/Inventory/Inventory3.jpg"
+        },
+        {
+          "image": "./Images/Inventory/Inventory4.jpg"
+        },
+        {
+          "image": "./Images/Inventory/Inventory5.jpg"
+        } ,
+        {
+          "image": "./Images/Inventory/Inventory6.jpg"
         }
       ]
     },
     {
       "moduleId": "module2",
-      "title": "02 Refill a commodity",
-      "sliderData": [
+      "title": "02 Replenish a commodity",
+      "imageData": [
         {
-          "image": "https://images.pexels.com/photos/36715/pigeon-flight-twig.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          "image": "./Images/Refill/Refill1.jpg"
         },
         {
-          "image": "./Images/Refill.jpg"
+          "image": "./Images/Refill/Refill2.jpg"
+        },
+        {
+          "image": "./Images/Refill/Refill3.jpg"
+        },
+        {
+          "image": "./Images/Refill/Refill4.jpg"
+        },
+        {
+          "image": "./Images/Refill/Refill5.jpg"
         }
       ]
     },
     {
       "moduleId": "module3",
       "title": "03 Search in History",
-      "sliderData": [
+      "imageData": [
         {
-          "image": "https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          "image": "./Images/History/History1.jpg"
         },
         {
-          "image": "./Images/History.jpg"
+          "image": "./Images/History/History2.jpg"
+        },
+        {
+          "image": "./Images/History/History3.jpg"
+        },
+        {
+          "image": "./Images/History/History4.jpg"
         }
       ]
     },
     {
         "moduleId": "module4",
         "title": "04 Using Testing Mode",
-        "sliderData": [
+        "imageData": [
           {
-            "image": "https://images.pexels.com/photos/1166209/pexels-photo-1166209.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            "image": "./Images/Testingmode/Testingmode1.jpg"
           },
           {
-            "image": "./Images/Testingmode.jpg"
+            "image": "./Images/Testingmode/Testingmode2.jpg"
+          },
+          {
+            "image": "./Images/Testingmode/Testingmode3.jpg"
+          },
+          {
+            "image": "./Images/Testingmode/Testingmode4.jpg"
           }
         ]
       }
