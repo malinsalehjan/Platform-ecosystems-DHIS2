@@ -7,17 +7,17 @@ export default function Navigation(props) {
       <MenuItem
         label="Inventory"
         active={props.activePage === 'Inventory'}
-        onClick={() => props.activePageHandler('Inventory')}
+        onClick={() => props.setActivePage('Inventory')}
       />
       <MenuItem
         label="Refill"
         active={props.activePage === 'Refill'}
-        onClick={() => props.activePageHandler('Refill')}
+        onClick={() => props.setActivePage('Refill')}
       />
       <MenuItem
         label="History"
         active={props.activePage === 'History'}
-        onClick={() => props.activePageHandler('History')}
+        onClick={() => props.setActivePage('History')}
       />
     </Menu>
   );

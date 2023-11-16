@@ -3,10 +3,10 @@ import RefreshIcon from './Refresh.js';
 import SearchIcon from './Search.js';
 import SortDownIcon from './SortDown.js';
 import SortUpIcon from './SortUp.js';
-import Remove from './Remove';
-import RemovePerson from './RemovePerson.js';
-import ExpandLess from './ExpandLess.js';
-import ExpandMore from './ExpandMore.js';
+import RemoveIcon from './Remove.js';
+import RemovePersonIcon from './RemovePerson.js';
+import ExpandLessIcon from './ExpandLess.js';
+import ExpandMoreIcon from './ExpandMore.js';
 
 export {
   CrossIcon,
@@ -14,8 +14,8 @@ export {
   SearchIcon,
   SortDownIcon,
   SortUpIcon,
-  Remove,
-  RemovePerson,
-  ExpandLess,
-  ExpandMore,
+  RemoveIcon,
+  RemovePersonIcon,
+  ExpandLessIcon,
+  ExpandMoreIcon,
 };

@@ -1,0 +1,111 @@
+.dropdownButton {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table th,
+.table td {
+  width: 20% !important;
+}
+
+.typeCell {
+  position: relative;
+  padding-left: 1em !important;
+}
+
+.typeIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0.25em;
+}
+
+.dispensed {
+  background: #f44336 !important;
+}
+
+.refilled {
+  background: #4caf50 !important;
+}
+
+.dispensed td,
+.refilled td {
+  background: none;
+}
+
+.searchField {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchField > svg {
+  position: absolute;
+  right: 1em;
+}
+
+.searchField > button:hover {
+  background: none;
+}
+
+.searchField div {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  flex: 2;
+  min-width: 0;
+}
+
+.searchField {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-bottom: 1em;
+  padding-right: 1em;
+  width: 100%;
+}
+
+.searchField > svg {
+  position: absolute;
+  right: 2em;
+}
+
+.searchField > button:hover {
+  background: none;
+}
+
+.searchField div {
+  width: 100%;
+}
+
+.pagination {
+  padding-bottom: 1em;
+  padding-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.filters div,
+.filters button {
+  height: 40px !important;
+}
+
+.dropDown {
+  margin-left: auto;
+  padding-bottom: 1em;
+}

@@ -6,16 +6,18 @@ import {
   InputField,
   FieldGroup,
   Chip,
-  FlyoutMenu,
-  MenuDivider,
 } from '@dhis2/ui';
-import Cross from '../../resources/icons/Cross';
 import classes from './DispenseCard.module.css';
-import { useDHIS2 } from '../../contexts/DHIS2Context';
-import { generateWarningMessage } from '../../utility/quantityWarningUtility';
-import { useAlert } from '../../contexts/AlertContext';
-import { getCurrentDateTime } from '../../utility/dateUtility';
-import { Remove, RemovePerson } from '../../resources/icons/icons';
+import { useDHIS2 } from '../../../../contexts/DHIS2Context';
+import { generateWarningMessage } from '../../../../utility/quantityWarningUtility';
+import { useAlert } from '../../../../contexts/AlertContext';
+import { getCurrentDateTime } from '../../../../utility/dateUtility';
+import {
+  CrossIcon,
+  RemoveIcon,
+  RemovePersonIcon,
+} from '../../../../resources/icons/index';
+import { capitalizeName } from '../../../../utility/nameUtility';
 
 export default function DispenseCard({
   selectedCommodity,
@@ -37,7 +39,7 @@ export default function DispenseCard({
     refetchRecipients,
   } = useDHIS2();
   const [allSuggestions, setAllSuggestions] = useState(
-    recipientsData.Recipients.recipients,
+    recipientsData.recipients.recipients,
   );
   const selectedDateTime = new Date(dateTime);
   const currentDateTime = new Date(getCurrentDateTime());
@@ -77,17 +79,17 @@ export default function DispenseCard({
     const inputValue = e.value;
     setRecipient(inputValue);
 
-    if (inputValue != '' && suggestions.length == 0) setShowSuggestions(false);
+    if (inputValue != '' && suggestions?.length == 0) setShowSuggestions(false);
     else setShowSuggestions(true);
 
-    const filteredSuggestions = allSuggestions?.filter((item) =>
-      item.recipient.toLowerCase().includes(inputValue.toLowerCase()),
+    const filteredSuggestions = allSuggestions?.filter((suggestion) =>
+      suggestion.toLowerCase().includes(inputValue.toLowerCase()),
     );
     setSuggestions(filteredSuggestions);
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setRecipient(suggestion);
+    setRecipient(capitalizeName(suggestion));
     setShowSuggestions(false);
   };
 
@@ -116,13 +118,12 @@ export default function DispenseCard({
   }
 
   useEffect(() => {
-    if (recipientsData) {
-      const arr = recipientsData.Recipients.recipients;
-      setSuggestions(arr);
-      setAllSuggestions(arr);
-    }
-  }, [recipientsData.Recipients.recipients]);
+    const recipient = recipientsData.recipients.recipients;
+    setSuggestions(recipient);
+    setAllSuggestions(recipient);
+  }, [recipientsData.recipients.recipients]);
 
+  // When selectedCommodity changes, reset input fields to default values
   useEffect(() => {
     resetCard();
   }, [selectedCommodity]);
@@ -141,7 +142,7 @@ export default function DispenseCard({
         onClick={closeCard}
         disabled={selectedCommodity.quantity === '0'}
       >
-        <Cross />
+        <CrossIcon />
       </Button>
       <span>{selectedCommodity.name}</span>
       <FieldGroup>
@@ -174,28 +175,29 @@ export default function DispenseCard({
           />
           <div className={classes.editRecipients}>
             <button onClick={() => showHideRemove()} title="Remove recipient">
-              {RemovePerson()}
+              {RemovePersonIcon()}
             </button>
           </div>
         </div>
         <div className={classes.recipientField}>
           {showSuggestions &&
-            suggestions.map((suggestion, index) => (
+            suggestions?.map((suggestion, index) => (
               <div key={index} className={classes.recipientChip}>
                 <Chip
-                  onClick={() => handleSuggestionClick(suggestion.recipient)}
-                  label={suggestion.recipient}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  label={suggestion}
+                  className={classes.customChip}
                 >
-                  {suggestion.recipient}
+                  {capitalizeName(suggestion)}
                 </Chip>
                 {showRemoveRecipient && (
                   <div className={classes.removeRecipient}>
                     <Button
                       onClick={() => {
-                        removeRecipient(suggestion.recipient);
+                        removeRecipient(suggestion);
                       }}
                     >
-                      <Remove className={classes.remove} />
+                      <RemoveIcon className={classes.remove} />
                     </Button>
                   </div>
                 )}
@@ -227,7 +229,7 @@ export default function DispenseCard({
           </div>
         ) : (
           <Button primary onClick={handleDispense}>
-            Dispense
+            Confirm dispense
           </Button>
         )}
       </FieldGroup>

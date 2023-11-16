@@ -10,11 +10,11 @@ import {
   Button,
 } from '@dhis2/ui';
 
-import { RefreshIcon } from '../../resources/icons/icons';
+import { RefreshIcon } from '../../../../resources/icons';
 import classes from './CommodityTable.module.css';
-import { useDHIS2 } from '../../contexts/DHIS2Context';
-import SearchField from './SearchField/SearchField';
-import SortableTableCellHead from './SortableTableCellHead/SortableTableCellHead';
+import { useDHIS2 } from '../../../../contexts/DHIS2Context';
+import SearchField from '../../../shared/SearchField/SearchField';
+import SortableTableCellHead from '../../../shared/SortableTableCellHead/SortableTableCellHead/SortableTableCellHead';
 
 export default function CommodityTable({
   selectedCommodity,

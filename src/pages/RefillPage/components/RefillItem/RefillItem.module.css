@@ -2,3 +2,11 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.amountInput {
+  width: 150px !important;
+}
+
+.row td {
+  width: 25% !important;
+}

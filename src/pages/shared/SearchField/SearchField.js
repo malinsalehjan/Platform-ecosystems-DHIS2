@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { InputField } from '@dhis2/ui';
 import { useDHIS2 } from '../../../contexts/DHIS2Context';
 import classes from './SearchField.module.css';
-import { SearchIcon } from '../../../resources/icons/icons';
+import { SearchIcon } from '../../../resources/icons';
 
-export default function SearchField() {
+export default function SearchField({ placeholder }) {
   const [searchText, setSearchText] = useState('');
 
   const { searchForCommodity } = useDHIS2();
@@ -17,7 +17,7 @@ export default function SearchField() {
   return (
     <div className={classes.searchField}>
       <InputField
-        placeholder="Search for commodities"
+        placeholder={placeholder ?? 'Search for commodities'}
         value={searchText}
         onChange={(event) => setSearchText(event.value)}
       />

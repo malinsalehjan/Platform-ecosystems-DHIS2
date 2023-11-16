@@ -1,58 +1,47 @@
 import React, { useState } from 'react';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
-import {
-  CircularLoader,
-  Table,
-  TableBody,
-  TableHead,
-  TableRowHead,
-  TableCellHead,
-  Button,
-  IconAdd24,
-  Tooltip,
-} from '@dhis2/ui';
+import { CircularLoader, Button, IconAdd24 } from '@dhis2/ui';
 import classes from './RefillPage.module.css';
-import RefillItem from './components/RefillItem/RefillItem';
 import { getCurrentDate } from '../../utility/dateUtility';
+import RefillTable from './components/RefillTable/RefillTable';
 
-// MAIN COMPONENT FOR COMMODITY REFILL
-/* Commodity refill works through updating useState 'order' with new additions and changes 
-stemming from children of type Refillitem, which are displayed inside a table. Changes to 
-'order' trigger rerenders. */
 export default function RefillPage() {
-  const [orderItems, setOrderItems] = useState([
+  const [selectedCommodities, setSelectedCommodities] = useState([
     { commodity: null, quantity: 0 },
   ]);
   const [loadingArtificially, setLoadingArtificially] = useState(false);
-  const [refillButtonState, setRefillButtonState] = useState(false);
+  const [enableButton, setEnableButton] = useState(false);
   const { error, loading, commodities, refillCommodity } = useDHIS2();
 
-  const addItem = () => {
-    setOrderItems([...orderItems, { commodity: undefined, quantity: 1 }]);
+  const addCommodity = () => {
+    setSelectedCommodities([
+      ...selectedCommodities,
+      { commodity: undefined, quantity: 1 },
+    ]);
   };
 
-  const updateItem = (index, commodity, quantity) => {
-    let newItems = orderItems;
+  const updateCommodity = (index, commodity, quantity) => {
+    let newItems = selectedCommodities;
     newItems[index] = { commodity, quantity };
-    setOrderItems([...newItems]);
-    setRefillButtonState(true);
+    setSelectedCommodities([...newItems]);
+    setEnableButton(true);
   };
 
-  const deleteItem = (index) => {
-    let newItems = orderItems;
+  const removeCommodity = (index) => {
+    let newItems = selectedCommodities;
     newItems.splice(index, 1);
-    setOrderItems([...newItems]);
+    setSelectedCommodities([...newItems]);
   };
 
-  const clearItems = () => {
-    setOrderItems([{ id: 0, commodity: null, quantity: 1 }]);
-    setRefillButtonState(false);
+  const clearCommodities = () => {
+    setSelectedCommodities([{ id: 0, commodity: null, quantity: 1 }]);
+    setEnableButton(false);
   };
 
   const handleRefill = () => {
     setLoadingArtificially(true);
 
-    for (const item of orderItems) {
+    for (const item of selectedCommodities) {
       if (item.commodity !== undefined && item.quantity !== 0) {
         refillCommodity(
           item.commodity.id,
@@ -61,7 +50,7 @@ export default function RefillPage() {
         );
       }
     }
-    clearItems();
+    clearCommodities();
     setTimeout(function () {
       setLoadingArtificially(false);
     }, 2000);
@@ -69,7 +58,7 @@ export default function RefillPage() {
 
   const nonSelectedCommodities = commodities.filter(
     (commodity) =>
-      !orderItems.find((item) => item.commodity?.id === commodity.id),
+      !selectedCommodities.find((item) => item.commodity?.id === commodity.id),
   );
 
   return loading ? (
@@ -83,55 +72,33 @@ export default function RefillPage() {
         Select commodities and provide amounts to refill. For guidance on
         refilling, please visit the Sandbox tab.
       </p>
-      <Table>
-        <TableHead>
-          <TableRowHead>
-            <TableCellHead>Commodity</TableCellHead>
-            <TableCellHead>Current stock</TableCellHead>
-            <TableCellHead>Select Amount</TableCellHead>
-            <TableCellHead>Stock after refill</TableCellHead>
-            <TableCellHead></TableCellHead>
-          </TableRowHead>
-        </TableHead>
-        <TableBody suppressZebraStriping>
-          {orderItems.map((item, index) => (
-            <RefillItem
-              commodities={nonSelectedCommodities}
-              mayDeleteFirstItem={orderItems.length > 1}
-              key={`item-${index}`}
-              deleteItem={deleteItem}
-              updateItem={updateItem}
-              item={item}
-              index={index}
-            />
-          ))}
-        </TableBody>
-      </Table>
+      <RefillTable
+        nonSelectedCommodities={nonSelectedCommodities}
+        selectedCommodities={selectedCommodities}
+        update={updateCommodity}
+        remove={removeCommodity}
+        mayRemoveFirstCommodity={selectedCommodities.length > 1}
+      />
       <div className={classes.actions}>
-        <Tooltip content="Add Commodity" placement="right">
-          <Button small icon={<IconAdd24 />} onClick={addItem} />
-        </Tooltip>
+        <Button icon={<IconAdd24 />} onClick={addCommodity}>
+          Add commodity
+        </Button>
         <div>
-          {refillButtonState && (
-            <>
-              <Button
-                primary
-                large
-                loading={loadingArtificially}
-                onClick={() => handleRefill()}
-              >
-                Confirm Refill
-              </Button>
+          <Button
+            primary
+            loading={loadingArtificially}
+            onClick={() => handleRefill()}
+            disabled={!enableButton}
+          >
+            Confirm refill
+          </Button>
 
-              <Button
-                onClick={() => clearItems()}
-                loading={loadingArtificially}
-                large
-              >
-                Cancel
-              </Button>
-            </>
-          )}
+          <Button
+            onClick={() => clearCommodities()}
+            loading={loadingArtificially}
+          >
+            Cancel
+          </Button>
         </div>
       </div>
       {loadingArtificially && <h3>Refilling commodities, please wait ...</h3>}

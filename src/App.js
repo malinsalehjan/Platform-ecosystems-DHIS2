@@ -4,43 +4,33 @@ import InventoryPage from './pages/InventoryPage/InventoryPage';
 import HistoryPage from './pages/HistoryPage/HistoryPage';
 import RefillPage from './pages/RefillPage/RefillPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
-import { DHIS2HistoryProvider } from './contexts/DHIS2HistoryContext';
-import Navigation from './components/Navigation/Navigation';
+import Navigation from './pages/shared/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
 import { daysUntilDelivery } from './utility/dateUtility';
-import { IconCalendar16 } from '@dhis2/ui';
+import { IconCalendar16 as CalendarIcon } from '@dhis2/ui';
 
 const App = () => {
   const [activePage, setActivePage] = useState('Inventory');
-  console.log(activePage);
-
-  function activePageHandler(page) {
-    setActivePage(page);
-  }
+  const currentDate = new Date().toLocaleDateString();
 
   return (
     <AlertProvider>
       <div className={classes.container}>
         <div className={classes.left}>
-          <Navigation
-            activePage={activePage}
-            activePageHandler={activePageHandler}
-          />
+          <Navigation activePage={activePage} setActivePage={setActivePage} />
         </div>
         <div className={classes.right}>
           <div className={classes.details}>
             <span>
-              <IconCalendar16 />
-              {new Date().toLocaleDateString()}
+              <CalendarIcon />
+              <span>{currentDate}</span>
             </span>
             <span>Days until next delivery: {daysUntilDelivery()}</span>
           </div>
           <DHIS2Provider>
-            <DHIS2HistoryProvider>
-              {activePage === 'Inventory' && <InventoryPage />}
-              {activePage === 'Refill' && <RefillPage />}
-              {activePage === 'History' && <HistoryPage />}
-            </DHIS2HistoryProvider>
+            {activePage === 'Inventory' && <InventoryPage />}
+            {activePage === 'Refill' && <RefillPage />}
+            {activePage === 'History' && <HistoryPage />}
           </DHIS2Provider>
         </div>
       </div>
