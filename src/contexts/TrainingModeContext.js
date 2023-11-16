@@ -1,4 +1,4 @@
-import React, { createContext,useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export const TrainingModeContext = createContext();
 
@@ -15,7 +15,9 @@ export const TrainingModeProvider = ({ children }) => {
 export const useTrainingMode = () => {
   const context = useContext(TrainingModeContext);
   if (context === undefined) {
-    throw new Error('useTrainingMode must be used within a TrainingModeProvider');
+    throw new Error(
+      'useTrainingMode must be used within a TrainingModeProvider',
+    );
   }
   return context;
 };

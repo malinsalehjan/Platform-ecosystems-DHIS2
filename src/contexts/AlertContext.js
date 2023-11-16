@@ -12,14 +12,16 @@ export const AlertProvider = ({ children }) => {
       [type]: true,
     };
 
-    setAlerts((prevAlerts) => [
-      ...prevAlerts,
+    setAlerts((previousAlerts) => [
+      ...previousAlerts,
       { id: Date.now(), message, options: alertOptions },
     ]);
   };
 
   const removeAlert = (id) => {
-    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
+    setAlerts((previousAlerts) =>
+      previousAlerts.filter((alert) => alert.id !== id),
+    );
   };
 
   return (
@@ -40,6 +42,7 @@ export const AlertProvider = ({ children }) => {
   );
 };
 
+// Simple custom hook to get access to the alert context methods
 export const useAlert = () => {
   const context = useContext(AlertContext);
   if (context === undefined) {

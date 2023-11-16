@@ -5,8 +5,12 @@ export const DataElementType = {
 };
 
 export const SortType = {
+  TYPE: 'type',
   NAME: 'name',
   QUANTITY: 'quantity',
+  AMOUNT: 'amount',
+  RECIPIENT: 'recipient',
+  DATETIME: 'datetime',
 };
 
 export const SortDirection = {

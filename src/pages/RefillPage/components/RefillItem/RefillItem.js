@@ -1,30 +1,27 @@
 import React from 'react';
 import {
-  Input,
   TableCell,
   TableRow,
   DropdownButton,
   FlyoutMenu,
   MenuItem,
-  IconEdit16,
   InputField,
   Button,
   IconCross24,
-  Tooltip,
 } from '@dhis2/ui';
 import classes from './RefillItem.module.css';
 
 // A table row in the refill table of the refill page
 export default function RefillItem({
   commodities,
-  mayDeleteFirstItem,
-  deleteItem,
-  updateItem,
+  mayRemoveFirstCommodity,
+  remove,
+  update,
   item,
   index,
 }) {
   return (
-    <TableRow>
+    <TableRow className={classes.row}>
       <TableCell>
         <DropdownButton
           component={
@@ -34,7 +31,7 @@ export default function RefillItem({
                   key={key}
                   label={commodities[key].name}
                   onClick={() => {
-                    updateItem(index, commodities[key], item.quantity, item.id);
+                    update(index, commodities[key], item.quantity, item.id);
                   }}
                 ></MenuItem>
               ))}
@@ -47,11 +44,12 @@ export default function RefillItem({
       <TableCell>{item?.commodity?.quantity ?? ''}</TableCell>
       <TableCell>
         <InputField
+          className={classes.amountInput}
           type="number"
           min="1"
           disabled={!item.commodity}
           onChange={(event) => {
-            updateItem(index, item.commodity, event.value, item.id);
+            update(index, item.commodity, event.value, item.id);
           }}
           placeholder="Select Amount"
           value={item.quantity}
@@ -66,8 +64,8 @@ export default function RefillItem({
         <Button
           small
           icon={<IconCross24 />}
-          onClick={() => deleteItem(index)}
-          className={mayDeleteFirstItem ? undefined : classes.hidden}
+          onClick={() => remove(index)}
+          className={mayRemoveFirstCommodity ? undefined : classes.hidden}
         />
       </TableCell>
     </TableRow>

@@ -6,25 +6,28 @@ import dispenseMutation from '../mutations/dispenseMutation';
 import refillMutation from '../mutations/refillMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
-import {getCurrentDateTime} from '../utility/dateUtility';
+import { getCurrentDateTime } from '../utility/dateUtility';
 import updateRecipientsMutation from '../mutations/updateRecipientsMutation';
 import currentUserQuery from '../queries/currentUserQuery';
 import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
-import { v4 as uuid } from 'uuid';
+import {
+  createDispenseTransactionDTO,
+  createRefillTransactionDTO,
+  formatTransactions,
+} from '../utility/transactionUtility';
 
 const DHIS2Context = createContext();
 
 // DHIS2Provider provides the DHIS2 context to all components inside of it
 export const DHIS2Provider = ({ children }) => {
-  const [keyword, setKeyword] = useState('');
   const [commodities, setCommodities] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [keyword, setKeyword] = useState('');
   const [sortedBy, setSortedBy] = useState({
     type: SortType.NAME,
     direction: SortDirection.ASCENDING,
   });
-
-  const { addAlert } = useAlert();
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
@@ -36,11 +39,20 @@ export const DHIS2Provider = ({ children }) => {
   const [updateTransactions] = useDataMutation(updateTransactionsMutation);
   const [updateRecipients] = useDataMutation(updateRecipientsMutation);
 
-  // When data is received, format it and update commodities accordingly
+  const { addAlert } = useAlert();
+
+  // When data is received, format it and update commodities and transactions accordingly
   useEffect(() => {
     if (data) {
       const commodities = formatCommodities(data, keyword, sortedBy);
       setCommodities(commodities);
+
+      const transactions = formatTransactions(
+        data.transactions.transactions,
+        keyword,
+        sortedBy,
+      );
+      setTransactions(transactions);
     }
   }, [keyword, sortedBy, loading, data]);
 
@@ -53,7 +65,7 @@ export const DHIS2Provider = ({ children }) => {
     return false;
   }
 
-  async function dispenseCommodity(commodityId, amount, recipient, date) {
+  async function dispenseCommodity(commodityId, amount, recipient, datetime) {
     const commodity = commodities.find(
       (commodity) => commodity.id === commodityId,
     );
@@ -70,19 +82,30 @@ export const DHIS2Provider = ({ children }) => {
       });
 
       // Update the Datastore with the updated transactions list
-      await updateTransactions({
-        transactions: [
-          {
-            commodityId: commodity.id,
-            commodity: commodity.name,
-            amount: amount,
-            dispensedBy: userData?.me?.displayName ?? 'Unknown',
-            dispensedTo: recipient,
-            date: date,
-          },
-          ...data.transactions.transactions,
-        ],
-      });
+      await updateTransactions(
+        createDispenseTransactionDTO(
+          commodity.name,
+          amount,
+          userData?.me?.displayName ?? 'Unknown',
+          recipient,
+          datetime,
+          data.transactions.transactions,
+        ),
+      );
+
+      // If recipient is new, update the Datastore with the updated recipients list
+      if (
+        !recipientsData?.recipients.recipients.includes(
+          recipient.toLowerCase().trim(),
+        )
+      ) {
+        await updateRecipients({
+          recipients: [
+            recipient.toLowerCase().trim(),
+            ...recipientsData?.recipients.recipients,
+          ],
+        });
+      }
 
       if (!checkIfRecipientExist(recipient)) {
         // Update the Datastore with the updated recipients list
@@ -98,10 +121,11 @@ export const DHIS2Provider = ({ children }) => {
 
       if (response.status === 'OK') {
         addAlert('Dispensed commodity successfully', 'success');
-        refetchRecipients();
       } else {
         addAlert('Failed to dispense commodity', 'critical');
       }
+      refetch();
+      refetchRecipients();
     } catch (error) {
       addAlert('Failed to dispense commodity', 'critical');
     }
@@ -116,76 +140,69 @@ export const DHIS2Provider = ({ children }) => {
     const newQuantity = parseInt(commodity.quantity) + amount;
 
     try {
-      await refill({
+      const response = await refill({
         elementId: commodityId,
         newQuantity,
       });
 
       // Update the Datastore with the updated transactions list
-      await updateTransactions({
-        transactions: [
-          ...data.transactions.transactions,
-          {
-            id: uuid(),
-            type: 'in',
-            commodityId: commodity.id,
-            commodity: commodity.name,
-            amount: amount,
-            datetime: getCurrentDateTime(),
-          },
-        ],
-      });
+      await updateTransactions(
+        createRefillTransactionDTO(
+          commodity.name,
+          amount,
+          getCurrentDateTime(),
+          data.transactions.transactions,
+        ),
+      );
 
-      addAlert(`Succesfully refilled ${commodity.name}`, 'success');
+      if (response.status === 'OK') {
+        addAlert(`Succesfully refilled ${commodity.name}`, 'success');
+      } else {
+        addAlert(`Failed to refill ${commodity.name}`, 'critical');
+      }
       refetch();
+      refetchRecipients();
     } catch (error) {
       addAlert(`Failed to refill ${commodity.name}`, 'critical');
     }
   }
 
-  function findIndexToRemove(toBeRemoved) {
-    const foundRecipient = recipientsData?.Recipients.recipients.find(
-      (element) => {
-        return element.recipient === toBeRemoved;
-      },
+  async function deleteRecipient(recipientToBeRemoved) {
+    const newRecipients = recipientsData?.recipients.recipients.filter(
+      (recipient) => recipient !== recipientToBeRemoved,
     );
-
-    if (foundRecipient) {
-      const indexToBeRemoved =
-        recipientsData?.Recipients.recipients.indexOf(foundRecipient);
-      return indexToBeRemoved;
-    }
-
-    return -1;
-  }
-
-  async function deleteRecipient(toBeRemoved) {
-    const index = findIndexToRemove(toBeRemoved);
-    let newArray = recipientsData?.Recipients.recipients
-      .slice(0, index)
-      .concat(recipientsData?.Recipients.recipients.slice(index + 1));
 
     try {
       const response = await updateRecipients({
-        recipients: [...newArray],
+        recipients: newRecipients,
       });
 
       if (response.status === 'OK') {
-        addAlert('Deletet recipient', 'success');
+        addAlert(
+          `Removed ${recipientToBeRemoved} from suggestion list successfully`,
+          'success',
+        );
         refetch();
       } else {
-        addAlert('Failed to delete recipient', 'critical');
+        addAlert(
+          `Failed to remove ${recipientToBeRemoved} from suggestion list`,
+          'critical',
+        );
       }
     } catch (error) {
-      addAlert('Failed to delete recipient', 'critical');
+      addAlert(
+        `Failed to remove ${recipientToBeRemoved} from suggestion list`,
+        'critical',
+      );
     }
   }
 
   // Set what type (e.g. name, quantity) to sort the commodities by
-  function sortBy(type) {
+  function sortBy(type, newDirection) {
     // If the type is the same as before, toggle the sort direction (ascending/descending)
-    const direction =
-      type === sortedBy.type
+    const direction = newDirection
+      ? newDirection
+      : type === sortedBy.type
         ? sortedBy.direction === SortDirection.ASCENDING
           ? SortDirection.DESCENDING
           : SortDirection.ASCENDING
@@ -209,6 +226,7 @@ export const DHIS2Provider = ({ children }) => {
         recipientsData,
         deleteRecipient,
         refetchRecipients,
+        transactions,
       }}
     >
       {children}

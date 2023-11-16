@@ -1,27 +1,25 @@
-import React, { createContext, useContext, useEffect} from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { request } from '../queries/transactionDataQueries';
 import { useDataQuery } from '@dhis2/app-runtime';
 
 const DHIS2HistoryContext = createContext();
 
 export const DHIS2HistoryProvider = ({ children }) => {
+  const { error, loading, data } = useDataQuery(request);
 
-    const { error, loading, data } = useDataQuery(request);
-
-    useEffect(() => {
-    }, [data]);
+  useEffect(() => {}, [data]);
 
   return (
-        <DHIS2HistoryContext.Provider
-          value={{
-            error,
-            loading,
-            data,
-          }}
-        >
-          {children}
-        </DHIS2HistoryContext.Provider>
-    );
+    <DHIS2HistoryContext.Provider
+      value={{
+        error,
+        loading,
+        data,
+      }}
+    >
+      {children}
+    </DHIS2HistoryContext.Provider>
+  );
 };
 
 export const useHistory = () => {
