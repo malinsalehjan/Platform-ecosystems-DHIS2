@@ -50,3 +50,35 @@
   margin: 1vw;
   color: #3063BA;
 }
+
+.confirmButton {
+  background-color: #397AD1 !important;
+  color: white !important;
+  margin-right: 50px; 
+  margin-top: 3vw;
+}
+
+.cancelButton {
+  margin-left: 50px; 
+  background-color: #EFEFEF !important;
+  color: #333333 !important;
+  margin-top: 3vw;
+}
+
+.trainingContent {
+  position: middle;
+  margin: 1vw;
+  padding: 2vw;
+}
+
+.trainingTitle {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 1vw;
+  line-height: 2;
+  color: #6D7277;
+}
+
+.trainingText {
+  color: #6D7277;
+}

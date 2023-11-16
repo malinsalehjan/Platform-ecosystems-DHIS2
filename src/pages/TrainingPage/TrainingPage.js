@@ -8,6 +8,7 @@ import LastCard from '../../components/PopupCard/LastCard';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import { useTrainingMode } from '../../contexts/TrainingModeContext';
 import CircularProgressBar from '../../components/ProgressBar/CircularProgressBar/CircularProgressBar';
+import TrainingCard from '../../components/PopupCard/TrainingCard';
 import Module from './Module.json'; 
 
 
@@ -22,6 +23,7 @@ export default function TrainingPage() {
 
   const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
+  const [TrainingCardDisplayed, setTrainingCardDisplayed] = useState(false);
   const { isTrainingMode, setIsTrainingMode } = useTrainingMode();
   
 
@@ -54,6 +56,11 @@ export default function TrainingPage() {
     setLastCardDisplayed(true);
   };
 
+  const handleCloseTrainingCard = () => {
+    setTrainingCardDisplayed(true);
+    setIsTrainingMode(false);
+  };
+
   
   return loading ? (
     <CircularLoader />
@@ -61,6 +68,7 @@ export default function TrainingPage() {
     <span>An error has occurred ...</span>
   ) : (
     <div className={classes.container} style={borderStyle}>
+
       <TrainingModeSwitch /> 
       <h2>Welcome to The Training Mode! </h2>
       <div className={classes.intro}>
@@ -68,7 +76,9 @@ export default function TrainingPage() {
         Users can use this application to test the flow of the application and get more tips and guidance on how to use it. <br></br>
         Changes made in training mode won't be saved permanently, so feel free to explore without worry!
         </p>
+
         <CircularProgressBar progress={overallProgress} />
+
       </div>
       <h3>Modules</h3>
       {Module.map((module, index) => (
@@ -83,6 +93,10 @@ export default function TrainingPage() {
             </Dropdown>
           </div>
         ))}
+
+      
+      {isTrainingMode && <TrainingCard confirmTesting={handleTryTestingMode} onClose={handleCloseTrainingCard} />}
+
 
       {allModulesOnLastSlide && !lastCardDisplayed && (
         <LastCard tryTestingMode={handleTryTestingMode} onClose={handleCloseLastCard} />
