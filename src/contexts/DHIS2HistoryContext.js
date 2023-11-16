@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect} from 'react';
-import { request } from '../Queries/transactionDataQueries';
+import { request } from '../queries/transactionDataQueries';
 import { useDataQuery } from '@dhis2/app-runtime';
 
 const DHIS2HistoryContext = createContext();

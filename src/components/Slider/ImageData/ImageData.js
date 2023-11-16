@@ -1,7 +1,7 @@
-import Inventory from './Images/Inventory.jpg';
-import Refill from './Images/Refill.jpg';
-import History from './Images/History.jpg';
-import Testingmode from './Images/Testingmode.jpg';
+import {Inventory, Inventory1, Inventory2, Inventory3, Inventory4, Inventory5} from './Images/Inventory/Inventory.jpg';
+import Refill from './Images/Refill/Refill.jpg';
+import History from './Images/History/History.jpg';
+import Testingmode from './Images/Testingmode/Testingmode.jpg';
 
 const getImageSrc = imagePath => {
   switch (imagePath) {

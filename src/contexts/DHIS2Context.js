@@ -1,15 +1,15 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useDataQuery, useDataMutation } from '@dhis2/app-runtime';
 import { SortDirection, SortType } from '../types';
-import commodityQuery from '../Queries/commodityQuery';
+import commodityQuery from '../queries/commodityQuery';
 import dispenseMutation from '../mutations/dispenseMutation';
 import refillMutation from '../mutations/refillMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
 import {getCurrentDateTime} from '../utility/dateUtility';
 import updateRecipientsMutation from '../mutations/updateRecipientsMutation';
-import currentUserQuery from '../Queries/currentUserQuery';
-import recipientsQuery from '../Queries/recipientsQuery';
+import currentUserQuery from '../queries/currentUserQuery';
+import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
 import { v4 as uuid } from 'uuid';
 
