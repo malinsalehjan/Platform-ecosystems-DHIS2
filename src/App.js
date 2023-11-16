@@ -5,6 +5,7 @@ import TrainingPage from './pages/TrainingPage/TrainingPage';
 import HistoryPage from './pages/HistoryPage/HistoryPage';
 import RefillPage from './pages/RefillPage/RefillPage';
 import { DHIS2Provider } from './contexts/DHIS2Context';
+import { TrainingModeProvider } from './contexts/TrainingModeContext';
 import { DHIS2HistoryProvider } from './contexts/DHIS2HistoryContext';
 import Navigation from './components/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
@@ -21,6 +22,7 @@ const App = () => {
   return (
     <div className={classes.container}>
       <AlertProvider>
+      <TrainingModeProvider> 
         <div className={classes.left}>
           <Navigation
             activePage={activePage}
@@ -44,6 +46,7 @@ const App = () => {
             </DHIS2HistoryProvider>
           </DHIS2Provider>
         </div>
+        </TrainingModeProvider>
       </AlertProvider>
     </div>
   );

@@ -6,12 +6,14 @@
   width: 100%;
   min-height: 20vh;
   display: block;
+  position: relative;
 }
 
 .container, .screenContainer, .screen {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
 }
 
 .screenContainer {
@@ -40,4 +42,8 @@ p {
   font-size: 1.2vw;
   line-height: 1.6;
   font-weight:400;
+}
+
+h2 {
+  padding:1vw;
 }
