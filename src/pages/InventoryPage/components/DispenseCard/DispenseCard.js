@@ -13,10 +13,10 @@ import { generateWarningMessage } from '../../../../utility/quantityWarningUtili
 import { useAlert } from '../../../../contexts/AlertContext';
 import { getCurrentDateTime } from '../../../../utility/dateUtility';
 import {
-  CrossIcon,
   RemoveIcon,
   RemovePersonIcon,
 } from '../../../../resources/icons/index';
+import { IconCross24 as CrossIcon } from '@dhis2/ui';
 import { capitalizeName } from '../../../../utility/nameUtility';
 
 export default function DispenseCard({
@@ -142,7 +142,7 @@ export default function DispenseCard({
         onClick={closeCard}
         disabled={selectedCommodity.quantity === '0'}
       >
-        <CrossIcon />
+        <CrossIcon/>
       </Button>
       <span>{selectedCommodity.name}</span>
       <FieldGroup>

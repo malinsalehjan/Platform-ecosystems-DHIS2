@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '@dhis2/ui';
 import styles from './PopupCard.module.css';
-import { CrossIcon } from '../../../../resources/icons/index';
+import { IconCross24 as CrossIcon } from '@dhis2/ui';
+
 
 const LastCard = ({ tryTestingMode, onClose }) => {
   return (
