@@ -40,3 +40,16 @@ img {
 .arrowRight:hover {
   fill: #00897b !important;
 }
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 28em;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+img {
+  height: 750px;
+}

@@ -1,21 +1,21 @@
-import inventory1 from '../images/Inventory/Inventory1.jpg';
-import inventory2 from '../images/Inventory/Inventory2.jpg';
-import inventory3 from '../images/Inventory/Inventory3.jpg';
-import inventory4 from '../images/Inventory/Inventory4.jpg';
-import inventory5 from '../images/Inventory/Inventory5.jpg';
-import inventory6 from '../images/Inventory/Inventory6.jpg';
-import inventoryRibbon from '../images/Inventory/Inventory.jpg';
+import inventory1 from '../images/inventory/Inventory1.jpg';
+import inventory2 from '../images/inventory/Inventory2.jpg';
+import inventory3 from '../images/inventory/Inventory3.jpg';
+import inventory4 from '../images/inventory/Inventory4.jpg';
+import inventory5 from '../images/inventory/Inventory5.jpg';
+import inventory6 from '../images/inventory/Inventory6.jpg';
+import inventoryRibbon from '../images/inventory/Inventory7.jpg';
 
-import replenish1 from '../images/Replenish/Replenish1.jpg';
-import replenish2 from '../images/Replenish/Replenish2.jpg';
-import replenish3 from '../images/Replenish/Replenish3.jpg';
-import replenish4 from '../images/Replenish/Replenish4.jpg';
-import replenishRibbon from '../images/Replenish/Replenish5.jpg';
+import replenish1 from '../images/replenish/Replenish1.jpg';
+import replenish2 from '../images/replenish/Replenish2.jpg';
+import replenish3 from '../images/replenish/Replenish3.jpg';
+import replenish4 from '../images/replenish/Replenish4.jpg';
+import replenishRibbon from '../images/replenish/Replenish5.jpg';
 
-import history1 from '../images/History/History1.jpg';
-import history2 from '../images/History/History2.jpg';
-import history3 from '../images/History/History3.jpg';
-import historyRibbon from '../images/History/History4.jpg';
+import history1 from '../images/history/History1.jpg';
+import history2 from '../images/history/History2.jpg';
+import history3 from '../images/history/History3.jpg';
+import historyRibbon from '../images/history/History4.jpg';
 
 import training1 from '../images/training/Testingmode1.jpg';
 import training2 from '../images/training/Testingmode2.jpg';

@@ -41,7 +41,12 @@ const Slider = ({ module }) => {
         {currentImage !== 0 && (
           <ArrowLeftIcon className={classes.arrowLeft} onClick={prevSlide} />
         )}
-        <img src={module.content.images[currentImage]} alt="slide" />
+        <div
+          className={classes.imageContainer}
+          style={{
+            backgroundImage: `url(${module.content.images[currentImage]})`,
+          }}
+        ></div>
         {currentImage < module.totalImages - 1 && (
           <ArrowRightIcon className={classes.arrowRight} onClick={nextSlide} />
         )}
