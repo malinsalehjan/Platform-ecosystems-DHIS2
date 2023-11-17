@@ -11,7 +11,7 @@ export default function ReplenishPage() {
   ]);
   const [loadingArtificially, setLoadingArtificially] = useState(false);
   const [enableButton, setEnableButton] = useState(false);
-  const { error, loading, commodities, replenishCommodity } = useDHIS2();
+  const { error, loading, commodities, replenishCommodities } = useDHIS2();
 
   const addCommodity = () => {
     setSelectedCommodities([
@@ -39,13 +39,8 @@ export default function ReplenishPage() {
   };
 
   const handleReplenish = () => {
+    replenishCommodities(selectedCommodities);
     setLoadingArtificially(true);
-
-    for (const item of selectedCommodities) {
-      if (item.commodity !== undefined && item.quantity !== 0) {
-        replenishCommodity(item.commodity.id, parseInt(item.quantity));
-      }
-    }
     clearCommodities();
     setTimeout(function () {
       setLoadingArtificially(false);

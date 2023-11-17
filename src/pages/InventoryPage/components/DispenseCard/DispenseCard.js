@@ -30,15 +30,9 @@ export default function DispenseCard({
   const [warning, setWarning] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showDelete, setShowDelete] = useState(true);
-  const {
-    dispenseCommodity,
-    recipients,
-    deleteRecipient,
-    refetchRecipients,
-  } = useDHIS2();
-  const [allSuggestions, setAllSuggestions] = useState(
-    recipients,
-  );
+  const { dispenseCommodity, recipients, deleteRecipient, refetchRecipients } =
+    useDHIS2();
+  const [allSuggestions, setAllSuggestions] = useState(recipients);
   const selectedDateTime = new Date(dateTime);
   const currentDateTime = new Date(getCurrentDateTime());
 
@@ -96,19 +90,17 @@ export default function DispenseCard({
   function removeRecipient(toBeRemoved) {
     deleteRecipient(toBeRemoved);
     refetchRecipients();
-    
   }
 
   function showHideRemove() {
     if (showRemoveRecipient) setShowRemoveRecipient(false);
     else setShowRemoveRecipient(true);
   }
-  
+
   function closeCard() {
-    
     setSelectedCommodity(null);
   }
-  
+
   function testValidInput(input) {
     if (input !== '') {
       if (typeof input !== 'string') return true;
@@ -175,28 +167,36 @@ export default function DispenseCard({
             value={recipient}
           />
         </div>
-          <div classNeme={classes.parentContainer}>
-            <div >
-            {showDelete && 
-              <button onClick={() => showHideRemove()} title="Remove recipient" className={classes.customDelete}>
+        <div>
+          <div>
+            {showDelete && (
+              <button
+                onClick={() => showHideRemove()}
+                title="Remove recipient"
+                className={classes.customDelete}
+              >
                 <IconDelete24 />
               </button>
-             }
-            </div>
-            <div className={classes.childContainer}>
-              {showSuggestions &&
-                suggestions?.map((suggestion, index) => (
-                  <Chip
+            )}
+          </div>
+          <div className={classes.childContainer}>
+            {showSuggestions &&
+              suggestions?.map((suggestion, index) => (
+                <Chip
+                  key={`suggestion-${index}`}
                   onClick={() => handleSuggestionClick(suggestion)}
                   label={suggestion}
-                  onRemove={showRemoveRecipient ? () => (removeRecipient(suggestion)
-                  ) : undefined}
-                  >
-                    {capitalizeName(suggestion)}
-                  </Chip>
-                ))}
-            </div>
+                  onRemove={
+                    showRemoveRecipient
+                      ? () => removeRecipient(suggestion)
+                      : undefined
+                  }
+                >
+                  {capitalizeName(suggestion)}
+                </Chip>
+              ))}
           </div>
+        </div>
         {wantsToChangeDateTime ? (
           <InputField
             type="datetime-local"

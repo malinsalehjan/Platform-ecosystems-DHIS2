@@ -11,7 +11,6 @@ const CircularProgressBar = ({ progress }) => {
 
   const progressValue = 100;
 
-
   return (
     <div className={styles['circular-progress-container']}>
       <CircularProgressbar

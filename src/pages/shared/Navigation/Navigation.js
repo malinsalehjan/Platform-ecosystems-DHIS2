@@ -1,7 +1,7 @@
 import React from 'react';
 import { Menu, MenuItem } from '@dhis2/ui';
-import {InventoryIcon, TrainingIcon} from '../../../resources/icons/index';
-import {IconClockHistory24, IconExportItems24 } from '@dhis2/ui';
+import { InventoryIcon, TrainingIcon } from '../../../resources/icons/index';
+import { IconClockHistory24, IconExportItems24 } from '@dhis2/ui';
 
 export default function Navigation(props) {
   return (
@@ -10,7 +10,7 @@ export default function Navigation(props) {
         label="Inventory"
         active={props.activePage === 'Inventory'}
         onClick={() => props.setActivePage('Inventory')}
-        icon={<InventoryIcon/>}
+        icon={<InventoryIcon />}
       />
       <MenuItem
         label="Replenish"

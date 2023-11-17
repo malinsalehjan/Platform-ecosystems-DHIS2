@@ -17,6 +17,7 @@ import { useDHIS2 } from '../../../../contexts/DHIS2Context';
 import { capitalizeName } from '../../../../utility/nameUtility';
 import SearchField from '../../../shared/SearchField/SearchField';
 import { SortDirection } from '../../../../types';
+import { TableCellHead } from '@dhis2-ui/table';
 
 export default function HistoryTable() {
   const [selectedLabel, setSelectedLabel] = useState('All');
@@ -24,6 +25,7 @@ export default function HistoryTable() {
   const pageSize = 13;
 
   const { transactions, sortBy } = useDHIS2();
+  console.log(transactions);
 
   const [totalSize, setTotalSize] = useState(transactions.length);
   const indexOfLastItem = currentPage * pageSize;
@@ -91,8 +93,8 @@ export default function HistoryTable() {
               name="datetime"
               displayName="Date and time"
             />
-            <SortableTableCellHead name="name" displayName="Commodity" />
-            <SortableTableCellHead name="quantity" />
+            <TableCellHead>Commodity</TableCellHead>
+            <TableCellHead>Quantity</TableCellHead>
             <SortableTableCellHead name="recipient" />
           </TableRowHead>
         </TableHead>
@@ -108,8 +110,32 @@ export default function HistoryTable() {
                 {row.type === 'in' ? 'Replenished' : 'Dispensed'}
               </TableCell>
               <TableCell>{row.datetime.split(' ').join(', ')}</TableCell>
-              <TableCell>{row.commodity}</TableCell>
-              <TableCell>{row.amount}</TableCell>
+              <TableCell>
+                {'commodities' in row ? (
+                  <dd>
+                    {row.commodities.map((commodity, commodityIndex) => (
+                      <dt key={`row-${index}-name-${commodityIndex}`}>
+                        {commodity.name}
+                      </dt>
+                    ))}
+                  </dd>
+                ) : (
+                  row.commodity
+                )}
+              </TableCell>
+              <TableCell>
+                {'commodities' in row ? (
+                  <dd>
+                    {row.commodities.map((commodity, commodityIndex) => (
+                      <dt key={`row-${index}-quantity-${commodityIndex}`}>
+                        {commodity.quantity}
+                      </dt>
+                    ))}
+                  </dd>
+                ) : (
+                  row.amount
+                )}
+              </TableCell>
               <TableCell>{capitalizeName(row.recipient)}</TableCell>
             </TableRow>
           ))}

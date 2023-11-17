@@ -36,7 +36,7 @@ export const DHIS2Provider = ({ children }) => {
       id: module.id,
       content: module,
       isComplete: false,
-      totalImages: module.images.length - 1,
+      totalImages: module.images.length,
     })),
   );
   const [trainingModeEnabled, setTrainingModeEnabled] = useState(false);
@@ -89,15 +89,6 @@ export const DHIS2Provider = ({ children }) => {
   useEffect(() => {
     if (recipientsData) setRecipients(recipientsData?.recipients.recipients);
   }, [recipientsData]);
-
-  function checkIfRecipientExist(recipient) {
-    for (const element of recipientsData?.Recipients.recipients) {
-      if (element.recipient === recipient) {
-        return true;
-      }
-    }
-    return false;
-  }
 
   async function dispenseCommodity(commodityId, amount, recipient, datetime) {
     const commodity = commodities.find(
@@ -170,18 +161,6 @@ export const DHIS2Provider = ({ children }) => {
           });
         }
 
-        if (!checkIfRecipientExist(recipient)) {
-          // Update the Datastore with the updated recipients list
-          await updateRecipients({
-            recipients: [
-              ...recipientsData?.Recipients.recipients,
-              {
-                recipient: recipient,
-              },
-            ],
-          });
-        }
-
         if (response.status === 'OK') {
           addAlert(`Dispensed ${commodity.name} successfully`, 'success');
         } else {
@@ -195,18 +174,18 @@ export const DHIS2Provider = ({ children }) => {
     }
   }
 
-  async function replenishCommodity(commodityId, amount) {
-    const commodity = commodities.find(
-      (commodity) => commodity.id === commodityId,
-    );
-
+  async function replenishCommodities(commodityQuantityPairs) {
     if (trainingModeEnabled) {
       setCommodities(
         commodities.map((commodity) => {
-          if (commodity.id === commodityId) {
+          const pair = commodityQuantityPairs.find(
+            (pair) => pair.commodity.id === commodity.id,
+          );
+
+          if (pair) {
             return {
               ...commodity,
-              quantity: parseInt(commodity.quantity) + amount,
+              quantity: parseInt(commodity.quantity) + parseInt(pair.quantity),
             };
           }
           return commodity;
@@ -217,43 +196,65 @@ export const DHIS2Provider = ({ children }) => {
         {
           id: uuid(),
           type: 'in',
-          amount: amount,
           datetime: getCurrentDateTime(),
-          commodity: commodity.name,
+          commodities: commodityQuantityPairs.map(({ commodity, quantity }) => {
+            return {
+              name: commodity.name,
+              quantity: parseInt(quantity),
+            };
+          }),
         },
         ...transactions,
       ]);
 
-      addAlert(`Succesfully replenished ${commodity.name}`, 'success');
+      addAlert(`Succesfully replenished commodities`, 'success');
     } else {
-      // Calculate what the new quantity should be
-      const newQuantity = parseInt(commodity.quantity) + amount;
+      const idQuantityPairs = commodityQuantityPairs.map((pair) => {
+        const { commodity, quantity } = pair;
+
+        return {
+          id: commodity.id,
+          quantity: parseInt(commodity.quantity) + parseInt(quantity),
+        };
+      });
 
       try {
         const response = await replenish({
-          elementId: commodityId,
-          newQuantity,
+          idQuantityPairs,
         });
 
-        // Update the Datastore with the updated transactions list
-        await updateTransactions(
-          createReplenishTransactionDTO(
-            commodity.name,
-            amount,
-            getCurrentDateTime(),
-            data.transactions.transactions,
-          ),
+        const nameQuantityPairs = commodityQuantityPairs.map(
+          ({ commodity, quantity }) => {
+            return {
+              name: commodity.name,
+              quantity: parseInt(quantity),
+            };
+          },
         );
 
+        console.log('name pairs:', nameQuantityPairs);
+
+        // Update the Datastore with the updated transactions list
+        const DTO = createReplenishTransactionDTO(
+          nameQuantityPairs,
+          getCurrentDateTime(),
+          data.transactions.transactions,
+        );
+
+        console.log('bruh');
+        console.log('DTO', DTO);
+
+        await updateTransactions(DTO);
+
         if (response.status === 'OK') {
-          addAlert(`Succesfully replenished ${commodity.name}`, 'success');
+          addAlert(`Succesfully replenished commodities`, 'success');
         } else {
-          addAlert(`Failed to replenished ${commodity.name}`, 'critical');
+          addAlert(`Failed to replenished commodities`, 'critical');
         }
         refetch();
         refetchRecipients();
       } catch (error) {
-        addAlert(`Failed to replenished ${commodity.name}`, 'critical');
+        addAlert(`Failed to replenished commodities`, 'critical');
       }
     }
   }
@@ -320,7 +321,7 @@ export const DHIS2Provider = ({ children }) => {
         sortedBy,
         searchForCommodity: setKeyword,
         dispenseCommodity,
-        replenishCommodity,
+        replenishCommodities,
         refetch,
         recipients,
         deleteRecipient,

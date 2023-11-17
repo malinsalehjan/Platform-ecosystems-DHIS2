@@ -11,6 +11,7 @@ export function formatTransactions(
       // Filter out transactions that do not match keyword from search field
       .filter((transaction) => {
         return (
+          'commodities' in transaction ||
           transaction?.commodity
             ?.toLowerCase()
             ?.includes(keyword.toLowerCase()) ||
@@ -22,13 +23,13 @@ export function formatTransactions(
       .sort((a, b) => {
         let result = 0;
         if (sortedBy.type === SortType.NAME) {
-          result = a.commodity.localeCompare(b.commodity);
+          result = a.commodity?.localeCompare(b.commodity);
         } else if (sortedBy.type === SortType.QUANTITY) {
           result = a.amount - b.amount;
         } else if (sortedBy.type === SortType.DATETIME) {
           result = a.datetime?.localeCompare(b.datetime);
         } else if (sortedBy.type === SortType.TYPE) {
-          result = a.type.localeCompare(b.type);
+          result = a.type?.localeCompare(b.type);
         } else if (sortedBy.type === SortType.RECIPIENT) {
           result = a.recipient?.localeCompare(b.recipient);
         }
@@ -67,14 +68,18 @@ export function createDispenseTransactionDTO(
 }
 
 export function createReplenishTransactionDTO(
-  commodity,
-  amount,
+  nameQuantityPairs,
   datetime,
   previousTransactions,
 ) {
   return {
     transactions: [
-      { id: uuid(), type: 'in', commodity, amount, datetime },
+      {
+        id: uuid(),
+        type: 'in',
+        commodities: nameQuantityPairs,
+        datetime,
+      },
       ...previousTransactions,
     ],
   };

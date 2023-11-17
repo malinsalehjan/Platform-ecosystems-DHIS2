@@ -20,7 +20,6 @@ import historyRibbon from '../images/history/History4.jpg';
 import training1 from '../images/training/Trainingmode1.jpg';
 import training2 from '../images/training/Trainingmode2.jpg';
 import training3 from '../images/training/Trainingmode3.jpg';
-import training4 from '../images/training/Trainingmode4.jpg';
 import trainingRibbon from '../images/training/Trainingmode4.jpg';
 
 export default [
@@ -50,6 +49,6 @@ export default [
   {
     id: 3,
     title: '04 Using Training Mode',
-    images: [training1, training2, training3, training4, trainingRibbon],
+    images: [training1, training2, training3, trainingRibbon],
   },
 ];

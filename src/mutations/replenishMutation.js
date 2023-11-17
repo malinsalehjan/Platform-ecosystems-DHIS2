@@ -5,8 +5,7 @@ export default {
   resource: 'dataValueSets',
   type: 'create',
   data: ({
-    elementId,
-    newQuantity,
+    idQuantityPairs,
     period = getCurrentPeriod(),
     date = getCurrentDate(),
   }) => ({
@@ -14,12 +13,12 @@ export default {
     orgUnit: 'yMCshbaVExv',
     completeDate: date,
     period: period,
-    dataValues: [
-      {
-        dataElement: elementId,
+    dataValues: idQuantityPairs.map((pair) => {
+      return {
+        dataElement: pair.id,
         categoryOptionCombo: DataElementType.END_BALANCE,
-        value: newQuantity.toString(),
-      },
-    ],
+        value: pair.quantity.toString(),
+      };
+    }),
   }),
 };
