@@ -1,51 +1,44 @@
 .intro {
   display: flex;
-  width: 95%;
+  gap: 2em;
+  width: 100%;
+  margin-top: 20px;
 }
+
+.intro h2 {
+  margin-top: 0;
+}
+
 .container {
   width: 100%;
+  margin: auto;
   min-height: 20vh;
   display: block;
   position: relative;
   box-sizing: border-box;
 }
 
-.container, .screenContainer, .screen {
+.container,
+.screenContainer,
+.screen {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  
 }
 
 .screenContainer {
   display: flex;
   width: 90%;
-  height: 90vh; 
-  margin-top: 20px;
   border-radius: 10px;
+  padding: 2em;
 }
 
 .screen {
   display: flex;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: white;
   width: 100%;
 }
 
 .dropdownContainer {
   display: flex;
   flex-direction: column;
-}
-
-p {
-  font-size: 1.2vw;
-  line-height: 1.6;
-  font-weight:400;
-}
-
-h2 {
-  padding:1vw;
 }

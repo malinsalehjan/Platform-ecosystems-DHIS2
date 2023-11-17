@@ -9,13 +9,13 @@ import { useDHIS2 } from '../../contexts/DHIS2Context';
 import { useTrainingMode } from '../../contexts/TrainingModeContext';
 import CircularProgressBar from './components/ProgressBar/CircularProgressBar/CircularProgressBar';
 import TrainingCard from './components/PopupCard/TrainingCard';
-import Module from './Module.json';
+import trainingModules from '../../resources/trainingModules/trainingModules.json';
 
 export default function TrainingPage() {
   const { loading, error } = useDHIS2();
 
   const initialOnLastSlide = [];
-  for (let i = 0; i < Module.length; i++) {
+  for (let i = 0; i < trainingModules.length; i++) {
     const isCompleted =
       sessionStorage.getItem(`moduleCompleted_module${i + 1}`) === 'true';
     initialOnLastSlide.push(isCompleted);
@@ -23,10 +23,9 @@ export default function TrainingPage() {
 
   const [onLastSlide, setOnLastSlide] = useState(initialOnLastSlide);
   const [lastCardDisplayed, setLastCardDisplayed] = useState(false);
-  const [TrainingCardDisplayed, setTrainingCardDisplayed] = useState(false);
   const { isTrainingMode, setIsTrainingMode } = useTrainingMode();
 
-  const totalModules = Module.length;
+  const totalModules = trainingModules.length;
   const completedModules = onLastSlide.filter((status) => status).length;
   const overallProgress = (completedModules / totalModules) * 100;
 
@@ -54,7 +53,6 @@ export default function TrainingPage() {
   };
 
   const handleCloseTrainingCard = () => {
-    setTrainingCardDisplayed(true);
     setIsTrainingMode(false);
   };
 
@@ -65,19 +63,20 @@ export default function TrainingPage() {
   ) : (
     <div className={classes.container} style={borderStyle}>
       <TrainingModeSwitch />
-      <h2>Welcome to The Training Mode! </h2>
       <div className={classes.intro}>
-        <p>
-          Users can use this application to test the flow of the application and
-          get more tips and guidance on how to use it. <br></br>
-          Changes made in training mode won't be saved permanently, so feel free
-          to explore without worry!
-        </p>
-
+        <div>
+          <h2>Welcome to The Training Mode! </h2>
+          <p>
+            Users can use this application to test the flow of the application
+            and get more tips and guidance on how to use it. <br></br>
+            Changes made in training mode won't be saved permanently, so feel
+            free to explore without worry!
+          </p>
+        </div>
         <CircularProgressBar progress={overallProgress} />
       </div>
       <h3>Modules</h3>
-      {Module.map((module, index) => (
+      {trainingModules.map((module, index) => (
         <div key={module.moduleId} className={classes[`dropdown${index + 1}`]}>
           <Dropdown
             moduleId={module.moduleId}

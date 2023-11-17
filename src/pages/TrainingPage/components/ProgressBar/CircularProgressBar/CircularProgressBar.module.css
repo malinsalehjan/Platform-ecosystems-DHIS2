@@ -1,6 +1,6 @@
 .circular-progress-container {
-    text-align: center;
-    margin-left: auto;
-    width: 10vw; 
-    height: 10vw; 
-  }
+  min-width: 8em;
+  min-height: 8em;
+  max-width: 8em;
+  max-height: 8em;
+}

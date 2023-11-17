@@ -23,19 +23,21 @@ const App = () => {
             <Navigation activePage={activePage} setActivePage={setActivePage} />
           </div>
           <div className={classes.right}>
-            <div className={classes.details}>
-              <span>
-                <CalendarIcon />
-                <span>{currentDate}</span>
-              </span>
-              <span>Days until next delivery: {daysUntilDelivery()}</span>
+            <div className={classes.center}>
+              <div className={classes.details}>
+                <span>
+                  <CalendarIcon />
+                  <span>{currentDate}</span>
+                </span>
+                <span>Days until next delivery: {daysUntilDelivery()}</span>
+              </div>
+              <DHIS2Provider>
+                {activePage === 'Inventory' && <InventoryPage />}
+                {activePage === 'Refill' && <RefillPage />}
+                {activePage === 'History' && <HistoryPage />}
+                {activePage === 'TrainingPage' && <TrainingPage />}
+              </DHIS2Provider>
             </div>
-            <DHIS2Provider>
-              {activePage === 'Inventory' && <InventoryPage />}
-              {activePage === 'Refill' && <RefillPage />}
-              {activePage === 'History' && <HistoryPage />}
-              {activePage === 'TrainingPage' && <TrainingPage />}
-            </DHIS2Provider>
           </div>
         </TrainingModeProvider>
       </AlertProvider>

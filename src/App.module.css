@@ -1,17 +1,27 @@
+body {
+  background: #f3f5f7;
+}
+
 .container {
   display: flex;
   height: calc(100vh - 3em);
 }
 
 .left {
-  width: 12em;
+  min-width: 12em;
   padding-top: 1em;
+  background: white;
 }
 
 .right {
   flex-grow: 1;
   padding: 1em;
-  background: #f0f0f0;
+  overflow-y: scroll;
+}
+
+.center {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .details {

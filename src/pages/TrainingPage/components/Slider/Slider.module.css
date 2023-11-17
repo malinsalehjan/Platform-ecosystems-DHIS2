@@ -1,45 +1,42 @@
 .slider {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    position: relative;
-    height: 100vh;
-    width: 90%;
-    box-sizing: border-box;
-    margin-top: 30px;
-  }
-  
-  .slide {
-    position: relative;
-    width: 100%;
-    height: 75vh; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  img {
-    max-width: 100%;
-    max-height: 100%; 
-  }
-  
-  .arrowLeft, .arrowRight {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    cursor: pointer;
-  }
-  
-  .arrowLeft{
-    left: -3vw;
-  }
-  
-  .arrowRight {
-    right: -3vw;
-  }
-  
-  .arrowLeft:hover,
-  .arrowRight:hover{
-    fill: #00897b !important;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.arrowLeft,
+.arrowRight {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  cursor: pointer;
+}
+
+.arrowLeft {
+  left: -3em;
+}
+
+.arrowRight {
+  right: -3em;
+}
+
+.arrowLeft:hover,
+.arrowRight:hover {
+  fill: #00897b !important;
+}

@@ -8,7 +8,8 @@
   border-radius: 40px;
   box-shadow: 0 0 10px rgba(0, 0, 0.2, 0.2);
   height: 25px;
-  border: 1px solid #D5DDE5;
+  border: 1px solid #d5dde5;
+  padding: 0 1em;
 }
 
 .bar {
@@ -33,6 +34,6 @@
 }
 
 .progress-text:last-child {
-  margin-right: 0; 
+  margin-right: 0;
   margin: 5px;
 }

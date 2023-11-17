@@ -3,15 +3,15 @@
 }
 
 .dropdown {
-  margin-bottom: 1vw;
+  margin-bottom: 1em;
   border-radius: 5px;
 }
 
 .dropdownHeader {
   cursor: pointer;
-  padding: 1.5vw;
-  background-color: #E6E4E4;
-  color: #4A5768;
+  padding: 1.5em;
+  background-color: #e6e4e4;
+  color: #4a5768;
   font-weight: bold;
   border-radius: 5px;
   display: flex;
@@ -30,5 +30,5 @@
 }
 
 .completed .dropdownHeader {
-  background-color: inherit; 
+  background-color: inherit;
 }
