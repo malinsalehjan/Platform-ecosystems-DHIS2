@@ -28,19 +28,19 @@
       "title": "02 Replenish a commodity",
       "imageData": [
         {
-          "image": "./Images/Refill/Refill1.jpg"
+          "image": "./Images/Replenish/Replenish1.jpg"
         },
         {
-          "image": "./Images/Refill/Refill2.jpg"
+          "image": "./Images/Replenish/Replenish2.jpg"
         },
         {
-          "image": "./Images/Refill/Refill3.jpg"
+          "image": "./Images/Replenish/Replenish3.jpg"
         },
         {
-          "image": "./Images/Refill/Refill4.jpg"
+          "image": "./Images/Replenish/Replenish4.jpg"
         },
         {
-          "image": "./Images/Refill/Refill5.jpg"
+          "image": "./Images/Replenish/Replenish5.jpg"
         }
       ]
     },

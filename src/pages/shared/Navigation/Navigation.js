@@ -10,9 +10,9 @@ export default function Navigation(props) {
         onClick={() => props.setActivePage('Inventory')}
       />
       <MenuItem
-        label="Refill"
-        active={props.activePage === 'Refill'}
-        onClick={() => props.setActivePage('Refill')}
+        label="Replenish"
+        active={props.activePage === 'Replenish'}
+        onClick={() => props.setActivePage('Replenish')}
       />
       <MenuItem
         label="History"

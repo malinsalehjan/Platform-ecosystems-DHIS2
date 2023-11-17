@@ -1,27 +1,47 @@
-.indicator {
-  z-index: 1;
+.border {
   position: fixed;
   top: 48px;
   left: 12em;
+  z-index: 1;
 
   width: calc(100vw - 12em);
   height: calc(100vh - 48px);
-  border: 4px solid #ff8302;
+  border: 4px solid #ffa902;
   box-sizing: border-box;
   box-shadow: 0 0 8px #6c7787 inset;
+  pointer-events: none;
 }
 
-.indicator > div {
+.actions {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 12em;
+  z-index: 1;
 
   display: flex;
   align-items: center;
   gap: 1em;
 
-  padding: 0.5em;
-  background: #ff8302;
+  padding: 0.5em 1em;
+  box-shadow: 2px -2px 5px 1px #6c778050;
+  border-top-right-radius: 0.5em;
+  background: #ffa902;
   color: white;
-  box-shadow: 3px -3px 6px 1px #6c778780;
+}
+
+.actions button {
+  border: none;
+  background: none;
+}
+
+.actions button:hover {
+  background: #ff9302;
+}
+
+.actions button:active {
+  background: #bb460d !important;
+}
+
+.actions button svg {
+  color: white;
 }

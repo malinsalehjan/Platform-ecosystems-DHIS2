@@ -66,7 +66,7 @@ export function createDispenseTransactionDTO(
   };
 }
 
-export function createRefillTransactionDTO(
+export function createReplenishTransactionDTO(
   commodity,
   amount,
   datetime,

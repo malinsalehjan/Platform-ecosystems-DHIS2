@@ -7,12 +7,12 @@ import {
   MenuItem,
   InputField,
   Button,
-  IconCross24,
+  IconCross24 as CrossIcon,
 } from '@dhis2/ui';
-import classes from './RefillItem.module.css';
+import classes from './ReplenishItem.module.css';
 
-// A table row in the refill table of the refill page
-export default function RefillItem({
+// A table row in the replenish table of the replenish page
+export default function ReplenishItem({
   commodities,
   mayRemoveFirstCommodity,
   remove,
@@ -63,7 +63,7 @@ export default function RefillItem({
       <TableCell>
         <Button
           small
-          icon={<IconCross24 />}
+          icon={<CrossIcon />}
           onClick={() => remove(index)}
           className={mayRemoveFirstCommodity ? undefined : classes.hidden}
         />

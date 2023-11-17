@@ -6,9 +6,9 @@ import {
   TableRowHead,
   TableCellHead,
 } from '@dhis2/ui';
-import RefillItem from '../RefillItem/RefillItem';
+import ReplenishItem from '../ReplenishItem/ReplenishItem';
 
-export default function RefillTable({
+export default function ReplenishTable({
   selectedCommodities,
   nonSelectedCommodities,
   update,
@@ -22,13 +22,13 @@ export default function RefillTable({
           <TableCellHead>Commodity</TableCellHead>
           <TableCellHead>Current stock</TableCellHead>
           <TableCellHead>Received amount</TableCellHead>
-          <TableCellHead>Stock after refill</TableCellHead>
+          <TableCellHead>Stock after replenish</TableCellHead>
           <TableCellHead></TableCellHead>
         </TableRowHead>
       </TableHead>
       <TableBody>
         {selectedCommodities.map((item, index) => (
-          <RefillItem
+          <ReplenishItem
             commodities={nonSelectedCommodities}
             mayRemoveFirstCommodity={mayRemoveFirstCommodity}
             key={`item-${index}`}

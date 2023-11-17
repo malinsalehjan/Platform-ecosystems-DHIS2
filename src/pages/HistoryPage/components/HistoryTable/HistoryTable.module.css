@@ -25,12 +25,12 @@
   background: #f44336 !important;
 }
 
-.refilled {
+.replenished {
   background: #4caf50 !important;
 }
 
 .dispensed td,
-.refilled td {
+.replenished td {
   background: none;
 }
 

@@ -3,7 +3,7 @@ import { useDataQuery, useDataMutation } from '@dhis2/app-runtime';
 import { SortDirection, SortType } from '../types';
 import commodityQuery from '../queries/commodityQuery';
 import dispenseMutation from '../mutations/dispenseMutation';
-import refillMutation from '../mutations/refillMutation';
+import replenishMutation from '../mutations/replenishMutation';
 import { useAlert } from '../contexts/AlertContext';
 import updateTransactionsMutation from '../mutations/updateTransactionsMutation';
 import { getCurrentDateTime } from '../utility/dateUtility';
@@ -13,7 +13,7 @@ import recipientsQuery from '../queries/recipientsQuery';
 import { formatCommodities } from '../utility/commodityUtility';
 import {
   createDispenseTransactionDTO,
-  createRefillTransactionDTO,
+  createReplenishTransactionDTO,
   formatTransactions,
 } from '../utility/transactionUtility';
 
@@ -36,7 +36,7 @@ export const DHIS2Provider = ({ children }) => {
     useDataQuery(recipientsQuery);
 
   const [dispense] = useDataMutation(dispenseMutation);
-  const [refill] = useDataMutation(refillMutation);
+  const [replenish] = useDataMutation(replenishMutation);
   const [updateTransactions] = useDataMutation(updateTransactionsMutation);
   const [updateRecipients] = useDataMutation(updateRecipientsMutation);
 
@@ -148,7 +148,7 @@ export const DHIS2Provider = ({ children }) => {
     }
   }
 
-  async function refillCommodity(commodityId, amount) {
+  async function replenishCommodity(commodityId, amount) {
     const commodity = commodities.find(
       (commodity) => commodity.id === commodityId,
     );
@@ -157,14 +157,14 @@ export const DHIS2Provider = ({ children }) => {
     const newQuantity = parseInt(commodity.quantity) + amount;
 
     try {
-      const response = await refill({
+      const response = await replenish({
         elementId: commodityId,
         newQuantity,
       });
 
       // Update the Datastore with the updated transactions list
       await updateTransactions(
-        createRefillTransactionDTO(
+        createReplenishTransactionDTO(
           commodity.name,
           amount,
           getCurrentDateTime(),
@@ -173,14 +173,14 @@ export const DHIS2Provider = ({ children }) => {
       );
 
       if (response.status === 'OK') {
-        addAlert(`Succesfully refilled ${commodity.name}`, 'success');
+        addAlert(`Succesfully replenished ${commodity.name}`, 'success');
       } else {
-        addAlert(`Failed to refill ${commodity.name}`, 'critical');
+        addAlert(`Failed to replenished ${commodity.name}`, 'critical');
       }
       refetch();
       refetchRecipients();
     } catch (error) {
-      addAlert(`Failed to refill ${commodity.name}`, 'critical');
+      addAlert(`Failed to replenished ${commodity.name}`, 'critical');
     }
   }
 
@@ -238,7 +238,7 @@ export const DHIS2Provider = ({ children }) => {
         sortedBy,
         searchForCommodity: setKeyword,
         dispenseCommodity,
-        refillCommodity,
+        replenishCommodity,
         refetch,
         recipientsData,
         deleteRecipient,

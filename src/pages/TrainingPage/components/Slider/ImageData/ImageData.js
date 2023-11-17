@@ -5,11 +5,11 @@ import Inventory4 from './Images/Inventory/Inventory4.jpg';
 import Inventory5 from './Images/Inventory/Inventory5.jpg';
 import Inventory6 from './Images/Inventory/Inventory6.jpg';
 
-import Refill1 from './Images/Refill/Refill1.jpg';
-import Refill2 from './Images/Refill/Refill2.jpg';
-import Refill3 from './Images/Refill/Refill3.jpg';
-import Refill4 from './Images/Refill/Refill4.jpg';
-import Refill5 from './Images/Refill/Refill5.jpg';
+import Replenish1 from './Images/Replenish/Replenish1.jpg';
+import Replenish2 from './Images/Replenish/Replenish2.jpg';
+import Replenish3 from './Images/Replenish/Replenish3.jpg';
+import Replenish4 from './Images/Replenish/Replenish4.jpg';
+import Replenish5 from './Images/Replenish/Replenish5.jpg';
 
 import History1 from './Images/History/History1.jpg';
 import History2 from './Images/History/History2.jpg';
@@ -30,12 +30,12 @@ const imageMapping = {
   './Images/Inventory/Inventory5.jpg': Inventory5,
   './Images/Inventory/Inventory6.jpg': Inventory6,
 
-  // Refill images
-  './Images/Refill/Refill1.jpg': Refill1,
-  './Images/Refill/Refill2.jpg': Refill2,
-  './Images/Refill/Refill3.jpg': Refill3,
-  './Images/Refill/Refill4.jpg': Refill4,
-  './Images/Refill/Refill5.jpg': Refill5,
+  // Replenish images
+  './Images/Replenish/Replenish1.jpg': Replenish1,
+  './Images/Replenish/Replenish2.jpg': Replenish2,
+  './Images/Replenish/Replenish3.jpg': Replenish3,
+  './Images/Replenish/Replenish4.jpg': Replenish4,
+  './Images/Replenish/Replenish5.jpg': Replenish5,
 
   // History images
   './Images/History/History1.jpg': History1,

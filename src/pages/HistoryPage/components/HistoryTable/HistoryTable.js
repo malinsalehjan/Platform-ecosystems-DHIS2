@@ -100,7 +100,7 @@ export default function HistoryTable() {
               <TableCell className={classes.typeCell}>
                 <div
                   className={`${classes.typeIndicator} ${
-                    row.type === 'in' ? classes.refilled : classes.dispensed
+                    row.type === 'in' ? classes.replenished : classes.dispensed
                   }`}
                 />
                 {row.type === 'in' ? 'Replenished' : 'Dispensed'}
