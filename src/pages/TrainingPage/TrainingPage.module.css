@@ -9,6 +9,10 @@
   margin-top: 0;
 }
 
+.intro p {
+  line-height: 1.5em;
+}
+
 .container {
   width: 100%;
   margin: auto;

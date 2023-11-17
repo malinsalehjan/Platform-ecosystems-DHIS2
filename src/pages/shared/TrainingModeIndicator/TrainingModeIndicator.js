@@ -1,22 +1,24 @@
 import React from 'react';
-import classes from './SandboxIndicator.module.css';
+import classes from './TrainingModeIndicator.module.css';
 import { Button, IconCross24 as CrossIcon } from '@dhis2/ui';
 import { useDHIS2 } from '../../../contexts/DHIS2Context';
 
-export default function SandboxIndicator() {
-  const { sandboxEnabled, setSandboxEnabled } = useDHIS2();
+export default function TrainingModeIndicator() {
+  const { trainingModeEnabled, setTrainingModeEnabled } = useDHIS2();
 
   return (
-    sandboxEnabled && (
+    trainingModeEnabled && (
       <div>
         {<div className={classes.border} />}
         <div
-          className={`${classes.actions} ${sandboxEnabled && classes.enabled}`}
+          className={`${classes.actions} ${
+            trainingModeEnabled && classes.enabled
+          }`}
         >
           <span>{'Training mode enabled. Actions will not be saved'}</span>
           <Button
             icon={<CrossIcon />}
-            onClick={() => setSandboxEnabled(false)}
+            onClick={() => setTrainingModeEnabled(false)}
           />
         </div>
       </div>

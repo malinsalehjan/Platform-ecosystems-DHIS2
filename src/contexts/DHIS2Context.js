@@ -28,7 +28,7 @@ export const DHIS2Provider = ({ children }) => {
     type: SortType.NAME,
     direction: SortDirection.ASCENDING,
   });
-  const [sandboxEnabled, setSandboxEnabled] = useState(false);
+  const [trainingModeEnabled, setTrainingModeEnabled] = useState(false);
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
@@ -67,7 +67,7 @@ export const DHIS2Provider = ({ children }) => {
   }
 
   async function dispenseCommodity(commodityId, amount, recipient, datetime) {
-    if (sandboxEnabled) {
+    if (trainingModeEnabled) {
       setCommodities(
         commodities.map((commodity) => {
           if (commodity.id === commodityId) {
@@ -244,8 +244,8 @@ export const DHIS2Provider = ({ children }) => {
         deleteRecipient,
         refetchRecipients,
         transactions,
-        sandboxEnabled,
-        setSandboxEnabled,
+        trainingModeEnabled,
+        setTrainingModeEnabled,
       }}
     >
       {children}

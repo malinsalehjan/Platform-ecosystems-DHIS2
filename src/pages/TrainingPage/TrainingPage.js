@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, CircularLoader } from '@dhis2/ui';
+import { CircularLoader, Switch } from '@dhis2/ui';
 import classes from './TrainingPage.module.css';
 import Slider from './components/Slider/Slider';
 import Dropdown from './components/Dropdown/Dropdown';
@@ -10,7 +10,8 @@ import TrainingCard from './components/PopupCard/TrainingCard';
 import trainingModules from '../../resources/trainingModules/trainingModules.json';
 
 export default function TrainingPage() {
-  const { loading, error, sandboxEnabled, setSandboxEnabled } = useDHIS2();
+  const { loading, error, trainingModeEnabled, setTrainingModeEnabled } =
+    useDHIS2();
 
   const initialOnLastSlide = [];
   for (let i = 0; i < trainingModules.length; i++) {
@@ -59,16 +60,18 @@ export default function TrainingPage() {
     <div className={classes.container}>
       <div className={classes.intro}>
         <div>
-          <h2>Welcome to The Training Mode! </h2>
+          <h2>Training</h2>
           <p>
-            Users can use this application to test the flow of the application
-            and get more tips and guidance on how to use it. <br></br>
+            You can use this application to test the flow of the application and
+            get more tips and guidance on how to use it. <br></br>
             Changes made in training mode won't be saved permanently, so feel
             free to explore without worry!
           </p>
-          <Button onClick={() => setSandboxEnabled(!sandboxEnabled)}>
-            {sandboxEnabled ? 'Disable training mode' : 'Enable training mode'}
-          </Button>
+          <Switch
+            label="Enable training mode"
+            checked={trainingModeEnabled}
+            onChange={() => setTrainingModeEnabled(!trainingModeEnabled)}
+          />
         </div>
         <CircularProgressBar progress={overallProgress} />
       </div>

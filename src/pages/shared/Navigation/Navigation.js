@@ -20,7 +20,7 @@ export default function Navigation(props) {
         onClick={() => props.setActivePage('History')}
       />
       <MenuItem
-        label="Training page"
+        label="Training"
         active={props.activePage === 'TrainingPage'}
         onClick={() => props.setActivePage('TrainingPage')}
       />
