@@ -17,11 +17,11 @@ import history2 from '../images/history/History2.jpg';
 import history3 from '../images/history/History3.jpg';
 import historyRibbon from '../images/history/History4.jpg';
 
-import training1 from '../images/training/Testingmode1.jpg';
-import training2 from '../images/training/Testingmode2.jpg';
-import training3 from '../images/training/Testingmode3.jpg';
-import training4 from '../images/training/Testingmode4.jpg';
-import trainingRibbon from '../images/training/Testingmode.jpg';
+import training1 from '../images/training/Trainingmode1.jpg';
+import training2 from '../images/training/Trainingmode2.jpg';
+import training3 from '../images/training/Trainingmode3.jpg';
+import training4 from '../images/training/Trainingmode4.jpg';
+import trainingRibbon from '../images/training/Trainingmode4.jpg';
 
 export default [
   {

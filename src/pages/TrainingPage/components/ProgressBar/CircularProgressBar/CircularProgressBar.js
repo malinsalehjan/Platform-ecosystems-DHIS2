@@ -9,6 +9,9 @@ const CircularProgressBar = ({ progress }) => {
   const textColor = progress === 100 ? '#449F48' : '#0d47a1';
   const pathColor = progress === 100 ? '#449F48' : '#0d47a1';
 
+  const progressValue = 100;
+
+
   return (
     <div className={styles['circular-progress-container']}>
       <CircularProgressbar
