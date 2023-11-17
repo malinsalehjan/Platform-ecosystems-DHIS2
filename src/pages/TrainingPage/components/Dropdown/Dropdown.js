@@ -1,38 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import styles from './Dropdown.module.css';
-import { IconChevronDown24	as ChevronDown } from '@dhis2/ui';
+import classes from './Dropdown.module.css';
+import {
+  IconChevronDown24 as ChevronDown,
+  IconChevronUp24 as ChevronUp,
+} from '@dhis2/ui';
 
+const Dropdown = ({ title, completed, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const Dropdown = ({ title, children, moduleId, onLastSlide }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  // Save which modules are completed even if you change site
-  const localStorageKey = `moduleCompleted_${moduleId}`;
-
-  useEffect(() => {
-    if (onLastSlide) {
-      sessionStorage.setItem(localStorageKey, 'true');
-    }
-  }, [onLastSlide, localStorageKey]);
-
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const dropdownClasses = classNames(styles.dropdown, {
-    [styles.completed]: sessionStorage.getItem(localStorageKey) === 'true',
-  });
+  const dropdownClasses = classNames(
+    classes.dropdown,
+    completed && classes.completed,
+  );
 
   return (
     <div className={dropdownClasses}>
-      <div className={styles.dropdownHeader} onClick={handleDropdownToggle}>
+      <div
+        className={classes.dropdownHeader}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {title}
-        <ChevronDown className={styles.chevronIcon} />
+        {isOpen ? <ChevronUp /> : <ChevronDown />}
       </div>
-      {isDropdownOpen && (
-        <div className={styles.dropdownContent}>{children}</div>
-      )}
+      {isOpen && <div className={classes.dropdownContent}>{children}</div>}
     </div>
   );
 };

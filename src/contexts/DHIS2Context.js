@@ -16,6 +16,7 @@ import {
   createReplenishTransactionDTO,
   formatTransactions,
 } from '../utility/transactionUtility';
+import trainingModules from '../resources/trainingModules/trainingModules.json';
 
 const DHIS2Context = createContext();
 
@@ -29,6 +30,13 @@ export const DHIS2Provider = ({ children }) => {
     direction: SortDirection.ASCENDING,
   });
   const [trainingModeEnabled, setTrainingModeEnabled] = useState(false);
+  const [trainingModuleProgress, setTrainingModuleProgress] = useState(
+    trainingModules.map((module) => ({
+      id: module.id,
+      isComplete: false,
+      totalImages: module.images.length,
+    })),
+  );
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
@@ -267,6 +275,8 @@ export const DHIS2Provider = ({ children }) => {
         transactions,
         trainingModeEnabled,
         setTrainingModeEnabled,
+        trainingModuleProgress,
+        setTrainingModuleProgress,
       }}
     >
       {children}
