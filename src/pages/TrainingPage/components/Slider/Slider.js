@@ -30,15 +30,21 @@ const Slider = ({ onLastSlide, images }) => {
 
   return (
     <div className={classes.slider}>
-      <div className={classes.slide}>
-        {current !== 0 && (
-          <ArrowLeftIcon className={classes.arrowLeft} onClick={prevSlide} />
-        )}
-        <img src={getImageSrc(images?.[current]?.image)} alt="slide" />
-        {current !== images?.length - 1 && (
-          <ArrowRightIcon className={classes.arrowRight} onClick={nextSlide} />
-        )}
+    <div className={classes.slide}>
+      {current !== 0 && (
+        <ArrowLeftIcon className={classes.arrowLeft} onClick={prevSlide} />
+      )}
+      <div
+        className={classes.imageContainer}
+        style={{
+          backgroundImage: `url(${getImageSrc(images?.[current]?.image)})`,
+        }}
+      >
       </div>
+      {current !== images?.length - 1 && (
+        <ArrowRightIcon className={classes.arrowRight} onClick={nextSlide} />
+      )}
+    </div>
       <ProgressBar currentSlide={current} totalSlides={images?.length} />
     </div>
   );
