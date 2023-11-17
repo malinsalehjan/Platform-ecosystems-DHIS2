@@ -9,13 +9,8 @@ import {
 const Dropdown = ({ title, completed, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const dropdownClasses = classNames(
-    classes.dropdown,
-    completed && classes.completed,
-  );
-
   return (
-    <div className={dropdownClasses}>
+    <div className={`${classes.dropdown} ${completed && classes.completed}`}>
       <div
         className={classes.dropdownHeader}
         onClick={() => setIsOpen(!isOpen)}

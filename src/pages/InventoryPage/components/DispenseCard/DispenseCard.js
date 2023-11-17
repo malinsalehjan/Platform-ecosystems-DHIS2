@@ -32,15 +32,9 @@ export default function DispenseCard({
   const [recipient, setRecipient] = useState('');
   const [warning, setWarning] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const {
-    dispenseCommodity,
-    recipientsData,
-    deleteRecipient,
-    refetchRecipients,
-  } = useDHIS2();
-  const [allSuggestions, setAllSuggestions] = useState(
-    recipientsData.recipients.recipients,
-  );
+  const { dispenseCommodity, recipients, deleteRecipient, refetchRecipients } =
+    useDHIS2();
+  const [allSuggestions, setAllSuggestions] = useState(recipients);
   const selectedDateTime = new Date(dateTime);
   const currentDateTime = new Date(getCurrentDateTime());
 
@@ -118,10 +112,9 @@ export default function DispenseCard({
   }
 
   useEffect(() => {
-    const recipient = recipientsData.recipients.recipients;
-    setSuggestions(recipient);
-    setAllSuggestions(recipient);
-  }, [recipientsData.recipients.recipients]);
+    setSuggestions(recipients);
+    setAllSuggestions(recipients);
+  }, [recipients]);
 
   // When selectedCommodity changes, reset input fields to default values
   useEffect(() => {
@@ -142,7 +135,7 @@ export default function DispenseCard({
         onClick={closeCard}
         disabled={selectedCommodity.quantity === '0'}
       >
-        <CrossIcon/>
+        <CrossIcon />
       </Button>
       <span>{selectedCommodity.name}</span>
       <FieldGroup>

@@ -58,6 +58,8 @@ export default function HistoryTable() {
     sortBy('datetime', SortDirection.DESCENDING);
   }, []);
 
+  console.log(currentItems);
+
   return (
     <div>
       <div className={classes.filters}>
@@ -106,28 +108,8 @@ export default function HistoryTable() {
                 {row.type === 'in' ? 'Replenished' : 'Dispensed'}
               </TableCell>
               <TableCell>{row.datetime.split(' ').join(', ')}</TableCell>
-              <TableCell>
-                {row.type === 'in' ? (
-                  <dd>
-                    <dt>Oxytocin</dt>
-                    <dt>Zinc</dt>
-                    <dt>Female condoms</dt>
-                  </dd>
-                ) : (
-                  <div>{row.name}</div>
-                )}
-              </TableCell>
-              <TableCell>
-                {row.type === 'in' ? (
-                  <dd>
-                    <dt>4</dt>
-                    <dt>7</dt>
-                    <dt>3</dt>
-                  </dd>
-                ) : (
-                  <div>{row.amount}</div>
-                )}
-              </TableCell>
+              <TableCell>{row.commodity}</TableCell>
+              <TableCell>{row.amount}</TableCell>
               <TableCell>{capitalizeName(row.recipient)}</TableCell>
             </TableRow>
           ))}

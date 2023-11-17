@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import { CircularLoader, Button, IconAdd24 } from '@dhis2/ui';
 import classes from './ReplenishPage.module.css';
-import { getCurrentDate } from '../../utility/dateUtility';
+import { getCurrentDate, getCurrentDateTime } from '../../utility/dateUtility';
 import ReplenishTable from './components/ReplenishTable/ReplenishTable';
 
 export default function ReplenishPage() {
@@ -43,11 +43,7 @@ export default function ReplenishPage() {
 
     for (const item of selectedCommodities) {
       if (item.commodity !== undefined && item.quantity !== 0) {
-        replenishCommodity(
-          item.commodity.id,
-          parseInt(item.quantity),
-          getCurrentDate(),
-        );
+        replenishCommodity(item.commodity.id, parseInt(item.quantity));
       }
     }
     clearCommodities();

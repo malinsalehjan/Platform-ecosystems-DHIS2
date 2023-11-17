@@ -1,9 +1,9 @@
 import React from 'react';
 import classes from './ProgressBar.module.css';
 
-const ProgressBar = ({ currentSlide, totalSlides }) => {
-  const progress = ((currentSlide + 1) / totalSlides) * 100;
-  const progressText = currentSlide + 1 + '/' + totalSlides;
+const ProgressBar = ({ current, total }) => {
+  const progress = ((current + 1) / total) * 100;
+  const progressText = current + 1 + '/' + total;
   const percentageText = Math.floor(progress) + '%';
 
   return (

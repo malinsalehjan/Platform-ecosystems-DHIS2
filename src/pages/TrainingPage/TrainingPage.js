@@ -7,20 +7,18 @@ import TryTrainingModeModal from './components/TryTrainingModeModal/TryTrainingM
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import CircularProgressBar from './components/ProgressBar/CircularProgressBar/CircularProgressBar';
 import TrainingModeConfirmationModal from './components/TrainingModeConfirmationModal/TrainingModeConfirmationModal';
-import trainingModules from '../../resources/trainingModules/trainingModules.json';
 
 export default function TrainingPage() {
   const [shouldConfirmSwitch, setShouldConfirmSwitch] = useState(false);
-  const [justFinishedTrainingModules, setJustFinishedTrainingModules] =
-    useState(false);
 
   const {
     loading,
     error,
     trainingModeEnabled,
     setTrainingModeEnabled,
-    trainingModuleProgress,
-    setTrainingModuleProgress,
+    trainingModules,
+    displayTrainingModeSuggestion,
+    doNotSuggestTrainingModeAgain,
   } = useDHIS2();
 
   function handleChangeSwitch() {
@@ -35,6 +33,14 @@ export default function TrainingPage() {
     setShouldConfirmSwitch(false);
     setTrainingModeEnabled(true);
   }
+
+  const totalProgress =
+    (trainingModules.reduce(
+      (total, module) => (module.isComplete ? total + 1 : total),
+      0,
+    ) /
+      trainingModules.length) *
+    100;
 
   return loading ? (
     <CircularLoader />
@@ -75,23 +81,20 @@ export default function TrainingPage() {
           />
         </div>
         <div className={classes.circularProgress}>
-          <CircularProgressBar progress={0} />
+          <CircularProgressBar progress={totalProgress} />
         </div>
       </div>
       <h3>Modules</h3>
       {trainingModules.map((module) => {
-        const completed = trainingModuleProgress.find(
-          (otherModule) => module.id === otherModule.id,
-        );
-
-        console.log(module, completed);
-
         return (
           <div key={module.id}>
-            <Dropdown completed={completed} title={module.title}>
+            <Dropdown
+              completed={module.isComplete}
+              title={module.content.title}
+            >
               <div className={classes.screenContainer}>
                 <div className={classes.screen}>
-                  <Slider onLastSlide={() => {}} images={module.images} />
+                  <Slider module={module} />
                 </div>
               </div>
             </Dropdown>
@@ -106,10 +109,15 @@ export default function TrainingPage() {
         />
       )}
 
-      {justFinishedTrainingModules && (
+      {displayTrainingModeSuggestion && (
         <TryTrainingModeModal
-          onClose={() => setJustFinishedTrainingModules(false)}
-          onConfirm={handleConfirmModeSwitch}
+          onClose={() => {
+            doNotSuggestTrainingModeAgain();
+          }}
+          onConfirm={() => {
+            handleConfirmModeSwitch();
+            doNotSuggestTrainingModeAgain();
+          }}
         />
       )}
     </div>

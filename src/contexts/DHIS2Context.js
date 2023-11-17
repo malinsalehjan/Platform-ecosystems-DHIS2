@@ -16,7 +16,8 @@ import {
   createReplenishTransactionDTO,
   formatTransactions,
 } from '../utility/transactionUtility';
-import trainingModules from '../resources/trainingModules/trainingModules.json';
+import trainingModuleData from '../resources/trainingModules/trainingModules';
+import { v4 as uuid } from 'uuid';
 
 const DHIS2Context = createContext();
 
@@ -24,19 +25,39 @@ const DHIS2Context = createContext();
 export const DHIS2Provider = ({ children }) => {
   const [commodities, setCommodities] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [recipients, setRecipients] = useState([]);
   const [keyword, setKeyword] = useState('');
   const [sortedBy, setSortedBy] = useState({
     type: SortType.NAME,
     direction: SortDirection.ASCENDING,
   });
-  const [trainingModeEnabled, setTrainingModeEnabled] = useState(false);
-  const [trainingModuleProgress, setTrainingModuleProgress] = useState(
-    trainingModules.map((module) => ({
+  const [trainingModules, setTrainingModules] = useState(
+    trainingModuleData.map((module) => ({
       id: module.id,
+      content: module,
       isComplete: false,
-      totalImages: module.images.length,
+      totalImages: module.images.length - 1,
     })),
   );
+  const [trainingModeEnabled, setTrainingModeEnabled] = useState(false);
+  const [displayTrainingModeSuggestion, setDisplayTrainingModeSuggestion] =
+    useState(false);
+
+  function finishModule(moduleId) {
+    const module = trainingModules.find((module) => module.id === moduleId);
+    module.isComplete = true;
+    setTrainingModules([...trainingModules]);
+  }
+
+  useEffect(() => {
+    if (trainingModules.every((module) => module.isComplete)) {
+      setDisplayTrainingModeSuggestion(true);
+    }
+  }, [trainingModules]);
+
+  function doNotSuggestTrainingModeAgain() {
+    setDisplayTrainingModeSuggestion(false);
+  }
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
@@ -64,6 +85,10 @@ export const DHIS2Provider = ({ children }) => {
       setTransactions(transactions);
     }
   }, [keyword, sortedBy, loading, data]);
+
+  useEffect(() => {
+    if (recipientsData) setRecipients(recipientsData?.recipients.recipients);
+  }, [recipientsData]);
 
   function checkIfRecipientExist(recipient) {
     for (const element of recipientsData?.Recipients.recipients) {
@@ -93,7 +118,18 @@ export const DHIS2Provider = ({ children }) => {
         }),
       );
 
-      // TODO: Add dispense to history
+      setTransactions([
+        {
+          id: uuid(),
+          type: 'out',
+          amount: amount,
+          datetime: datetime,
+          commodity: commodity.name,
+          recipient: recipient,
+          dispensedBy: userData?.me?.displayName ?? 'Unknown',
+        },
+        ...transactions,
+      ]);
 
       addAlert('Dispensed commodity successfully', 'success');
     } else {
@@ -177,7 +213,16 @@ export const DHIS2Provider = ({ children }) => {
         }),
       );
 
-      // TODO: Add dispense to history
+      setTransactions([
+        {
+          id: uuid(),
+          type: 'in',
+          amount: amount,
+          datetime: getCurrentDateTime(),
+          commodity: commodity.name,
+        },
+        ...transactions,
+      ]);
 
       addAlert(`Succesfully replenished ${commodity.name}`, 'success');
     } else {
@@ -218,28 +263,36 @@ export const DHIS2Provider = ({ children }) => {
       (recipient) => recipient !== recipientToBeRemoved,
     );
 
-    try {
-      const response = await updateRecipients({
-        recipients: newRecipients,
-      });
+    if (trainingModeEnabled) {
+      addAlert(
+        `Removed ${recipientToBeRemoved} from suggestion list successfully`,
+        'success',
+      );
+      refetch();
+    } else {
+      try {
+        const response = await updateRecipients({
+          recipients: newRecipients,
+        });
 
-      if (response.status === 'OK') {
-        addAlert(
-          `Removed ${recipientToBeRemoved} from suggestion list successfully`,
-          'success',
-        );
-        refetch();
-      } else {
+        if (response.status === 'OK') {
+          addAlert(
+            `Removed ${recipientToBeRemoved} from suggestion list successfully`,
+            'success',
+          );
+          refetch();
+        } else {
+          addAlert(
+            `Failed to remove ${recipientToBeRemoved} from suggestion list`,
+            'critical',
+          );
+        }
+      } catch (error) {
         addAlert(
           `Failed to remove ${recipientToBeRemoved} from suggestion list`,
           'critical',
         );
       }
-    } catch (error) {
-      addAlert(
-        `Failed to remove ${recipientToBeRemoved} from suggestion list`,
-        'critical',
-      );
     }
   }
 
@@ -269,14 +322,17 @@ export const DHIS2Provider = ({ children }) => {
         dispenseCommodity,
         replenishCommodity,
         refetch,
-        recipientsData,
+        recipients,
         deleteRecipient,
         refetchRecipients,
         transactions,
         trainingModeEnabled,
         setTrainingModeEnabled,
-        trainingModuleProgress,
-        setTrainingModuleProgress,
+        trainingModules,
+        setTrainingModules,
+        finishModule,
+        displayTrainingModeSuggestion,
+        doNotSuggestTrainingModeAgain,
       }}
     >
       {children}

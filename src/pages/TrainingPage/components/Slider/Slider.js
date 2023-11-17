@@ -5,41 +5,48 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from '../../../../resources/icons/index';
-import getImageSrc from './ImageData/ImageData';
+import { useDHIS2 } from '../../../../contexts/DHIS2Context';
 
-const Slider = ({ onLastSlide, images }) => {
-  const [current, setCurrent] = useState(0);
+const Slider = ({ module }) => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const { finishModule } = useDHIS2();
+  console.log(module);
 
   useEffect(() => {
-    if (current === images?.length - 1) {
-      onLastSlide();
+    if (currentImage === module.totalImages - 1) {
+      finishModule(module.id);
     }
-  }, [current, images]);
+  }, [currentImage, module]);
 
   const nextSlide = () => {
-    setCurrent((prevCurrent) => {
-      return prevCurrent !== images?.length - 1 ? prevCurrent + 1 : prevCurrent;
+    setCurrentImage((prevCurrent) => {
+      return prevCurrent !== module.content.images?.length - 1
+        ? prevCurrent + 1
+        : prevCurrent;
     });
   };
 
   const prevSlide = () => {
-    setCurrent((prevCurrent) => {
-      return prevCurrent === 0 ? images?.length - 1 : prevCurrent - 1;
+    setCurrentImage((prevCurrent) => {
+      return prevCurrent === 0
+        ? module.content.images?.length - 1
+        : prevCurrent - 1;
     });
   };
 
   return (
     <div className={classes.slider}>
       <div className={classes.slide}>
-        {current !== 0 && (
+        {currentImage !== 0 && (
           <ArrowLeftIcon className={classes.arrowLeft} onClick={prevSlide} />
         )}
-        <img src={getImageSrc(images?.[current]?.image)} alt="slide" />
-        {current !== images?.length - 1 && (
+        <img src={module.content.images[currentImage]} alt="slide" />
+        {currentImage < module.totalImages - 1 && (
           <ArrowRightIcon className={classes.arrowRight} onClick={nextSlide} />
         )}
       </div>
-      <ProgressBar currentSlide={current} totalSlides={images?.length} />
+      <ProgressBar current={currentImage} total={module.totalImages} />
     </div>
   );
 };
