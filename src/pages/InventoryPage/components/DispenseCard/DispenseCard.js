@@ -6,16 +6,13 @@ import {
   InputField,
   FieldGroup,
   Chip,
+  IconDelete24,
 } from '@dhis2/ui';
 import classes from './DispenseCard.module.css';
 import { useDHIS2 } from '../../../../contexts/DHIS2Context';
 import { generateWarningMessage } from '../../../../utility/quantityWarningUtility';
 import { useAlert } from '../../../../contexts/AlertContext';
 import { getCurrentDateTime } from '../../../../utility/dateUtility';
-import {
-  RemoveIcon,
-  RemovePersonIcon,
-} from '../../../../resources/icons/index';
 import { IconCross24 as CrossIcon } from '@dhis2/ui';
 import { capitalizeName } from '../../../../utility/nameUtility';
 
@@ -32,9 +29,16 @@ export default function DispenseCard({
   const [recipient, setRecipient] = useState('');
   const [warning, setWarning] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const { dispenseCommodity, recipients, deleteRecipient, refetchRecipients } =
-    useDHIS2();
-  const [allSuggestions, setAllSuggestions] = useState(recipients);
+  const [showDelete, setShowDelete] = useState(true);
+  const {
+    dispenseCommodity,
+    recipients,
+    deleteRecipient,
+    refetchRecipients,
+  } = useDHIS2();
+  const [allSuggestions, setAllSuggestions] = useState(
+    recipients,
+  );
   const selectedDateTime = new Date(dateTime);
   const currentDateTime = new Date(getCurrentDateTime());
 
@@ -80,27 +84,31 @@ export default function DispenseCard({
       suggestion.toLowerCase().includes(inputValue.toLowerCase()),
     );
     setSuggestions(filteredSuggestions);
+    setShowDelete(true);
   };
 
   const handleSuggestionClick = (suggestion) => {
     setRecipient(capitalizeName(suggestion));
     setShowSuggestions(false);
+    setShowDelete(false);
   };
 
   function removeRecipient(toBeRemoved) {
     deleteRecipient(toBeRemoved);
     refetchRecipients();
+    
   }
 
   function showHideRemove() {
     if (showRemoveRecipient) setShowRemoveRecipient(false);
     else setShowRemoveRecipient(true);
   }
-
+  
   function closeCard() {
+    
     setSelectedCommodity(null);
   }
-
+  
   function testValidInput(input) {
     if (input !== '') {
       if (typeof input !== 'string') return true;
@@ -166,37 +174,29 @@ export default function DispenseCard({
             }
             value={recipient}
           />
-          <div className={classes.editRecipients}>
-            <button onClick={() => showHideRemove()} title="Remove recipient">
-              {RemovePersonIcon()}
-            </button>
-          </div>
         </div>
-        <div className={classes.recipientField}>
-          {showSuggestions &&
-            suggestions?.map((suggestion, index) => (
-              <div key={index} className={classes.recipientChip}>
-                <Chip
+          <div classNeme={classes.parentContainer}>
+            <div >
+            {showDelete && 
+              <button onClick={() => showHideRemove()} title="Remove recipient" className={classes.customDelete}>
+                <IconDelete24 />
+              </button>
+             }
+            </div>
+            <div className={classes.childContainer}>
+              {showSuggestions &&
+                suggestions?.map((suggestion, index) => (
+                  <Chip
                   onClick={() => handleSuggestionClick(suggestion)}
                   label={suggestion}
-                  className={classes.customChip}
-                >
-                  {capitalizeName(suggestion)}
-                </Chip>
-                {showRemoveRecipient && (
-                  <div className={classes.removeRecipient}>
-                    <Button
-                      onClick={() => {
-                        removeRecipient(suggestion);
-                      }}
-                    >
-                      <RemoveIcon className={classes.remove} />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            ))}
-        </div>
+                  onRemove={showRemoveRecipient ? () => (removeRecipient(suggestion)
+                  ) : undefined}
+                  >
+                    {capitalizeName(suggestion)}
+                  </Chip>
+                ))}
+            </div>
+          </div>
         {wantsToChangeDateTime ? (
           <InputField
             type="datetime-local"

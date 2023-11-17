@@ -63,6 +63,7 @@
   line-height: 19px;
   color: rgb(33, 41, 52);
   margin-bottom: 1em;
+  padding-top: 1em;
 }
 
 .dateTime button {
@@ -111,7 +112,18 @@
   cursor: pointer;
 }
 
-.customChip{
-  width: 100% !important;
-  position: relative !important;
+.customDelete{
+  border: none;
+  background: none;
+  cursor: pointer;
+  float: right;
+  padding-top: 7px;
+}
+
+.parentContainer{
+  display: flex;
+}
+
+.childContainer{
+  padding-right: 2em;
 }
