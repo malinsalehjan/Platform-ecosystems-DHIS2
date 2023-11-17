@@ -22,4 +22,6 @@ The training page includes training modules to provide a clear and good introduc
 
 #### Overall missing functionality and things that do not work optimally
 
-After conducting reviews of the primary workflows with the group and extensive user testing of the application, we have confirmed that all functionalities are performing as expected, with no unusual performance issues identified.
+After conducting reviews of the primary workflows with the group and extensive user testing of the application, we have confirmed that almost all functionalities are performing as expected, with no unusual performance issues identified.
+
+Something specific that we noticed was that there were some issues with the search field. If you go to, for example, on page 6 and try to type in something with the letter 'f,' we encounter an error.
