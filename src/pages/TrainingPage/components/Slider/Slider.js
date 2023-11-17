@@ -11,7 +11,6 @@ const Slider = ({ module }) => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const { finishModule } = useDHIS2();
-  console.log(module);
 
   useEffect(() => {
     if (currentImage === module.totalImages - 1) {

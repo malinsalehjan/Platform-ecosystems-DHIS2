@@ -221,7 +221,7 @@ export default function DispenseCard({
             </Button>
           </div>
         ) : (
-          <Button primary onClick={handleDispense}>
+          <Button disabled={recipient === ''} primary onClick={handleDispense}>
             Confirm dispense
           </Button>
         )}
