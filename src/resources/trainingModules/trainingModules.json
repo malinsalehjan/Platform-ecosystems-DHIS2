@@ -1,7 +1,7 @@
 [
     {
       "moduleId": "module1",
-      "title": "01 Dispensing a commodity",
+      "title": "01 Dispensing a Commodity",
       "imageData": [
         {
           "image":  "./Images/Inventory/Inventory1.jpg"
@@ -25,7 +25,7 @@
     },
     {
       "moduleId": "module2",
-      "title": "02 Replenish a commodity",
+      "title": "02 Replenishing a Commodity",
       "imageData": [
         {
           "image": "./Images/Replenish/Replenish1.jpg"
@@ -46,7 +46,7 @@
     },
     {
       "moduleId": "module3",
-      "title": "03 Search in History",
+      "title": "03 Searching in History",
       "imageData": [
         {
           "image": "./Images/History/History1.jpg"

@@ -73,18 +73,31 @@ export default function TrainingPage() {
         <div>
           <h2>Training</h2>
           <p>
-            You can use this application to test the flow of the application and
-            get more tips and guidance on how to use it. <br></br>
-            Changes made in training mode won't be saved permanently, so feel
-            free to explore without worry!
+            Welcome to The Training Mode!
+            This special mode is designed for you to freely explore and familiarize yourself with our application. <br></br>
+            <br></br>
+              <strong>Test and Experiment: </strong> 
+              Try out features without any permanent changes.
+            <br></br>
+            <strong> Learn at Your Pace: </strong> 
+             Discover the functionalities with helpful tips through the modules
+            <br></br>
+            <strong> No Risks: </strong> 
+             All actions done when the Training mode switch is on won't affect the data
+            <br></br><br></br>
+              Enjoy exploring and practicing in a worry-free environment!
+            <br></br>
+            <strong>You should complete the Modules before exploring in The Training Mode.</strong>
           </p>
           <Switch
-            label="Training mode"
+            label="Training Mode"
             checked={trainingModeEnabled}
             onChange={handleSwitchChange}
           />
         </div>
-        <CircularProgressBar progress={overallProgress} />
+         <div className={classes.circularProgress}>
+          <CircularProgressBar progress={overallProgress} />
+        </div>
       </div>
       <h3>Modules</h3>
       {trainingModules.map((module, index) => (
