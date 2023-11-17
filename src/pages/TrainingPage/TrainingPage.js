@@ -6,10 +6,12 @@ import Dropdown from './components/Dropdown/Dropdown';
 import LastCard from './components/PopupCard/LastCard';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import CircularProgressBar from './components/ProgressBar/CircularProgressBar/CircularProgressBar';
-import TrainingCard from './components/PopupCard/TrainingCard';
+import TrainingModeConfirmationModal from './components/TrainingModeConfirmationModal/TrainingModeConfirmationModal';
 import trainingModules from '../../resources/trainingModules/trainingModules.json';
 
 export default function TrainingPage() {
+  const [shouldConfirmSwitch, setShouldConfirmSwitch] = useState(false);
+
   const { loading, error, trainingModeEnabled, setTrainingModeEnabled } =
     useDHIS2();
 
@@ -48,9 +50,18 @@ export default function TrainingPage() {
     setLastCardDisplayed(true);
   };
 
-  const handleCloseTrainingCard = () => {
-    // skru av training mode her virka det som
-  };
+  function handleSwitchChange() {
+    if (!trainingModeEnabled) {
+      setShouldConfirmSwitch(true);
+    } else {
+      setTrainingModeEnabled(false);
+    }
+  }
+
+  function handleConfirmModeSwitch() {
+    setShouldConfirmSwitch(false);
+    setTrainingModeEnabled(true);
+  }
 
   return loading ? (
     <CircularLoader />
@@ -68,9 +79,9 @@ export default function TrainingPage() {
             free to explore without worry!
           </p>
           <Switch
-            label="Enable training mode"
+            label="Training mode"
             checked={trainingModeEnabled}
-            onChange={() => setTrainingModeEnabled(!trainingModeEnabled)}
+            onChange={handleSwitchChange}
           />
         </div>
         <CircularProgressBar progress={overallProgress} />
@@ -96,10 +107,10 @@ export default function TrainingPage() {
         </div>
       ))}
 
-      {false && (
-        <TrainingCard
-          confirmTesting={handleTryTestingMode}
-          onClose={handleCloseTrainingCard}
+      {shouldConfirmSwitch && (
+        <TrainingModeConfirmationModal
+          onClose={() => setShouldConfirmSwitch(false)}
+          onConfirm={handleConfirmModeSwitch}
         />
       )}
 

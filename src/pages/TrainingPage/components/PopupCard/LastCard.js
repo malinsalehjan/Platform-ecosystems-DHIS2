@@ -11,7 +11,7 @@ const LastCard = ({ tryTestingMode, onClose }) => {
       <div className={styles.card}>
         <div className={styles.cardContent}>
           <Button className={styles.lastButton} onClick={tryTestingMode}>
-            Try it out in the testing mode now!
+            Try it out in the training mode now!
           </Button>
 
           <div className={styles.completedText}>4/4 sections completed</div>

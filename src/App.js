@@ -10,6 +10,7 @@ import { AlertProvider } from './contexts/AlertContext';
 import { daysUntilDelivery } from './utility/dateUtility';
 import { IconCalendar16 as CalendarIcon } from '@dhis2/ui';
 import TrainingModeIndicator from './pages/shared/TrainingModeIndicator/TrainingModeIndicator';
+import TrainingModeSpacer from './pages/shared/TrainingModeSpacer/TrainingModeSpacer';
 
 export default function App() {
   const [activePage, setActivePage] = useState('Inventory');
@@ -38,6 +39,7 @@ export default function App() {
               {activePage === 'Replenish' && <ReplenishPage />}
               {activePage === 'History' && <HistoryPage />}
               {activePage === 'TrainingPage' && <TrainingPage />}
+              <TrainingModeSpacer />
             </DHIS2Provider>
           </div>
         </div>

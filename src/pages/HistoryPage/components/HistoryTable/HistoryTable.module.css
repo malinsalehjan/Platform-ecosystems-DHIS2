@@ -8,6 +8,11 @@
   width: 20% !important;
 }
 
+dd {
+  margin: 0;
+  line-height: 1.5em;
+}
+
 .typeCell {
   position: relative;
   padding-left: 1em !important;

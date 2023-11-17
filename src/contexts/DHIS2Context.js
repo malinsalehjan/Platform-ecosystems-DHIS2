@@ -67,6 +67,10 @@ export const DHIS2Provider = ({ children }) => {
   }
 
   async function dispenseCommodity(commodityId, amount, recipient, datetime) {
+    const commodity = commodities.find(
+      (commodity) => commodity.id === commodityId,
+    );
+
     if (trainingModeEnabled) {
       setCommodities(
         commodities.map((commodity) => {
@@ -80,12 +84,11 @@ export const DHIS2Provider = ({ children }) => {
           return commodity;
         }),
       );
+
+      // TODO: Add dispense to history
+
       addAlert('Dispensed commodity successfully', 'success');
     } else {
-      const commodity = commodities.find(
-        (commodity) => commodity.id === commodityId,
-      );
-
       // Calculate what the new quantity and consumed amount should be
       const newQuantity = parseInt(commodity.quantity) - amount;
       const newConsumedAmount = parseInt(commodity.consumption) + amount;
@@ -136,7 +139,7 @@ export const DHIS2Provider = ({ children }) => {
         }
 
         if (response.status === 'OK') {
-          addAlert('Dispensed commodity successfully', 'success');
+          addAlert(`Dispensed ${commodity.name} successfully`, 'success');
         } else {
           addAlert('Failed to dispense commodity', 'critical');
         }
@@ -153,34 +156,52 @@ export const DHIS2Provider = ({ children }) => {
       (commodity) => commodity.id === commodityId,
     );
 
-    // Calculate what the new quantity should be
-    const newQuantity = parseInt(commodity.quantity) + amount;
-
-    try {
-      const response = await replenish({
-        elementId: commodityId,
-        newQuantity,
-      });
-
-      // Update the Datastore with the updated transactions list
-      await updateTransactions(
-        createReplenishTransactionDTO(
-          commodity.name,
-          amount,
-          getCurrentDateTime(),
-          data.transactions.transactions,
-        ),
+    if (trainingModeEnabled) {
+      setCommodities(
+        commodities.map((commodity) => {
+          if (commodity.id === commodityId) {
+            return {
+              ...commodity,
+              quantity: parseInt(commodity.quantity) + amount,
+            };
+          }
+          return commodity;
+        }),
       );
 
-      if (response.status === 'OK') {
-        addAlert(`Succesfully replenished ${commodity.name}`, 'success');
-      } else {
+      // TODO: Add dispense to history
+
+      addAlert(`Succesfully replenished ${commodity.name}`, 'success');
+    } else {
+      // Calculate what the new quantity should be
+      const newQuantity = parseInt(commodity.quantity) + amount;
+
+      try {
+        const response = await replenish({
+          elementId: commodityId,
+          newQuantity,
+        });
+
+        // Update the Datastore with the updated transactions list
+        await updateTransactions(
+          createReplenishTransactionDTO(
+            commodity.name,
+            amount,
+            getCurrentDateTime(),
+            data.transactions.transactions,
+          ),
+        );
+
+        if (response.status === 'OK') {
+          addAlert(`Succesfully replenished ${commodity.name}`, 'success');
+        } else {
+          addAlert(`Failed to replenished ${commodity.name}`, 'critical');
+        }
+        refetch();
+        refetchRecipients();
+      } catch (error) {
         addAlert(`Failed to replenished ${commodity.name}`, 'critical');
       }
-      refetch();
-      refetchRecipients();
-    } catch (error) {
-      addAlert(`Failed to replenished ${commodity.name}`, 'critical');
     }
   }
 

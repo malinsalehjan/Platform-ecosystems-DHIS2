@@ -70,7 +70,7 @@ export default function ReplenishPage() {
       <h2>Replenish</h2>
       <p>
         Select commodities and provide amounts to replenish. For guidance on
-        replenishing, please visit the TrainingMode tab.
+        replenishing, please visit the Training page.
       </p>
       <ReplenishTable
         nonSelectedCommodities={nonSelectedCommodities}
