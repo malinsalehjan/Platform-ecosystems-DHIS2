@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { InputField } from '@dhis2/ui';
 import { useDHIS2 } from '../../../contexts/DHIS2Context';
 import classes from './SearchField.module.css';
-import { SearchIcon } from '../../../resources/icons';
+import {IconSearch24 as SearchIcon } from '@dhis2/ui';
+
 
 export default function SearchField({ placeholder }) {
   const [searchText, setSearchText] = useState('');

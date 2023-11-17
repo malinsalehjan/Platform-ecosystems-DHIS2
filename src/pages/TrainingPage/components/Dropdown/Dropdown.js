@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Dropdown.module.css';
-import { ChevronDownIcon } from '../../../../resources/icons/index';
+import { IconChevronDown24	as ChevronDown } from '@dhis2/ui';
+
 
 const Dropdown = ({ title, children, moduleId, onLastSlide }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,7 +28,7 @@ const Dropdown = ({ title, children, moduleId, onLastSlide }) => {
     <div className={dropdownClasses}>
       <div className={styles.dropdownHeader} onClick={handleDropdownToggle}>
         {title}
-        <ChevronDownIcon className={styles.chevronIcon} />
+        <ChevronDown className={styles.chevronIcon} />
       </div>
       {isDropdownOpen && (
         <div className={styles.dropdownContent}>{children}</div>
