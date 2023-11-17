@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDHIS2 } from '../../contexts/DHIS2Context';
 import { CircularLoader, Button, IconAdd24 } from '@dhis2/ui';
 import classes from './ReplenishPage.module.css';
-import { getCurrentDate, getCurrentDateTime } from '../../utility/dateUtility';
 import ReplenishTable from './components/ReplenishTable/ReplenishTable';
 
 export default function ReplenishPage() {
@@ -10,7 +9,6 @@ export default function ReplenishPage() {
     { commodity: null, quantity: 0 },
   ]);
   const [loadingArtificially, setLoadingArtificially] = useState(false);
-  const [enableButton, setEnableButton] = useState(false);
   const { error, loading, commodities, replenishCommodities } = useDHIS2();
 
   const addCommodity = () => {
@@ -24,7 +22,6 @@ export default function ReplenishPage() {
     let newItems = selectedCommodities;
     newItems[index] = { commodity, quantity };
     setSelectedCommodities([...newItems]);
-    setEnableButton(true);
   };
 
   const removeCommodity = (index) => {
@@ -35,7 +32,6 @@ export default function ReplenishPage() {
 
   const clearCommodities = () => {
     setSelectedCommodities([{ id: 0, commodity: null, quantity: 1 }]);
-    setEnableButton(false);
   };
 
   const handleReplenish = () => {
@@ -51,6 +47,17 @@ export default function ReplenishPage() {
     (commodity) =>
       !selectedCommodities.find((item) => item.commodity?.id === commodity.id),
   );
+
+  let allowReplenish = true;
+  for (const commodity of selectedCommodities) {
+    if (
+      [null, undefined, ''].includes(commodity.commodity) ||
+      [null, undefined, 0, ''].includes(commodity.quantity)
+    ) {
+      allowReplenish = false;
+      break;
+    }
+  }
 
   return loading ? (
     <CircularLoader />
@@ -79,7 +86,7 @@ export default function ReplenishPage() {
             primary
             loading={loadingArtificially}
             onClick={() => handleReplenish()}
-            disabled={!enableButton}
+            disabled={!allowReplenish}
           >
             Confirm replenish
           </Button>
