@@ -1,7 +1,7 @@
 [
   {
     "id": 0,
-    "title": "01 Dispensing a commodity",
+    "title": "01 Dispensing a Commodity",
     "images": [
       {
         "image": "./Images/Inventory/Inventory1.jpg"
@@ -25,7 +25,7 @@
   },
   {
     "id": 1,
-    "title": "02 Replenishing a commodity",
+    "title": "02 Replenishing a Commodity",
     "images": [
       {
         "image": "./Images/Replenish/Replenish1.jpg"

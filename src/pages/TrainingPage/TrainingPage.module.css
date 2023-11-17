@@ -1,8 +1,8 @@
 .intro {
   display: flex;
-  gap: 2em;
+  gap: 4em;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .intro h2 {
@@ -11,6 +11,10 @@
 
 .intro p {
   line-height: 1.5em;
+}
+
+.circularProgress {
+  margin-top:70px;
 }
 
 .container {
