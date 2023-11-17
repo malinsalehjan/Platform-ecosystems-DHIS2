@@ -10,6 +10,7 @@ import Navigation from './pages/shared/Navigation/Navigation';
 import { AlertProvider } from './contexts/AlertContext';
 import { daysUntilDelivery } from './utility/dateUtility';
 import { IconCalendar16 as CalendarIcon } from '@dhis2/ui';
+import SandboxIndicator from './pages/shared/SandboxIndicator/SandboxIndicator';
 
 const App = () => {
   const [activePage, setActivePage] = useState('Inventory');
@@ -32,6 +33,7 @@ const App = () => {
                 <span>Days until next delivery: {daysUntilDelivery()}</span>
               </div>
               <DHIS2Provider>
+                <SandboxIndicator />
                 {activePage === 'Inventory' && <InventoryPage />}
                 {activePage === 'Refill' && <RefillPage />}
                 {activePage === 'History' && <HistoryPage />}

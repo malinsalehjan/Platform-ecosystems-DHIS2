@@ -28,6 +28,7 @@ export const DHIS2Provider = ({ children }) => {
     type: SortType.NAME,
     direction: SortDirection.ASCENDING,
   });
+  const [sandboxEnabled, setSandboxEnabled] = useState(false);
 
   const { error, loading, data, refetch } = useDataQuery(commodityQuery);
   const { data: userData } = useDataQuery(currentUserQuery);
@@ -66,68 +67,84 @@ export const DHIS2Provider = ({ children }) => {
   }
 
   async function dispenseCommodity(commodityId, amount, recipient, datetime) {
-    const commodity = commodities.find(
-      (commodity) => commodity.id === commodityId,
-    );
-
-    // Calculate what the new quantity and consumed amount should be
-    const newQuantity = parseInt(commodity.quantity) - amount;
-    const newConsumedAmount = parseInt(commodity.consumption) + amount;
-
-    try {
-      const response = await dispense({
-        elementId: commodityId,
-        newQuantity,
-        newConsumedAmount,
-      });
-
-      // Update the Datastore with the updated transactions list
-      await updateTransactions(
-        createDispenseTransactionDTO(
-          commodity.name,
-          amount,
-          userData?.me?.displayName ?? 'Unknown',
-          recipient,
-          datetime,
-          data.transactions.transactions,
-        ),
+    if (sandboxEnabled) {
+      setCommodities(
+        commodities.map((commodity) => {
+          if (commodity.id === commodityId) {
+            return {
+              ...commodity,
+              quantity: parseInt(commodity.quantity) - amount,
+              consumption: parseInt(commodity.consumption) + amount,
+            };
+          }
+          return commodity;
+        }),
+      );
+      addAlert('Dispensed commodity successfully', 'success');
+    } else {
+      const commodity = commodities.find(
+        (commodity) => commodity.id === commodityId,
       );
 
-      // If recipient is new, update the Datastore with the updated recipients list
-      if (
-        !recipientsData?.recipients.recipients.includes(
-          recipient.toLowerCase().trim(),
-        )
-      ) {
-        await updateRecipients({
-          recipients: [
+      // Calculate what the new quantity and consumed amount should be
+      const newQuantity = parseInt(commodity.quantity) - amount;
+      const newConsumedAmount = parseInt(commodity.consumption) + amount;
+
+      try {
+        const response = await dispense({
+          elementId: commodityId,
+          newQuantity,
+          newConsumedAmount,
+        });
+
+        // Update the Datastore with the updated transactions list
+        await updateTransactions(
+          createDispenseTransactionDTO(
+            commodity.name,
+            amount,
+            userData?.me?.displayName ?? 'Unknown',
+            recipient,
+            datetime,
+            data.transactions.transactions,
+          ),
+        );
+
+        // If recipient is new, update the Datastore with the updated recipients list
+        if (
+          !recipientsData?.recipients.recipients.includes(
             recipient.toLowerCase().trim(),
-            ...recipientsData?.recipients.recipients,
-          ],
-        });
-      }
+          )
+        ) {
+          await updateRecipients({
+            recipients: [
+              recipient.toLowerCase().trim(),
+              ...recipientsData?.recipients.recipients,
+            ],
+          });
+        }
 
-      if (!checkIfRecipientExist(recipient)) {
-        // Update the Datastore with the updated recipients list
-        await updateRecipients({
-          recipients: [
-            ...recipientsData?.Recipients.recipients,
-            {
-              recipient: recipient,
-            },
-          ],
-        });
-      }
+        if (!checkIfRecipientExist(recipient)) {
+          // Update the Datastore with the updated recipients list
+          await updateRecipients({
+            recipients: [
+              ...recipientsData?.Recipients.recipients,
+              {
+                recipient: recipient,
+              },
+            ],
+          });
+        }
 
-      if (response.status === 'OK') {
-        addAlert('Dispensed commodity successfully', 'success');
-      } else {
+        if (response.status === 'OK') {
+          addAlert('Dispensed commodity successfully', 'success');
+        } else {
+          addAlert('Failed to dispense commodity', 'critical');
+        }
+        refetch();
+        refetchRecipients();
+      } catch (error) {
         addAlert('Failed to dispense commodity', 'critical');
       }
-      refetch();
-      refetchRecipients();
-    } catch (error) {
-      addAlert('Failed to dispense commodity', 'critical');
     }
   }
 
@@ -227,6 +244,8 @@ export const DHIS2Provider = ({ children }) => {
         deleteRecipient,
         refetchRecipients,
         transactions,
+        sandboxEnabled,
+        setSandboxEnabled,
       }}
     >
       {children}
