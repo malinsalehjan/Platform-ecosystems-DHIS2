@@ -4,6 +4,8 @@ import Inventory3 from './Images/Inventory/Inventory3.jpg';
 import Inventory4 from './Images/Inventory/Inventory4.jpg';
 import Inventory5 from './Images/Inventory/Inventory5.jpg';
 import Inventory6 from './Images/Inventory/Inventory6.jpg';
+import Inventory7 from './Images/Inventory/Inventory7.jpg';
+
 
 import Replenish1 from './Images/Replenish/Replenish1.jpg';
 import Replenish2 from './Images/Replenish/Replenish2.jpg';
@@ -29,6 +31,8 @@ const imageMapping = {
   './Images/Inventory/Inventory4.jpg': Inventory4,
   './Images/Inventory/Inventory5.jpg': Inventory5,
   './Images/Inventory/Inventory6.jpg': Inventory6,
+  './Images/Inventory/Inventory7.jpg': Inventory7,
+
 
   // Replenish images
   './Images/Replenish/Replenish1.jpg': Replenish1,
